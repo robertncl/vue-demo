@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v4.1
+        uses: actions/download-artifact@v4.1.0
         with:
           name: vue-build-20
           path: dist
