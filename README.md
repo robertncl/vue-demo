@@ -1,6 +1,6 @@
 # vue demo repository
 
-[![Build and Upload Artifact](https://github.com/robertncl/vue-demo/actions/workflows/build.yaml/badge.svg)](https://github.com/robertncl/vue-demo/actions/workflows/build.yaml) [![Deploy to Azure Web App](https://github.com/robertncl/vue-demo/actions/workflows/deploy.yaml/badge.svg)](https://github.com/robertncl/vue-demo/actions/workflows/deploy.yaml)
+[![Build and Deploy](https://github.com/robertncl/vue-demo/actions/workflows/build.yaml/badge.svg)](https://github.com/robertncl/vue-demo/actions/workflows/build.yaml)
 
 ## Recommended IDE Setup
 
