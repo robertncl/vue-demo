@@ -1,6 +1,6 @@
-# vue-demo
+# vue demo repository
 
-This template should help get you started developing with Vue 3 in Vite.
+[![Build and Upload Artifact](https://github.com/robertncl/vue-demo/actions/workflows/build.yaml/badge.svg)](https://github.com/robertncl/vue-demo/actions/workflows/build.yaml)
 
 ## Recommended IDE Setup
 

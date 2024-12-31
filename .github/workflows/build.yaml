@@ -29,5 +29,5 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: angular-build-${{ matrix.node-version }}
-          path: dist/angular
+          name: vue-build-${{ matrix.node-version }}
+          path: dist/*
