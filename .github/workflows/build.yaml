@@ -1,33 +1,38 @@
-name: Build and Upload Artifact
+name: Build and Deploy
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18, 20]
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4.1.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4.5.0
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
         with:
           name: vue-build-${{ matrix.node-version }}
           path: dist/*
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: vue-build-20
+          path: dist
+      - uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'vue-demo'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: dist
