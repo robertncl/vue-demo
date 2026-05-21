@@ -43,8 +43,7 @@ const openReadmeInEditor = () => fetch('/__open-in-editor?file=README.md')
     <br />
 
     More instructions are available in
-    <a href="javascript:void(0)" @click="openReadmeInEditor"><code>README.md</code></a
-    >.
+    <button type="button" @click="openReadmeInEditor"><code>README.md</code></button>.
   </WelcomeItem>
 
   <WelcomeItem>
