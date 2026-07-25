@@ -8,8 +8,7 @@
       "Bash(curl -s https://api.github.com/repos/actions/setup-node/releases/latest)",
       "Bash(curl -s https://api.github.com/repos/github/codeql-action/releases/latest)",
       "Bash(curl -s https://api.github.com/repos/Azure/static-web-apps-deploy/releases/latest)",
-      "Bash(curl -s https://api.github.com/repos/github/codeql-action/releases)",
-      "Bash(python3)"
+      "Bash(curl -s https://api.github.com/repos/github/codeql-action/releases)"
     ]
   }
 }
