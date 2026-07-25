@@ -17,6 +17,9 @@
     "lint": "run-s lint:*",
     "format": "prettier --write src/"
   },
+  "overrides": {
+    "brace-expansion": "5.0.8"
+  },
   "dependencies": {
     "pinia": "4.0.2",
     "vue": "3.5.40",
