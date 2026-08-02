@@ -20,4 +20,12 @@ describe('Counter Store', () => {
     counter.decrement()
     expect(counter.count).toBe(-1)
   })
+
+  it('doubles the count', () => {
+    const counter = useCounterStore()
+    expect(counter.doubleCount).toBe(0)
+    counter.increment()
+    counter.increment()
+    expect(counter.doubleCount).toBe(4)
+  })
 })
