@@ -18,7 +18,7 @@ describe('App', () => {
 
     expect(wrapper.text()).toContain('You did it!')
     const links = wrapper.findAll('nav a').map((a) => a.text())
-    expect(links).toEqual(['Home', 'About'])
+    expect(links).toEqual(['Home', 'About', 'Travel Planner'])
   })
 
   it('renders the about page after navigating to /about', async () => {
