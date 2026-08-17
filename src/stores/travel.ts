@@ -1,6 +1,6 @@
 import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
-import type { Trip, Activity } from '@/types/travel'
+import type { Trip } from '@/types/travel'
 
 const STORAGE_KEY = 'vue-demo-travel-trips'
 
