@@ -6,7 +6,8 @@ describe('Travel Planner', () => {
     cy.get('#destination').type('Kyoto, Japan')
     cy.get('#startDate').type('2026-09-01')
     cy.get('#endDate').type('2026-09-05')
-    cy.get('#budget').clear().type('1000')
+    cy.get('#budget').clear()
+    cy.get('#budget').type('1000')
     cy.contains('button', 'Add trip').click()
 
     cy.contains('.trip-card', 'Kyoto, Japan').should('have.class', 'active')
@@ -14,7 +15,8 @@ describe('Travel Planner', () => {
     cy.contains('5 day trip')
 
     cy.get('.activity-form input[type="text"]').type('Fushimi Inari hike')
-    cy.get('.activity-form input[type="number"]').eq(1).clear().type('40')
+    cy.get('.activity-form input[type="number"]').eq(1).clear()
+    cy.get('.activity-form input[type="number"]').eq(1).type('40')
     cy.contains('.activity-form button', 'Add').click()
 
     cy.contains('.day-group li', 'Fushimi Inari hike').should('contain', '$40')
