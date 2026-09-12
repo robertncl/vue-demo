@@ -21,7 +21,8 @@
   "overrides": {
     "brace-expansion": "5.0.9",
     "baseline-browser-mapping": "2.11.21",
-    "browserslist": "4.28.9"
+    "browserslist": "4.28.9",
+    "joi": "18.2.8"
   },
   "dependencies": {
     "pinia": "4.0.3",
