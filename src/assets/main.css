@@ -1,35 +1,197 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+  padding: 0 1.25rem;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+.page {
+  flex: 1;
+  padding: 2.5rem 0 4rem;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+.page-head {
+  margin-bottom: 2rem;
+}
+
+.page-head p {
+  color: var(--c-muted);
+  max-width: 62ch;
+  margin-top: 0.5rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  font-weight: 650;
+  color: var(--c-brand);
+}
+
+.card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.muted {
+  color: var(--c-muted);
+}
+
+/* --- buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.925rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--c-brand);
+  color: #fff;
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn {
+    color: #05221f;
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.btn:hover {
+  background: var(--c-brand-strong);
+  color: #fff;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+@media (prefers-color-scheme: dark) {
+  .btn:hover {
+    color: #05221f;
   }
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--c-border);
+  color: var(--c-text);
+}
+
+.btn-ghost:hover {
+  background: var(--c-surface-soft);
+  color: var(--c-heading);
+  border-color: var(--c-brand);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.825rem;
+}
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  color: var(--c-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.icon-btn:hover {
+  background: var(--c-surface-soft);
+  color: var(--c-danger);
+}
+
+/* --- forms --- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: var(--c-muted);
+  text-transform: uppercase;
+}
+
+.input,
+input[type='text'],
+input[type='date'],
+input[type='time'],
+input[type='number'],
+input[type='search'],
+select {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-background);
+  color: var(--c-text);
+  transition: border-color 0.2s;
+}
+
+.input:focus,
+input:focus,
+select:focus {
+  border-color: var(--c-brand);
+}
+
+/* --- chips / tags --- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: var(--c-surface-soft);
+  border: 1px solid var(--c-border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-muted);
+}
+
+.chip-brand {
+  background: var(--c-brand-soft);
+  border-color: transparent;
+  color: var(--c-brand);
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

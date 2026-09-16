@@ -1,16 +1,34 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
+import type { TripDraft } from '@/types/travel'
 
-const emit = defineEmits<{
-  create: [payload: { destination: string; startDate: string; endDate: string; budget: number }]
+const props = defineProps<{
+  /** Pre-fills the form, e.g. when arriving from a destination page. */
+  prefill?: Partial<TripDraft> | null
 }>()
 
-const form = reactive({
+const emit = defineEmits<{
+  create: [payload: TripDraft]
+}>()
+
+const form = reactive<TripDraft>({
   destination: '',
   startDate: '',
   endDate: '',
   budget: 500,
 })
+
+watch(
+  () => props.prefill,
+  (prefill) => {
+    if (!prefill) return
+    if (prefill.destination) form.destination = prefill.destination
+    if (prefill.startDate) form.startDate = prefill.startDate
+    if (prefill.endDate) form.endDate = prefill.endDate
+    if (prefill.budget) form.budget = prefill.budget
+  },
+  { immediate: true },
+)
 
 function submit() {
   if (!form.destination || !form.startDate || !form.endDate) return
@@ -23,12 +41,20 @@ function submit() {
 </script>
 
 <template>
-  <form class="trip-form" @submit.prevent="submit">
+  <form class="trip-form card" @submit.prevent="submit">
     <h2>Plan a new trip</h2>
+
     <div class="field">
       <label for="destination">Destination</label>
-      <input id="destination" v-model="form.destination" type="text" placeholder="Kyoto, Japan" required />
+      <input
+        id="destination"
+        v-model="form.destination"
+        type="text"
+        placeholder="Kyoto, Japan"
+        required
+      />
     </div>
+
     <div class="field-row">
       <div class="field">
         <label for="startDate">Start date</label>
@@ -39,11 +65,13 @@ function submit() {
         <input id="endDate" v-model="form.endDate" type="date" required />
       </div>
     </div>
+
     <div class="field">
       <label for="budget">Budget (USD)</label>
       <input id="budget" v-model.number="form.budget" type="number" min="0" step="50" />
     </div>
-    <button type="submit">Add trip</button>
+
+    <button class="btn" type="submit">Add trip</button>
   </form>
 </template>
 
@@ -51,10 +79,12 @@ function submit() {
 .trip-form {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
+  gap: 0.85rem;
+  padding: 1.25rem;
+}
+
+.trip-form h2 {
+  font-size: 1.05rem;
 }
 
 .field-row {
@@ -62,33 +92,12 @@ function submit() {
   gap: 0.75rem;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+.field-row .field {
   flex: 1;
 }
 
-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-input {
-  padding: 0.4rem 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  background: var(--color-background-soft);
-  color: var(--color-text);
-}
-
-button {
+.trip-form .btn {
   align-self: flex-start;
-  padding: 0.5rem 1.25rem;
-  border: none;
-  border-radius: 4px;
-  background: var(--color-heading, hsla(160, 100%, 37%, 1));
-  color: white;
-  cursor: pointer;
+  margin-top: 0.25rem;
 }
 </style>

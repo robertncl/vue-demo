@@ -10,75 +10,99 @@ const emit = defineEmits<{
   select: [id: string]
   remove: [id: string]
 }>()
+
+function spend(trip: Trip) {
+  return trip.activities.reduce((sum, activity) => sum + activity.cost, 0)
+}
 </script>
 
 <template>
-  <ul class="trip-list">
-    <li v-if="trips.length === 0" class="empty">No trips yet — add one to start planning.</li>
-    <TransitionGroup name="trip">
+  <section class="trip-list-wrap">
+    <h2>Your trips</h2>
+
+    <p v-if="trips.length === 0" class="empty muted">No trips yet — add one to start planning.</p>
+
+    <TransitionGroup v-else tag="ul" name="trip" class="trip-list">
       <li
         v-for="trip in trips"
         :key="trip.id"
-        class="trip-card"
+        class="trip-card card"
         :class="{ active: trip.id === selectedTripId }"
         @click="emit('select', trip.id)"
       >
-        <div>
+        <div class="info">
           <strong>{{ trip.destination }}</strong>
-          <span class="dates">{{ trip.startDate }} → {{ trip.endDate }}</span>
+          <span class="dates muted">{{ trip.startDate }} → {{ trip.endDate }}</span>
+          <span class="meta muted">
+            {{ trip.activities.length }} activities · ${{ spend(trip) }} of ${{ trip.budget }}
+          </span>
         </div>
-        <button class="remove" type="button" @click.stop="emit('remove', trip.id)">✕</button>
+        <button
+          class="icon-btn remove"
+          type="button"
+          :aria-label="`Remove trip to ${trip.destination}`"
+          @click.stop="emit('remove', trip.id)"
+        >
+          ✕
+        </button>
       </li>
     </TransitionGroup>
-  </ul>
+  </section>
 </template>
 
 <style scoped>
+.trip-list-wrap h2 {
+  font-size: 1.05rem;
+  margin-bottom: 0.65rem;
+}
+
 .trip-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .empty {
-  color: var(--color-text);
-  opacity: 0.7;
+  font-size: 0.9rem;
 }
 
 .trip-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
+  gap: 0.5rem;
+  padding: 0.75rem 0.9rem;
   cursor: pointer;
+  border-left: 3px solid transparent;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+
+.trip-card:hover {
+  background: var(--c-surface-soft);
 }
 
 .trip-card.active {
-  border-color: hsla(160, 100%, 37%, 1);
-  background: var(--color-background-soft);
+  border-left-color: var(--c-brand);
+  background: var(--c-brand-soft);
 }
 
-.dates {
-  display: block;
-  font-size: 0.8rem;
-  opacity: 0.7;
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
 }
 
-.remove {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 1rem;
-  opacity: 0.6;
+.info strong {
+  color: var(--c-heading);
 }
 
-.remove:hover {
-  opacity: 1;
+.dates,
+.meta {
+  font-size: 0.78rem;
 }
 
 .trip-enter-active,

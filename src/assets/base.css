@@ -1,86 +1,135 @@
-/* color palette from <https://github.com/vuejs/theme> */
-:root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
-
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
-
-  --vt-c-indigo: #2c3e50;
-
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
-}
-
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
-
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
-
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-}
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
   font-weight: normal;
+}
+
+:root {
+  --sand-50: #fbf8f4;
+  --sand-100: #f4eee6;
+  --sand-200: #e7ded2;
+  --ink-900: #1b1d21;
+  --ink-700: #33373f;
+
+  --c-background: var(--sand-50);
+  --c-surface: #ffffff;
+  --c-surface-soft: var(--sand-100);
+  --c-border: var(--sand-200);
+  --c-text: #2c3038;
+  --c-heading: #14161a;
+  --c-muted: #6b7280;
+  --c-brand: #0f766e;
+  --c-brand-strong: #0b5b55;
+  --c-brand-soft: rgba(15, 118, 110, 0.12);
+  --c-accent: #ea580c;
+  --c-danger: #dc2626;
+
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 1px 2px rgba(20, 22, 26, 0.06);
+  --shadow: 0 8px 24px -12px rgba(20, 22, 26, 0.25);
+  --shadow-lg: 0 24px 48px -24px rgba(20, 22, 26, 0.4);
+
+  --font-body:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-background: #101215;
+    --c-surface: #181b20;
+    --c-surface-soft: #1f2329;
+    --c-border: #2c3138;
+    --c-text: #d4d8de;
+    --c-heading: #f5f7fa;
+    --c-muted: #9aa3af;
+    --c-brand: #2dd4bf;
+    --c-brand-strong: #5eead4;
+    --c-brand-soft: rgba(45, 212, 191, 0.14);
+    --c-accent: #fb923c;
+    --c-danger: #f87171;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
+  background: var(--c-background);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 16px;
   line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--c-heading);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 3.1rem);
+}
+
+h2 {
+  font-size: clamp(1.4rem, 1.15rem + 1vw, 1.9rem);
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+a {
+  color: var(--c-brand);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--c-brand-strong);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-brand);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
