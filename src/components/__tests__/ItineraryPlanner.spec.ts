@@ -1,6 +1,8 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
 import ItineraryPlanner from '../travel/ItineraryPlanner.vue'
+import { useSettingsStore } from '@/stores/settings'
 import type { Trip } from '@/types/travel'
 
 const trip: Trip = {
@@ -26,10 +28,16 @@ function mountPlanner(overrides = {}) {
       budgetUsedPercent: 30,
       ...overrides,
     },
+    global: { plugins: [createPinia()] },
   })
 }
 
 describe('ItineraryPlanner', () => {
+  beforeEach(() => {
+    localStorage.clear()
+    setActivePinia(createPinia())
+  })
+
   it('groups activities by day in order with a day total', () => {
     const wrapper = mountPlanner()
     const groups = wrapper.findAll('.day-group')
@@ -85,5 +93,46 @@ describe('ItineraryPlanner', () => {
   it('shows an empty state when there is nothing planned', () => {
     const wrapper = mountPlanner({ trip: { ...trip, activities: [] } })
     expect(wrapper.text()).toContain('No activities planned yet')
+  })
+
+  it('shows all money in the selected currency', async () => {
+    const wrapper = mountPlanner()
+    const settings = useSettingsStore()
+
+    expect(wrapper.find('.budget').text()).toContain('$500')
+
+    settings.setCurrency('EUR')
+    await wrapper.vm.$nextTick()
+
+    // 500 USD at the fixed 0.92 rate
+    expect(wrapper.find('.budget').text()).toContain('460')
+    expect(wrapper.find('.budget').text()).toContain('€')
+  })
+
+  it('converts an entered cost back to USD when emitting', async () => {
+    const wrapper = mountPlanner()
+    const settings = useSettingsStore()
+    settings.setCurrency('GBP')
+    await wrapper.vm.$nextTick()
+
+    await wrapper.find('.activity-form input[type="text"]').setValue('Tea house')
+    await wrapper.findAll('.activity-form input[type="number"]')[1].setValue(79)
+    await wrapper.find('.activity-form').trigger('submit')
+
+    // 79 GBP at the fixed 0.79 rate is 100 USD
+    expect((wrapper.emitted('addActivity')![0][0] as { cost: number }).cost).toBeCloseTo(100, 6)
+  })
+
+  it('translates the planner labels', async () => {
+    const wrapper = mountPlanner()
+    const settings = useSettingsStore()
+
+    expect(wrapper.find('.budget').text()).toContain('Remaining')
+
+    settings.setLocale('de')
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.find('.budget').text()).toContain('Verbleibend')
+    expect(wrapper.find('.day-head').text()).toContain('Tag 1')
   })
 })

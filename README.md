@@ -11,24 +11,46 @@ serves, starting at `/`.
 
 ## Features
 
-- **Explore** — a landing page with search, featured good-value destinations and your next departure.
+- **Explore** — a landing page with search, the month's top pick, featured value and your next departure.
+- **Top pick of the month** — destinations ranked by whether they're in season now, with value breaking ties, plus three runners-up and a reason for the month.
 - **Destinations** — twelve destinations filterable by search text, region, vibe and max daily budget.
-- **Destination detail** — summary, highlights, seasonality, indicative costs and related places.
+- **In-depth guides** — multi-paragraph orientation, where to base yourself, a costed three-day itinerary, what to eat, day trips, season-by-season notes, a practical pre-departure panel and a daily-budget breakdown.
+- **Five languages** — English, Español, Français, Deutsch and 日本語, switchable at any time.
+- **Six currencies** — USD, EUR, GBP, JPY, AUD and CAD, converted from a USD base at fixed reference rates.
 - **Wishlist** — star destinations; the list persists in `localStorage`.
 - **Trip planner** — create dated trips, add activities per day, and watch the budget bar.
 - Responsive layout, automatic light/dark theming, and a proper 404 route.
 
+## Languages and currencies
+
+Language and currency live in a Pinia `settings` store and persist to `localStorage`, alongside
+`<html lang>` and the document title.
+
+Money is **always stored in USD**, the base currency. The UI converts on the way out via
+`money()`, and money _inputs_ convert back to USD on submit — so switching currency
+re-denominates the number in the field without changing the real value of the trip. Rates are
+fixed reference rates in [`src/i18n/config.ts`](src/i18n/config.ts), not live ones.
+
+The i18n layer is dependency-free (about 80 lines in [`src/i18n/index.ts`](src/i18n/index.ts)):
+dotted-key lookup with `{named}` interpolation, falling back to English and then to the key
+itself, plus `Intl` for number and currency formatting. Each translation file is typed as
+`Messages`, so a missing key is a **compile error** rather than a blank label.
+
+One limitation worth naming: the **UI chrome is translated, but the long-form guide prose is
+not** — destination overviews, neighbourhood descriptions and itineraries stay in English in
+every language. Translating that content is a copywriting job rather than a code one.
+
 ## Routes
 
-| Path                  | View                    | Purpose                             |
-| --------------------- | ----------------------- | ----------------------------------- |
-| `/`                   | `HomeView`              | Hero, search, featured destinations |
-| `/destinations`       | `DestinationsView`      | Filterable catalog                  |
-| `/destinations/:slug` | `DestinationDetailView` | Single destination                  |
-| `/wishlist`           | `WishlistView`          | Saved destinations                  |
-| `/trips`              | `TripsView`             | Trip + itinerary planner            |
-| `/about`              | `AboutView`             | What this app is                    |
-| `*`                   | `NotFoundView`          | 404                                 |
+| Path                  | View                    | Purpose                          |
+| --------------------- | ----------------------- | -------------------------------- |
+| `/`                   | `HomeView`              | Hero, search, top pick, featured |
+| `/destinations`       | `DestinationsView`      | Filterable catalog               |
+| `/destinations/:slug` | `DestinationDetailView` | Full destination guide           |
+| `/wishlist`           | `WishlistView`          | Saved destinations               |
+| `/trips`              | `TripsView`             | Trip + itinerary planner         |
+| `/about`              | `AboutView`             | What this app is                 |
+| `*`                   | `NotFoundView`          | 404                              |
 
 Every route except `/` is lazy-loaded into its own chunk.
 
@@ -36,20 +58,33 @@ Every route except `/` is lazy-loaded into its own chunk.
 
 ```
 src/
-├── data/destinations.ts        # the destination catalog
-├── types/travel.ts             # Destination, Trip, Activity types
+├── data/destinations.ts        # the destination catalog and guide content
+├── types/travel.ts             # Destination, Trip, Currency, Locale types
+├── i18n/
+│   ├── config.ts               # currencies, locales and exchange rates
+│   ├── index.ts                # useI18n(): t(), money(), month(), region(), tag()
+│   └── messages.{en,es,fr,de,ja}.ts
 ├── stores/
-│   ├── destinations.ts         # catalog, filters, wishlist
+│   ├── destinations.ts         # catalog, filters, wishlist, top pick of the month
+│   ├── settings.ts             # language, currency, USD conversion
 │   └── travel.ts               # trips, itineraries, budget math
 ├── components/
-│   ├── layout/                 # AppHeader, AppFooter
-│   ├── destinations/           # DestinationCard
+│   ├── layout/                 # AppHeader, AppFooter, SettingsMenu
+│   ├── destinations/           # DestinationCard, TopPick
 │   └── travel/                 # TripForm, TripList, ItineraryPlanner
 └── views/                      # one component per route
 ```
 
-State lives in two Pinia setup stores, both persisted to `localStorage`. There is no backend —
-clearing site data clears your trips and wishlist.
+State lives in three Pinia setup stores, all persisted to `localStorage`. There is no backend —
+clearing site data clears your trips, wishlist and preferences.
+
+### How the top pick is chosen
+
+`destinations.ts` scores every destination for the current month: being in season dominates,
+having a written note for that month adds a little, and a lower daily budget breaks ties so the
+ranking favours value. The store's `today` is a ref, so tests can pin the month and assert the
+result deterministically. If nothing is peaking — August, in the current catalog — the section
+says so and falls back to the best all-rounders.
 
 ## Project Setup
 
@@ -75,8 +110,10 @@ npm run build
 npm run test:unit
 ```
 
-Covers both stores, the router, and the `DestinationCard`, `TripForm` and `ItineraryPlanner`
-components.
+Covers the three stores, the i18n layer, the router, the `DestinationCard`, `TopPick`,
+`TripForm` and `ItineraryPlanner` components, and the trips, wishlist and detail views. A
+localisation suite mounts the whole app in all five languages across every route and fails if an
+untranslated key reaches the DOM.
 
 ### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
 

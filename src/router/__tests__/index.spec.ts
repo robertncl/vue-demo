@@ -1,5 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
 import router from '../index'
+
+beforeEach(() => {
+  localStorage.clear()
+  setActivePinia(createPinia())
+})
 
 describe('router', () => {
   it('serves the travel home page at /', () => {
@@ -41,7 +47,7 @@ describe('router', () => {
     expect(router.currentRoute.value.name).toBe('not-found')
   })
 
-  it('sets the document title from route meta', async () => {
+  it('sets a translated document title from route meta', async () => {
     await router.push('/trips')
     expect(document.title).toBe('My trips · Wanderlog')
   })

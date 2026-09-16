@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
+import { useSettingsStore } from '@/stores/settings'
+import { useI18n } from '@/i18n'
 import type { ActivityDraft, Trip } from '@/types/travel'
 
 const props = defineProps<{
@@ -15,12 +17,17 @@ const emit = defineEmits<{
   removeActivity: [id: string]
 }>()
 
-const newActivity = reactive<ActivityDraft>({
+const settings = useSettingsStore()
+const { t, money } = useI18n()
+
+const newActivity = reactive({
   day: 1,
   time: '09:00',
   title: '',
-  cost: 0,
 })
+
+/** Held in the display currency; converted to USD when emitted. */
+const cost = ref(0)
 
 const overBudget = computed(() => props.remainingBudget < 0)
 
@@ -38,11 +45,24 @@ function dayTotal(activities: Trip['activities']) {
   return activities.reduce((sum, activity) => sum + activity.cost, 0)
 }
 
+// Clear a half-entered cost when the currency changes, so the number never lies.
+watch(
+  () => settings.currency,
+  () => {
+    cost.value = 0
+  },
+)
+
 function submit() {
   if (!newActivity.title) return
-  emit('addActivity', { ...newActivity })
+  emit('addActivity', {
+    day: newActivity.day,
+    time: newActivity.time,
+    title: newActivity.title,
+    cost: settings.toBase(cost.value),
+  })
   newActivity.title = ''
-  newActivity.cost = 0
+  cost.value = 0
 }
 </script>
 
@@ -50,11 +70,13 @@ function submit() {
   <section class="itinerary">
     <header class="head">
       <div>
-        <p class="eyebrow">Itinerary</p>
+        <p class="eyebrow">{{ t('planner.eyebrow') }}</p>
         <h2>{{ trip.destination }}</h2>
         <p class="muted">
           {{ trip.startDate }} → {{ trip.endDate }}
-          <template v-if="durationDays > 0"> · {{ durationDays }} day trip</template>
+          <template v-if="durationDays > 0">
+            · {{ t('planner.dayTrip', { count: durationDays }) }}
+          </template>
         </p>
       </div>
     </header>
@@ -62,14 +84,14 @@ function submit() {
     <div class="budget card" :class="{ over: overBudget }">
       <div class="budget-row">
         <span
-          >Budget <strong>${{ trip.budget }}</strong></span
+          >{{ t('planner.budget') }} <strong>{{ money(trip.budget) }}</strong></span
         >
         <span
-          >Spent <strong>${{ spentAmount }}</strong></span
+          >{{ t('planner.spent') }} <strong>{{ money(spentAmount) }}</strong></span
         >
         <span class="remaining">
-          {{ overBudget ? 'Over by' : 'Remaining' }}
-          <strong>${{ Math.abs(remainingBudget) }}</strong>
+          {{ overBudget ? t('planner.overBy') : t('planner.remaining') }}
+          <strong>{{ money(Math.abs(remainingBudget)) }}</strong>
         </span>
       </div>
       <div
@@ -87,8 +109,8 @@ function submit() {
       <input
         v-model="newActivity.title"
         type="text"
-        placeholder="Activity (e.g. Fushimi Inari hike)"
-        aria-label="Activity title"
+        :placeholder="t('planner.activityPlaceholder')"
+        :aria-label="t('planner.activityTitle')"
         required
       />
       <input
@@ -96,39 +118,42 @@ function submit() {
         type="number"
         min="1"
         :max="durationDays || undefined"
-        title="Day"
-        aria-label="Day"
+        :title="t('planner.day')"
+        :aria-label="t('planner.day')"
       />
-      <input v-model="newActivity.time" type="time" title="Time" aria-label="Time" />
       <input
-        v-model.number="newActivity.cost"
+        v-model="newActivity.time"
+        type="time"
+        :title="t('planner.time')"
+        :aria-label="t('planner.time')"
+      />
+      <input
+        v-model.number="cost"
         type="number"
         min="0"
         step="5"
-        title="Cost"
-        aria-label="Cost"
+        :title="`${t('planner.cost')} (${settings.currency})`"
+        :aria-label="`${t('planner.cost')} (${settings.currency})`"
       />
-      <button class="btn" type="submit">Add</button>
+      <button class="btn" type="submit">{{ t('planner.add') }}</button>
     </form>
 
-    <p v-if="activitiesByDay.length === 0" class="empty muted">
-      No activities planned yet. Add the first one above.
-    </p>
+    <p v-if="activitiesByDay.length === 0" class="empty muted">{{ t('planner.empty') }}</p>
 
     <div v-for="[day, activities] in activitiesByDay" :key="day" class="day-group">
       <div class="day-head">
-        <h3>Day {{ day }}</h3>
-        <span class="muted">${{ dayTotal(activities) }}</span>
+        <h3>{{ t('planner.dayLabel', { n: day }) }}</h3>
+        <span class="muted">{{ money(dayTotal(activities)) }}</span>
       </div>
       <ul>
         <li v-for="activity in activities" :key="activity.id" class="card">
           <span class="time">{{ activity.time }}</span>
           <span class="title">{{ activity.title }}</span>
-          <span class="cost">${{ activity.cost }}</span>
+          <span class="cost">{{ money(activity.cost) }}</span>
           <button
             class="icon-btn remove"
             type="button"
-            :aria-label="`Remove ${activity.title}`"
+            :aria-label="t('planner.removeActivity', { name: activity.title })"
             @click="emit('removeActivity', activity.id)"
           >
             ✕
@@ -205,7 +230,7 @@ function submit() {
 }
 
 .activity-form input[type='number'] {
-  width: 84px;
+  width: 90px;
 }
 
 .activity-form input[type='time'] {

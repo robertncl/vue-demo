@@ -1,50 +1,54 @@
 <script setup lang="ts">
 import { useDestinationsStore } from '@/stores/destinations'
+import { useI18n } from '@/i18n'
 import DestinationCard from '@/components/destinations/DestinationCard.vue'
 
 const store = useDestinationsStore()
+const { t, money, region, tag } = useI18n()
 </script>
 
 <template>
   <main class="page">
     <div class="container">
       <header class="page-head">
-        <p class="eyebrow">Catalog</p>
-        <h1>Destinations</h1>
-        <p>Narrow it down by region, the kind of trip you want, and what you can spend per day.</p>
+        <p class="eyebrow">{{ t('destinations.eyebrow') }}</p>
+        <h1>{{ t('destinations.title') }}</h1>
+        <p>{{ t('destinations.subtitle') }}</p>
       </header>
 
-      <section class="filters card" aria-label="Destination filters">
+      <section class="filters card" :aria-label="t('destinations.filtersLabel')">
         <div class="field">
-          <label for="f-query">Search</label>
+          <label for="f-query">{{ t('destinations.search') }}</label>
           <input
             id="f-query"
             v-model="store.query"
             type="search"
-            placeholder="City, country or tag"
+            :placeholder="t('destinations.searchPlaceholder')"
           />
         </div>
 
         <div class="field">
-          <label for="f-region">Region</label>
+          <label for="f-region">{{ t('destinations.region') }}</label>
           <select id="f-region" v-model="store.region">
-            <option value="all">All regions</option>
-            <option v-for="region in store.regions" :key="region" :value="region">
-              {{ region }}
+            <option value="all">{{ t('destinations.allRegions') }}</option>
+            <option v-for="item in store.regions" :key="item" :value="item">
+              {{ region(item) }}
             </option>
           </select>
         </div>
 
         <div class="field">
-          <label for="f-tag">Vibe</label>
+          <label for="f-tag">{{ t('destinations.vibe') }}</label>
           <select id="f-tag" v-model="store.tag">
-            <option value="all">Any vibe</option>
-            <option v-for="tag in store.allTags" :key="tag" :value="tag">{{ tag }}</option>
+            <option value="all">{{ t('destinations.anyVibe') }}</option>
+            <option v-for="item in store.allTags" :key="item" :value="item">{{ tag(item) }}</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="f-budget">Max ${{ store.maxDailyBudget }} / day</label>
+          <label for="f-budget">
+            {{ t('destinations.maxBudget', { amount: money(store.maxDailyBudget) }) }}
+          </label>
           <input
             id="f-budget"
             v-model.number="store.maxDailyBudget"
@@ -61,12 +65,17 @@ const store = useDestinationsStore()
           type="button"
           @click="store.resetFilters()"
         >
-          Reset
+          {{ t('common.reset') }}
         </button>
       </section>
 
       <p class="result-count muted">
-        {{ store.filtered.length }} of {{ store.catalog.length }} destinations
+        {{
+          t('destinations.resultCount', {
+            count: store.filtered.length,
+            total: store.catalog.length,
+          })
+        }}
       </p>
 
       <div v-if="store.filtered.length" class="grid">
@@ -75,14 +84,17 @@ const store = useDestinationsStore()
           :key="destination.slug"
           :destination="destination"
           :wishlisted="store.isWishlisted(destination.slug)"
+          :in-season="store.inSeason(destination)"
           @toggle-wishlist="store.toggleWishlist"
         />
       </div>
 
       <div v-else class="empty card">
-        <h2>Nothing matches those filters</h2>
-        <p class="muted">Try widening the budget or clearing the search.</p>
-        <button class="btn" type="button" @click="store.resetFilters()">Reset filters</button>
+        <h2>{{ t('destinations.emptyTitle') }}</h2>
+        <p class="muted">{{ t('destinations.emptyBody') }}</p>
+        <button class="btn" type="button" @click="store.resetFilters()">
+          {{ t('destinations.resetFilters') }}
+        </button>
       </div>
     </div>
   </main>

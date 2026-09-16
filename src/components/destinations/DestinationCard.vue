@@ -1,20 +1,29 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useI18n } from '@/i18n'
 import type { Destination } from '@/types/travel'
 
 const props = defineProps<{
   destination: Destination
   wishlisted?: boolean
+  /** Marks the card as being in its best season right now. */
+  inSeason?: boolean
 }>()
 
 const emit = defineEmits<{
   toggleWishlist: [slug: string]
 }>()
 
+const { t, money, month, region, tag } = useI18n()
+
 const banner = computed(
   () =>
     `linear-gradient(135deg, ${props.destination.gradient[0]}, ${props.destination.gradient[1]})`,
+)
+
+const bestMonths = computed(() =>
+  props.destination.bestMonths.map((m) => month(m, true)).join(', '),
 )
 </script>
 
@@ -26,7 +35,8 @@ const banner = computed(
       :style="{ background: banner }"
     >
       <span class="emoji" aria-hidden="true">{{ destination.emoji }}</span>
-      <span class="region">{{ destination.region }}</span>
+      <span class="region">{{ region(destination.region) }}</span>
+      <span v-if="inSeason" class="season">{{ t('topPick.inSeason') }}</span>
     </RouterLink>
 
     <div class="body">
@@ -39,7 +49,11 @@ const banner = computed(
           type="button"
           :class="{ on: wishlisted }"
           :aria-pressed="Boolean(wishlisted)"
-          :aria-label="`${wishlisted ? 'Remove' : 'Save'} ${destination.name} ${wishlisted ? 'from' : 'to'} wishlist`"
+          :aria-label="
+            wishlisted
+              ? t('card.remove', { name: destination.name })
+              : t('card.save', { name: destination.name })
+          "
           @click="emit('toggleWishlist', destination.slug)"
         >
           {{ wishlisted ? '★' : '☆' }}
@@ -50,12 +64,14 @@ const banner = computed(
       <p class="tagline">{{ destination.tagline }}</p>
 
       <ul class="tags">
-        <li v-for="tag in destination.tags" :key="tag" class="chip">{{ tag }}</li>
+        <li v-for="item in destination.tags" :key="item" class="chip">{{ tag(item) }}</li>
       </ul>
 
       <footer>
-        <span class="price">${{ destination.dailyBudget }}<small>/day</small></span>
-        <span class="months muted">Best: {{ destination.bestMonths.join(', ') }}</span>
+        <span class="price">
+          {{ money(destination.dailyBudget) }}<small>{{ t('common.perDay') }}</small>
+        </span>
+        <span class="months muted">{{ t('common.best') }}: {{ bestMonths }}</span>
       </footer>
     </div>
   </article>
@@ -89,18 +105,28 @@ const banner = computed(
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
 }
 
-.region {
+.region,
+.season {
   position: absolute;
   top: 0.6rem;
-  left: 0.7rem;
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  color: #1b1d21;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.region {
+  left: 0.7rem;
+  background: rgba(255, 255, 255, 0.85);
+  color: #1b1d21;
+}
+
+.season {
+  right: 0.7rem;
+  background: #14532d;
+  color: #ecfdf5;
 }
 
 .body {

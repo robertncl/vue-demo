@@ -1,7 +1,8 @@
 import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { destinations, allTags, regions } from '@/data/destinations'
-import type { Destination, Region } from '@/types/travel'
+import { monthKeyFor } from '@/i18n'
+import type { Destination, MonthKey, Region } from '@/types/travel'
 
 const WISHLIST_KEY = 'wanderlog-wishlist'
 
@@ -49,6 +50,45 @@ export const useDestinationsStore = defineStore('destinations', () => {
     [...catalog.value].sort((a, b) => a.dailyBudget - b.dailyBudget).slice(0, 3),
   )
 
+  /** Overridable so the month-dependent picks can be tested deterministically. */
+  const today = ref<Date>(new Date())
+  const currentMonth = computed<MonthKey>(() => monthKeyFor(today.value))
+
+  /**
+   * Scores a destination for a given month: being in season dominates, and a
+   * lower daily budget breaks ties so the ranking favours value.
+   */
+  function scoreForMonth(destination: Destination, month: MonthKey): number {
+    const inSeasonScore = destination.bestMonths.includes(month) ? 1000 : 0
+    const noteScore = destination.monthlyNote[month] ? 100 : 0
+    return inSeasonScore + noteScore - destination.dailyBudget
+  }
+
+  const rankedForMonth = computed(() =>
+    [...catalog.value].sort(
+      (a, b) => scoreForMonth(b, currentMonth.value) - scoreForMonth(a, currentMonth.value),
+    ),
+  )
+
+  /** The single headline recommendation for the current month. */
+  const topPick = computed<Destination | null>(() => rankedForMonth.value[0] ?? null)
+
+  /** The next best few, shown alongside the headline pick. */
+  const topPickRunnersUp = computed(() => rankedForMonth.value.slice(1, 4))
+
+  /** True when at least one destination is genuinely in season this month. */
+  const hasSeasonalPick = computed(() =>
+    catalog.value.some((destination) => destination.bestMonths.includes(currentMonth.value)),
+  )
+
+  function inSeason(destination: Destination, month: MonthKey = currentMonth.value) {
+    return destination.bestMonths.includes(month)
+  }
+
+  function noteForMonth(destination: Destination, month: MonthKey = currentMonth.value) {
+    return destination.monthlyNote[month] ?? destination.tagline
+  }
+
   const wishlistDestinations = computed(() =>
     wishlist.value
       .map((slug) => catalog.value.find((destination) => destination.slug === slug))
@@ -95,6 +135,14 @@ export const useDestinationsStore = defineStore('destinations', () => {
     wishlist,
     filtered,
     featured,
+    today,
+    currentMonth,
+    rankedForMonth,
+    topPick,
+    topPickRunnersUp,
+    hasSeasonalPick,
+    inSeason,
+    noteForMonth,
     wishlistDestinations,
     hasActiveFilters,
     regions,

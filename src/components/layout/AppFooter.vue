@@ -1,11 +1,17 @@
+<script setup lang="ts">
+import { useI18n } from '@/i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <footer class="site-footer">
     <div class="container inner">
       <p>
-        <strong>Wanderlog</strong> — a Vue 3 + Pinia demo travel planner. Trips are stored in your
-        browser only.
+        <strong>{{ t('brand.name') }}</strong> — {{ t('footer.blurb') }}
       </p>
-      <p class="muted">Built with Vue 3, TypeScript, Pinia and Vue Router.</p>
+      <p class="muted">{{ t('footer.built') }}</p>
+      <p class="muted rates">{{ t('settings.rateNote') }}</p>
     </div>
   </footer>
 </template>
@@ -21,7 +27,12 @@
 .inner {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.5rem 1rem;
   flex-wrap: wrap;
+}
+
+.rates {
+  flex-basis: 100%;
+  font-size: 0.8rem;
 }
 </style>

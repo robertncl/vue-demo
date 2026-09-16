@@ -3,11 +3,14 @@ import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useDestinationsStore } from '@/stores/destinations'
 import { useTravelStore } from '@/stores/travel'
+import { useI18n } from '@/i18n'
 import DestinationCard from '@/components/destinations/DestinationCard.vue'
+import TopPick from '@/components/destinations/TopPick.vue'
 
 const router = useRouter()
 const destinationsStore = useDestinationsStore()
 const travel = useTravelStore()
+const { t, money } = useI18n()
 const search = ref('')
 
 function submitSearch() {
@@ -20,94 +23,94 @@ function submitSearch() {
   <main class="page home">
     <section class="hero">
       <div class="container hero-inner">
-        <p class="eyebrow">Plan it, price it, go</p>
-        <h1>Find somewhere worth the flight.</h1>
-        <p class="lede">
-          Browse a hand-picked shortlist of twelve destinations, save the ones you like, then build
-          a day-by-day itinerary that keeps an eye on your budget.
-        </p>
+        <p class="eyebrow">{{ t('home.eyebrow') }}</p>
+        <h1>{{ t('home.title') }}</h1>
+        <p class="lede">{{ t('home.lede') }}</p>
 
         <form class="search" role="search" @submit.prevent="submitSearch">
-          <label class="sr-only" for="hero-search">Search destinations</label>
+          <label class="sr-only" for="hero-search">{{ t('home.searchLabel') }}</label>
           <input
             id="hero-search"
             v-model="search"
             type="search"
-            placeholder="Try “Japan”, “food” or “adventure”"
+            :placeholder="t('home.searchPlaceholder')"
           />
-          <button class="btn" type="submit">Search</button>
+          <button class="btn" type="submit">{{ t('home.search') }}</button>
         </form>
 
         <dl class="stats">
           <div>
-            <dt>Destinations</dt>
+            <dt>{{ t('home.statDestinations') }}</dt>
             <dd>{{ destinationsStore.catalog.length }}</dd>
           </div>
           <div>
-            <dt>Saved</dt>
+            <dt>{{ t('home.statSaved') }}</dt>
             <dd>{{ destinationsStore.wishlist.length }}</dd>
           </div>
           <div>
-            <dt>Trips planned</dt>
+            <dt>{{ t('home.statTrips') }}</dt>
             <dd>{{ travel.trips.length }}</dd>
           </div>
         </dl>
       </div>
     </section>
 
-    <section v-if="travel.nextTrip" class="container next-trip">
-      <div class="card next-card">
-        <div>
-          <p class="eyebrow">Next departure</p>
-          <h2>{{ travel.nextTrip.destination }}</h2>
-          <p class="muted">
-            {{ travel.nextTrip.startDate }} → {{ travel.nextTrip.endDate }} ·
-            {{ travel.durationOf(travel.nextTrip) }} days ·
-            {{ travel.nextTrip.activities.length }} activities planned
-          </p>
+    <div class="container">
+      <TopPick class="block" />
+
+      <section v-if="travel.nextTrip" class="block">
+        <div class="card next-card">
+          <div>
+            <p class="eyebrow">{{ t('home.nextDeparture') }}</p>
+            <h2>{{ travel.nextTrip.destination }}</h2>
+            <p class="muted">
+              {{ travel.nextTrip.startDate }} → {{ travel.nextTrip.endDate }} ·
+              {{ travel.durationOf(travel.nextTrip) }} {{ t('common.days') }} ·
+              {{ money(travel.nextTrip.budget) }}
+            </p>
+          </div>
+          <RouterLink class="btn" to="/trips">{{ t('home.openPlanner') }}</RouterLink>
         </div>
-        <RouterLink class="btn" to="/trips">Open planner</RouterLink>
-      </div>
-    </section>
+      </section>
 
-    <section class="container featured">
-      <div class="section-head">
-        <h2>Good value right now</h2>
-        <RouterLink to="/destinations">Browse all →</RouterLink>
-      </div>
-      <div class="grid">
-        <DestinationCard
-          v-for="destination in destinationsStore.featured"
-          :key="destination.slug"
-          :destination="destination"
-          :wishlisted="destinationsStore.isWishlisted(destination.slug)"
-          @toggle-wishlist="destinationsStore.toggleWishlist"
-        />
-      </div>
-    </section>
+      <section class="block">
+        <div class="section-head">
+          <h2>{{ t('home.featured') }}</h2>
+          <RouterLink to="/destinations">{{ t('home.browseAll') }} →</RouterLink>
+        </div>
+        <div class="grid">
+          <DestinationCard
+            v-for="destination in destinationsStore.featured"
+            :key="destination.slug"
+            :destination="destination"
+            :wishlisted="destinationsStore.isWishlisted(destination.slug)"
+            :in-season="destinationsStore.inSeason(destination)"
+            @toggle-wishlist="destinationsStore.toggleWishlist"
+          />
+        </div>
+      </section>
 
-    <section class="container how">
-      <h2>How it works</h2>
-      <ol class="steps">
-        <li class="card">
-          <span class="step-num">1</span>
-          <h3>Explore</h3>
-          <p class="muted">Filter by region, vibe and daily budget until a shortlist appears.</p>
-        </li>
-        <li class="card">
-          <span class="step-num">2</span>
-          <h3>Save</h3>
-          <p class="muted">Star the places you're serious about. Your wishlist persists locally.</p>
-        </li>
-        <li class="card">
-          <span class="step-num">3</span>
-          <h3>Plan</h3>
-          <p class="muted">
-            Turn a destination into a dated trip with a costed, day-by-day itinerary.
-          </p>
-        </li>
-      </ol>
-    </section>
+      <section class="block">
+        <h2>{{ t('home.howTitle') }}</h2>
+        <ol class="steps">
+          <li class="card">
+            <span class="step-num">1</span>
+            <h3>{{ t('home.step1Title') }}</h3>
+            <p class="muted">{{ t('home.step1Body') }}</p>
+          </li>
+          <li class="card">
+            <span class="step-num">2</span>
+            <h3>{{ t('home.step2Title') }}</h3>
+            <p class="muted">{{ t('home.step2Body') }}</p>
+          </li>
+          <li class="card">
+            <span class="step-num">3</span>
+            <h3>{{ t('home.step3Title') }}</h3>
+            <p class="muted">{{ t('home.step3Body') }}</p>
+          </li>
+        </ol>
+      </section>
+    </div>
   </main>
 </template>
 
@@ -159,8 +162,8 @@ function submitSearch() {
   color: var(--c-heading);
 }
 
-.next-trip {
-  margin-top: 2.5rem;
+.block {
+  margin-top: 3rem;
 }
 
 .next-card {
@@ -170,11 +173,6 @@ function submitSearch() {
   gap: 1rem;
   padding: 1.25rem 1.5rem;
   flex-wrap: wrap;
-}
-
-.featured,
-.how {
-  margin-top: 3rem;
 }
 
 .section-head {

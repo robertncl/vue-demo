@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useTravelStore } from '@/stores/travel'
+import { useI18n } from '@/i18n'
 import TripForm from '@/components/travel/TripForm.vue'
 import TripList from '@/components/travel/TripList.vue'
 import ItineraryPlanner from '@/components/travel/ItineraryPlanner.vue'
@@ -9,8 +10,9 @@ import type { TripDraft } from '@/types/travel'
 
 const route = useRoute()
 const travel = useTravelStore()
+const { t } = useI18n()
 
-/** Destination pages link here with the trip details pre-filled. */
+/** Destination pages link here with the trip details pre-filled. Budget is in USD. */
 const prefill = computed<Partial<TripDraft> | null>(() => {
   const destination = route.query.destination
   if (typeof destination !== 'string') return null
@@ -23,12 +25,9 @@ const prefill = computed<Partial<TripDraft> | null>(() => {
   <main class="page">
     <div class="container">
       <header class="page-head">
-        <p class="eyebrow">Planner</p>
-        <h1>My trips</h1>
-        <p>
-          Create a trip, then build it out day by day. Costs roll up against the budget as you go,
-          and everything is saved in this browser.
-        </p>
+        <p class="eyebrow">{{ t('trips.eyebrow') }}</p>
+        <h1>{{ t('trips.title') }}</h1>
+        <p>{{ t('trips.subtitle') }}</p>
       </header>
 
       <div class="layout">
@@ -55,9 +54,11 @@ const prefill = computed<Partial<TripDraft> | null>(() => {
 
         <div v-else class="placeholder card">
           <span class="mark" aria-hidden="true">🧳</span>
-          <h2>Nothing selected</h2>
-          <p class="muted">Select or create a trip to start planning the itinerary.</p>
-          <RouterLink class="btn btn-ghost" to="/destinations">Find a destination</RouterLink>
+          <h2>{{ t('trips.nothingSelected') }}</h2>
+          <p class="muted">{{ t('trips.selectPrompt') }}</p>
+          <RouterLink class="btn btn-ghost" to="/destinations">
+            {{ t('trips.findDestination') }}
+          </RouterLink>
         </div>
       </div>
     </div>

@@ -1,53 +1,43 @@
+<script setup lang="ts">
+import { useI18n } from '@/i18n'
+
+const { t } = useI18n()
+
+const features = ['what1', 'what2', 'what3', 'what4', 'what5', 'what6', 'what7']
+const built = ['built1', 'built2', 'built3', 'built4', 'built5']
+</script>
+
 <template>
   <main class="page">
     <div class="container narrow">
       <header class="page-head">
-        <p class="eyebrow">About</p>
-        <h1>About Wanderlog</h1>
-        <p>
-          A small, self-contained travel planner built to show off Vue 3's composition API, Pinia
-          stores and Vue Router in a realistic app rather than a counter.
-        </p>
+        <p class="eyebrow">{{ t('about.eyebrow') }}</p>
+        <h1>{{ t('about.title') }}</h1>
+        <p>{{ t('about.lede') }}</p>
       </header>
 
       <section>
-        <h2>What it does</h2>
+        <h2>{{ t('about.whatTitle') }}</h2>
         <ul class="list">
-          <li>
-            <strong>Explore</strong> a curated catalog of twelve destinations with costs and
-            seasons.
-          </li>
-          <li><strong>Filter</strong> by search text, region, vibe and maximum daily budget.</li>
-          <li><strong>Save</strong> destinations to a wishlist that survives a page reload.</li>
-          <li><strong>Plan</strong> dated trips with a day-by-day, costed itinerary.</li>
-          <li><strong>Track</strong> spend against the budget, with a warning when you go over.</li>
+          <li v-for="key in features" :key="key">{{ t(`about.${key}`) }}</li>
         </ul>
       </section>
 
       <section>
-        <h2>How it's built</h2>
+        <h2>{{ t('about.builtTitle') }}</h2>
         <ul class="list">
-          <li>
-            <strong>Vue 3</strong> with <code>&lt;script setup&gt;</code> and typed props and emits.
-          </li>
-          <li>
-            <strong>Pinia</strong> setup stores — one for the catalog and wishlist, one for trips.
-          </li>
-          <li>
-            <strong>Vue Router</strong> with lazy-loaded routes and a dynamic destination route.
-          </li>
-          <li>
-            <strong>Vitest</strong> unit tests and <strong>Cypress</strong> end-to-end coverage.
-          </li>
+          <li v-for="key in built" :key="key">{{ t(`about.${key}`) }}</li>
         </ul>
       </section>
 
       <section>
-        <h2>Your data</h2>
-        <p class="muted">
-          There is no backend. Trips and wishlist entries live in this browser's
-          <code>localStorage</code>, so clearing site data clears your plans.
-        </p>
+        <h2>{{ t('about.dataTitle') }}</h2>
+        <p class="muted">{{ t('about.dataBody') }}</p>
+      </section>
+
+      <section>
+        <h2>{{ t('about.ratesTitle') }}</h2>
+        <p class="muted">{{ t('about.ratesBody') }}</p>
       </section>
     </div>
   </main>
@@ -83,12 +73,5 @@ section h2 {
   position: absolute;
   left: 0;
   color: var(--c-brand);
-}
-
-code {
-  background: var(--c-surface-soft);
-  border-radius: 4px;
-  padding: 0.1rem 0.35rem;
-  font-size: 0.875em;
 }
 </style>

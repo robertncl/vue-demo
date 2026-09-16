@@ -3,10 +3,13 @@ import { ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useTravelStore } from '@/stores/travel'
 import { useDestinationsStore } from '@/stores/destinations'
+import { useI18n } from '@/i18n'
+import SettingsMenu from './SettingsMenu.vue'
 
 const route = useRoute()
 const travel = useTravelStore()
 const destinationsStore = useDestinationsStore()
+const { t } = useI18n()
 const menuOpen = ref(false)
 
 watch(
@@ -22,14 +25,14 @@ watch(
     <div class="container bar">
       <RouterLink to="/" class="brand">
         <span class="brand-mark" aria-hidden="true">🧭</span>
-        <span class="brand-name">Wanderlog</span>
+        <span class="brand-name">{{ t('brand.name') }}</span>
       </RouterLink>
 
       <button
         class="menu-toggle"
         type="button"
         :aria-expanded="menuOpen"
-        aria-label="Toggle navigation"
+        :aria-label="t('nav.menu')"
         @click="menuOpen = !menuOpen"
       >
         ☰
@@ -37,11 +40,15 @@ watch(
 
       <nav class="nav" :class="{ open: menuOpen }">
         <ul>
-          <li><RouterLink to="/">Explore</RouterLink></li>
-          <li><RouterLink to="/destinations">Destinations</RouterLink></li>
+          <li>
+            <RouterLink to="/">{{ t('nav.explore') }}</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/destinations">{{ t('nav.destinations') }}</RouterLink>
+          </li>
           <li>
             <RouterLink to="/wishlist">
-              Wishlist
+              {{ t('nav.wishlist') }}
               <span v-if="destinationsStore.wishlist.length" class="badge">
                 {{ destinationsStore.wishlist.length }}
               </span>
@@ -49,12 +56,16 @@ watch(
           </li>
           <li>
             <RouterLink to="/trips">
-              My trips
+              {{ t('nav.trips') }}
               <span v-if="travel.trips.length" class="badge">{{ travel.trips.length }}</span>
             </RouterLink>
           </li>
-          <li><RouterLink to="/about">About</RouterLink></li>
+          <li>
+            <RouterLink to="/about">{{ t('nav.about') }}</RouterLink>
+          </li>
         </ul>
+
+        <SettingsMenu class="header-settings" />
       </nav>
     </div>
   </header>
@@ -102,10 +113,16 @@ watch(
   cursor: pointer;
 }
 
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .nav ul {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.15rem;
   list-style: none;
 }
 
@@ -113,11 +130,12 @@ watch(
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.4rem 0.8rem;
+  padding: 0.4rem 0.7rem;
   border-radius: 999px;
   color: var(--c-muted);
-  font-size: 0.925rem;
+  font-size: 0.9rem;
   font-weight: 550;
+  white-space: nowrap;
   transition:
     background-color 0.2s,
     color 0.2s;
@@ -147,7 +165,19 @@ watch(
   font-weight: 700;
 }
 
-@media (max-width: 760px) {
+.header-settings {
+  padding-left: 0.6rem;
+  border-left: 1px solid var(--c-border);
+}
+
+@media (max-width: 1040px) {
+  .nav a {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 860px) {
   .menu-toggle {
     display: block;
   }
@@ -155,17 +185,27 @@ watch(
   .nav {
     display: none;
     width: 100%;
-    padding-bottom: 0.75rem;
+    padding-bottom: 0.85rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
   }
 
   .nav.open {
-    display: block;
+    display: flex;
   }
 
   .nav ul {
     flex-direction: column;
     align-items: stretch;
     gap: 0.15rem;
+  }
+
+  .header-settings {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--c-border);
+    padding-top: 0.75rem;
   }
 }
 </style>

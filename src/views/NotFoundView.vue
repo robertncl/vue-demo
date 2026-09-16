@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { useI18n } from '@/i18n'
+
+const { t } = useI18n()
 </script>
 
 <template>
   <main class="page">
     <div class="container empty">
       <span class="mark" aria-hidden="true">🗺️</span>
-      <h1>Off the map</h1>
-      <p class="muted">That page doesn't exist. Let's get you back on the route.</p>
+      <h1>{{ t('notFound.title') }}</h1>
+      <p class="muted">{{ t('notFound.body') }}</p>
       <div class="actions">
-        <RouterLink class="btn" to="/">Go home</RouterLink>
-        <RouterLink class="btn btn-ghost" to="/destinations">Browse destinations</RouterLink>
+        <RouterLink class="btn" to="/">{{ t('notFound.home') }}</RouterLink>
+        <RouterLink class="btn btn-ghost" to="/destinations">{{ t('notFound.browse') }}</RouterLink>
       </div>
     </div>
   </main>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from '@/i18n'
 import type { Trip } from '@/types/travel'
 
 defineProps<{
@@ -11,6 +12,8 @@ const emit = defineEmits<{
   remove: [id: string]
 }>()
 
+const { t, money } = useI18n()
+
 function spend(trip: Trip) {
   return trip.activities.reduce((sum, activity) => sum + activity.cost, 0)
 }
@@ -18,9 +21,9 @@ function spend(trip: Trip) {
 
 <template>
   <section class="trip-list-wrap">
-    <h2>Your trips</h2>
+    <h2>{{ t('trips.yourTrips') }}</h2>
 
-    <p v-if="trips.length === 0" class="empty muted">No trips yet — add one to start planning.</p>
+    <p v-if="trips.length === 0" class="empty muted">{{ t('trips.noTrips') }}</p>
 
     <TransitionGroup v-else tag="ul" name="trip" class="trip-list">
       <li
@@ -34,13 +37,19 @@ function spend(trip: Trip) {
           <strong>{{ trip.destination }}</strong>
           <span class="dates muted">{{ trip.startDate }} → {{ trip.endDate }}</span>
           <span class="meta muted">
-            {{ trip.activities.length }} activities · ${{ spend(trip) }} of ${{ trip.budget }}
+            {{
+              t('trips.tripMeta', {
+                count: trip.activities.length,
+                spent: money(spend(trip)),
+                budget: money(trip.budget),
+              })
+            }}
           </span>
         </div>
         <button
           class="icon-btn remove"
           type="button"
-          :aria-label="`Remove trip to ${trip.destination}`"
+          :aria-label="t('trips.removeTrip', { name: trip.destination })"
           @click.stop="emit('remove', trip.id)"
         >
           ✕

@@ -4,6 +4,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import DestinationDetailView from '../DestinationDetailView.vue'
 import { useDestinationsStore } from '@/stores/destinations'
+import { useSettingsStore } from '@/stores/settings'
 import { findDestination } from '@/data/destinations'
 
 const router = createRouter({
@@ -36,8 +37,8 @@ describe('DestinationDetailView', () => {
     expect(wrapper.text()).toContain(kyoto.summary)
     kyoto.highlights.forEach((h) => expect(wrapper.text()).toContain(h))
     expect(wrapper.text()).toContain(`$${kyoto.dailyBudget}`)
-    // one week at the daily rate
-    expect(wrapper.text()).toContain(`$${kyoto.dailyBudget * 7}`)
+    // one week at the daily rate, formatted with a thousands separator
+    expect(wrapper.text()).toContain((kyoto.dailyBudget * 7).toLocaleString('en-US'))
   })
 
   it('toggles the wishlist from the detail panel', async () => {
@@ -76,5 +77,89 @@ describe('DestinationDetailView', () => {
   it('shows a not-found message for an unknown slug', async () => {
     const wrapper = await mountView('atlantis')
     expect(wrapper.text()).toContain('Destination not found')
+  })
+
+  it('renders the full guide: overview, areas, itinerary, food and day trips', async () => {
+    const wrapper = await mountView('lisbon')
+    const lisbon = findDestination('lisbon')!
+
+    lisbon.overview.forEach((para) => expect(wrapper.text()).toContain(para))
+
+    const areas = wrapper.findAll('.area')
+    expect(areas).toHaveLength(lisbon.neighbourhoods.length)
+    expect(areas[0].text()).toContain(lisbon.neighbourhoods[0].name)
+    expect(areas[0].text()).toContain(lisbon.neighbourhoods[0].bestFor)
+
+    const plans = wrapper.findAll('.plan')
+    expect(plans).toHaveLength(3)
+    expect(plans[0].text()).toContain(lisbon.sampleItinerary[0].title)
+    expect(plans[0].text()).toContain(lisbon.sampleItinerary[0].morning)
+
+    lisbon.foodPicks.forEach((item) => expect(wrapper.text()).toContain(item))
+    lisbon.dayTrips.forEach((item) => expect(wrapper.text()).toContain(item))
+  })
+
+  it('renders the seasons and practical information', async () => {
+    const wrapper = await mountView('hanoi')
+    const hanoi = findDestination('hanoi')!
+
+    expect(wrapper.findAll('.season')).toHaveLength(hanoi.seasons.length)
+    expect(wrapper.text()).toContain(hanoi.seasons[0].note)
+
+    const practical = wrapper.find('.practical').text()
+    expect(practical).toContain(hanoi.practical.currency)
+    expect(practical).toContain(hanoi.practical.plug)
+    expect(practical).toContain(hanoi.practical.safety)
+  })
+
+  it('breaks the daily budget into four costed segments', async () => {
+    const wrapper = await mountView('kyoto')
+    const kyoto = findDestination('kyoto')!
+
+    expect(wrapper.findAll('.bar .seg')).toHaveLength(4)
+
+    const legend = wrapper.find('.legend').text()
+    expect(legend).toContain(`$${kyoto.budgetBreakdown.stay}`)
+    expect(legend).toContain(`$${kyoto.budgetBreakdown.food}`)
+    expect(legend).toContain('Stay')
+    expect(legend).toContain('Transport')
+  })
+
+  it('converts every price into the selected currency', async () => {
+    const wrapper = await mountView('kyoto')
+    const settings = useSettingsStore()
+
+    settings.setCurrency('EUR')
+    await wrapper.vm.$nextTick()
+
+    // 145 USD daily at the fixed 0.92 rate
+    expect(wrapper.find('.figures').text()).toContain('133')
+    expect(wrapper.find('.figures').text()).toContain('€')
+  })
+
+  it('translates the section headings', async () => {
+    const wrapper = await mountView('kyoto')
+    const settings = useSettingsStore()
+
+    expect(wrapper.text()).toContain('Where to base yourself')
+
+    settings.setLocale('es')
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.text()).toContain('Dónde alojarse')
+    expect(wrapper.text()).toContain('Tres días perfectos')
+  })
+
+  it('flags the destination when it is in season', async () => {
+    const wrapper = await mountView('kyoto')
+    const store = useDestinationsStore()
+
+    store.today = new Date('2026-11-15T12:00:00')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.season-flag').exists()).toBe(true)
+
+    store.today = new Date('2026-07-15T12:00:00')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.season-flag').exists()).toBe(false)
   })
 })

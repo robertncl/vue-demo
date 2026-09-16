@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { useDestinationsStore } from '@/stores/destinations'
+import { useI18n } from '@/i18n'
 import DestinationCard from '@/components/destinations/DestinationCard.vue'
 
 const store = useDestinationsStore()
+const { t } = useI18n()
 </script>
 
 <template>
   <main class="page">
     <div class="container">
       <header class="page-head">
-        <p class="eyebrow">Saved</p>
-        <h1>Your wishlist</h1>
-        <p>
-          The places you've starred, kept in this browser. Turn one into a dated trip whenever
-          you're ready.
-        </p>
+        <p class="eyebrow">{{ t('wishlist.eyebrow') }}</p>
+        <h1>{{ t('wishlist.title') }}</h1>
+        <p>{{ t('wishlist.subtitle') }}</p>
       </header>
 
       <div v-if="store.wishlistDestinations.length" class="grid">
@@ -24,15 +23,16 @@ const store = useDestinationsStore()
           :key="destination.slug"
           :destination="destination"
           wishlisted
+          :in-season="store.inSeason(destination)"
           @toggle-wishlist="store.toggleWishlist"
         />
       </div>
 
       <div v-else class="empty card">
         <span class="mark" aria-hidden="true">☆</span>
-        <h2>No saved destinations yet</h2>
-        <p class="muted">Star a destination and it will show up here.</p>
-        <RouterLink class="btn" to="/destinations">Browse destinations</RouterLink>
+        <h2>{{ t('wishlist.emptyTitle') }}</h2>
+        <p class="muted">{{ t('wishlist.emptyBody') }}</p>
+        <RouterLink class="btn" to="/destinations">{{ t('wishlist.cta') }}</RouterLink>
       </div>
     </div>
   </main>

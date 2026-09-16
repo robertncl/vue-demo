@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
+import { useSettingsStore } from '@/stores/settings'
+import { useI18n } from '@/i18n'
 import type { TripDraft } from '@/types/travel'
 
 const props = defineProps<{
-  /** Pre-fills the form, e.g. when arriving from a destination page. */
+  /** Pre-fills the form, e.g. when arriving from a destination page. Money is in USD. */
   prefill?: Partial<TripDraft> | null
 }>()
 
@@ -11,12 +13,33 @@ const emit = defineEmits<{
   create: [payload: TripDraft]
 }>()
 
-const form = reactive<TripDraft>({
+const settings = useSettingsStore()
+const { t } = useI18n()
+
+const DEFAULT_BUDGET_USD = 500
+
+const form = reactive({
   destination: '',
   startDate: '',
   endDate: '',
-  budget: 500,
 })
+
+/** Held in the display currency; converted to USD on submit. */
+const budget = ref(Math.round(settings.fromBase(DEFAULT_BUDGET_USD)))
+/** The USD value the budget field currently represents, so it can be re-converted. */
+const budgetBase = ref(DEFAULT_BUDGET_USD)
+
+watch(budget, (value) => {
+  budgetBase.value = settings.toBase(value)
+})
+
+// Switching currency re-denominates the amount rather than changing its real value.
+watch(
+  () => settings.currency,
+  () => {
+    budget.value = Math.round(settings.fromBase(budgetBase.value))
+  },
+)
 
 watch(
   () => props.prefill,
@@ -25,53 +48,62 @@ watch(
     if (prefill.destination) form.destination = prefill.destination
     if (prefill.startDate) form.startDate = prefill.startDate
     if (prefill.endDate) form.endDate = prefill.endDate
-    if (prefill.budget) form.budget = prefill.budget
+    if (prefill.budget) {
+      budgetBase.value = prefill.budget
+      budget.value = Math.round(settings.fromBase(prefill.budget))
+    }
   },
   { immediate: true },
 )
 
 function submit() {
   if (!form.destination || !form.startDate || !form.endDate) return
-  emit('create', { ...form })
+  emit('create', {
+    destination: form.destination,
+    startDate: form.startDate,
+    endDate: form.endDate,
+    budget: settings.toBase(budget.value),
+  })
   form.destination = ''
   form.startDate = ''
   form.endDate = ''
-  form.budget = 500
+  budgetBase.value = DEFAULT_BUDGET_USD
+  budget.value = Math.round(settings.fromBase(DEFAULT_BUDGET_USD))
 }
 </script>
 
 <template>
   <form class="trip-form card" @submit.prevent="submit">
-    <h2>Plan a new trip</h2>
+    <h2>{{ t('trips.formTitle') }}</h2>
 
     <div class="field">
-      <label for="destination">Destination</label>
+      <label for="destination">{{ t('trips.destination') }}</label>
       <input
         id="destination"
         v-model="form.destination"
         type="text"
-        placeholder="Kyoto, Japan"
+        :placeholder="t('trips.destinationPlaceholder')"
         required
       />
     </div>
 
     <div class="field-row">
       <div class="field">
-        <label for="startDate">Start date</label>
+        <label for="startDate">{{ t('trips.startDate') }}</label>
         <input id="startDate" v-model="form.startDate" type="date" required />
       </div>
       <div class="field">
-        <label for="endDate">End date</label>
+        <label for="endDate">{{ t('trips.endDate') }}</label>
         <input id="endDate" v-model="form.endDate" type="date" required />
       </div>
     </div>
 
     <div class="field">
-      <label for="budget">Budget (USD)</label>
-      <input id="budget" v-model.number="form.budget" type="number" min="0" step="50" />
+      <label for="budget">{{ t('trips.budget', { currency: settings.currency }) }}</label>
+      <input id="budget" v-model.number="budget" type="number" min="0" step="50" />
     </div>
 
-    <button class="btn" type="submit">Add trip</button>
+    <button class="btn" type="submit">{{ t('trips.addTrip') }}</button>
   </form>
 </template>
 
