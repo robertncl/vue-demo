@@ -8,24 +8,39 @@
 }
 
 :root {
-  --sand-50: #fbf8f4;
-  --sand-100: #f4eee6;
-  --sand-200: #e7ded2;
-  --ink-900: #1b1d21;
-  --ink-700: #33373f;
+  --sand-50: #fdfbf7;
+  --sand-100: #f5f0e8;
+  --sand-200: #e8e0d4;
+  --ink-900: #111827;
+  --ink-700: #2a2f3a;
 
   --c-background: var(--sand-50);
   --c-surface: #ffffff;
   --c-surface-soft: var(--sand-100);
   --c-border: var(--sand-200);
-  --c-text: #2c3038;
-  --c-heading: #14161a;
-  --c-muted: #6b7280;
-  --c-brand: #0f766e;
-  --c-brand-strong: #0b5b55;
-  --c-brand-soft: rgba(15, 118, 110, 0.12);
-  --c-accent: #ea580c;
+  --c-text: var(--ink-700);
+  --c-heading: var(--ink-900);
+  --c-muted: #6b6f7b;
+  --c-brand: #3730a3;
+  --c-brand-strong: #2b2585;
+  --c-brand-soft: rgba(55, 48, 163, 0.1);
+  --c-accent: #b45309;
   --c-danger: #dc2626;
+  /* Text that sits on a brand-filled surface (buttons, badges). */
+  --c-on-brand: #ffffff;
+
+  /* Destination gradients are light in both themes, so these stay fixed. */
+  --c-on-gradient: #12141a;
+  --c-on-gradient-chip: rgba(255, 255, 255, 0.85);
+  --c-season-bg: #14532d;
+  --c-season-text: #ecfdf5;
+
+  /* Categorical series for the budget breakdown, in fixed order.
+     Validated for CVD separation and contrast against --c-surface. */
+  --c-series-stay: #2563eb;
+  --c-series-food: #c2410c;
+  --c-series-transport: #047857;
+  --c-series-activities: #a21caf;
 
   --radius-sm: 8px;
   --radius: 14px;
@@ -41,18 +56,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --c-background: #101215;
-    --c-surface: #181b20;
-    --c-surface-soft: #1f2329;
-    --c-border: #2c3138;
-    --c-text: #d4d8de;
-    --c-heading: #f5f7fa;
-    --c-muted: #9aa3af;
-    --c-brand: #2dd4bf;
-    --c-brand-strong: #5eead4;
-    --c-brand-soft: rgba(45, 212, 191, 0.14);
-    --c-accent: #fb923c;
+    --c-background: #0f1218;
+    --c-surface: #161a24;
+    --c-surface-soft: #1e2330;
+    --c-border: #2b3240;
+    --c-text: #d6dae2;
+    --c-heading: #f6f8fb;
+    --c-muted: #98a1b0;
+    --c-brand: #a5b4fc;
+    --c-brand-strong: #c7d2fe;
+    --c-brand-soft: rgba(165, 180, 252, 0.14);
+    --c-accent: #e5a54b;
     --c-danger: #f87171;
+    /* The dark brand is light, so text on it has to be dark ink. */
+    --c-on-brand: #0b1020;
+
+    /* Dark steps are selected against the dark surface, not flipped. */
+    --c-series-stay: #3b82f6;
+    --c-series-food: #d97706;
+    --c-series-transport: #0d9668;
+    --c-series-activities: #a855f7;
   }
 }
 

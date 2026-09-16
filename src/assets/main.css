@@ -60,28 +60,16 @@
   font-weight: 600;
   cursor: pointer;
   background: var(--c-brand);
-  color: #fff;
+  color: var(--c-on-brand);
   transition:
     transform 0.15s ease,
     background-color 0.2s ease,
     border-color 0.2s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  .btn {
-    color: #05221f;
-  }
-}
-
 .btn:hover {
   background: var(--c-brand-strong);
-  color: #fff;
-}
-
-@media (prefers-color-scheme: dark) {
-  .btn:hover {
-    color: #05221f;
-  }
+  color: var(--c-on-brand);
 }
 
 .btn:active {

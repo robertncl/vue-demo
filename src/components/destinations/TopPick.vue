@@ -128,8 +128,8 @@ const weekBudget = computed(() => (pick.value ? pick.value.dailyBudget * 7 : 0))
   left: 0.75rem;
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
-  background: #14532d;
-  color: #ecfdf5;
+  background: var(--c-season-bg);
+  color: var(--c-season-text);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;

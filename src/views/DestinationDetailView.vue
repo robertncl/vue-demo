@@ -308,7 +308,7 @@ function planTrip() {
   gap: 1.5rem;
   padding: 2.25rem 1.75rem;
   border: none;
-  color: #12141a;
+  color: var(--c-on-gradient);
 }
 
 .emoji {
@@ -317,7 +317,7 @@ function planTrip() {
 }
 
 .hero h1 {
-  color: #12141a;
+  color: var(--c-on-gradient);
 }
 
 .region {
@@ -339,8 +339,8 @@ function planTrip() {
   right: 1rem;
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
-  background: #14532d;
-  color: #ecfdf5;
+  background: var(--c-season-bg);
+  color: var(--c-season-text);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -575,17 +575,28 @@ function planTrip() {
   background: var(--c-surface-soft);
 }
 
+/* A 2px surface gap keeps adjacent segments legible without a border colour.
+   Taken from the inside so the percentage widths stay accurate. */
+.bar .seg {
+  box-sizing: border-box;
+  border-right: 2px solid var(--c-surface);
+}
+
+.bar .seg:last-child {
+  border-right: none;
+}
+
 .seg-stay {
-  background: #0f766e;
+  background: var(--c-series-stay);
 }
 .seg-food {
-  background: #ea580c;
+  background: var(--c-series-food);
 }
 .seg-transport {
-  background: #7c3aed;
+  background: var(--c-series-transport);
 }
 .seg-activitiesCost {
-  background: #0284c7;
+  background: var(--c-series-activities);
 }
 
 .legend {
@@ -611,16 +622,16 @@ function planTrip() {
 }
 
 .dot-stay {
-  background: #0f766e;
+  background: var(--c-series-stay);
 }
 .dot-food {
-  background: #ea580c;
+  background: var(--c-series-food);
 }
 .dot-transport {
-  background: #7c3aed;
+  background: var(--c-series-transport);
 }
 .dot-activitiesCost {
-  background: #0284c7;
+  background: var(--c-series-activities);
 }
 
 .legend-label {

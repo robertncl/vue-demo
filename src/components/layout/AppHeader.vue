@@ -160,7 +160,7 @@ watch(
   padding: 0 0.3rem;
   border-radius: 999px;
   background: var(--c-brand);
-  color: #fff;
+  color: var(--c-on-brand);
   font-size: 0.7rem;
   font-weight: 700;
 }

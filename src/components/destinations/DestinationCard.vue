@@ -119,14 +119,14 @@ const bestMonths = computed(() =>
 
 .region {
   left: 0.7rem;
-  background: rgba(255, 255, 255, 0.85);
-  color: #1b1d21;
+  background: var(--c-on-gradient-chip);
+  color: var(--c-on-gradient);
 }
 
 .season {
   right: 0.7rem;
-  background: #14532d;
-  color: #ecfdf5;
+  background: var(--c-season-bg);
+  color: var(--c-season-text);
 }
 
 .body {
