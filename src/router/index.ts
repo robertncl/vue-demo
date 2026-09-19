@@ -3,6 +3,9 @@ import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior() {
+    return { top: 0 }
+  },
   routes: [
     {
       path: '/',
@@ -10,12 +13,35 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/destinations',
+      name: 'catalog',
+      component: () => import('../views/CatalogView.vue'),
+    },
+    {
+      path: '/destinations/:slug',
+      name: 'destination',
+      component: () => import('../views/DestinationView.vue'),
+      props: true,
+    },
+    {
+      path: '/shortlist',
+      name: 'shortlist',
+      component: () => import('../views/ShortlistView.vue'),
+    },
+    {
+      path: '/trips',
+      name: 'trips',
+      component: () => import('../views/TripsView.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue'),
     },
   ],
 })

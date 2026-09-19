@@ -7,12 +7,27 @@ describe('router', () => {
     expect(home?.path).toBe('/')
   })
 
-  it('registers the about route as a lazy-loaded chunk', async () => {
-    const about = router.getRoutes().find((r) => r.name === 'about')
-    expect(about).toBeDefined()
-    expect(about!.path).toBe('/about')
+  it('registers the catalog, destination, shortlist, trips and about routes', () => {
+    const names = router.getRoutes().map((r) => r.name)
+    expect(names).toEqual(
+      expect.arrayContaining([
+        'home',
+        'catalog',
+        'destination',
+        'shortlist',
+        'trips',
+        'about',
+        'not-found',
+      ]),
+    )
+  })
 
-    const loadComponent = about!.components!.default as () => Promise<{ default: unknown }>
+  it('registers the destination route with a lazy-loaded chunk', async () => {
+    const destination = router.getRoutes().find((r) => r.name === 'destination')
+    expect(destination).toBeDefined()
+    expect(destination!.path).toBe('/destinations/:slug')
+
+    const loadComponent = destination!.components!.default as () => Promise<{ default: unknown }>
     const loaded = await loadComponent()
     expect(loaded.default).toBeTruthy()
   })
@@ -20,5 +35,10 @@ describe('router', () => {
   it('navigates to the about route', async () => {
     await router.push('/about')
     expect(router.currentRoute.value.name).toBe('about')
+  })
+
+  it('falls back to not-found for an unknown path', async () => {
+    await router.push('/nope')
+    expect(router.currentRoute.value.name).toBe('not-found')
   })
 })

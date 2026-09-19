@@ -1,0 +1,402 @@
+/* ==========================================================================
+   Wanderlog component classes, adapted from the ACME Corp design system's
+   acme.css. Trimmed to the pieces this app actually uses (buttons, forms,
+   card, badge, alert, table, tabs, topbar, breadcrumbs).
+   ========================================================================== */
+@import './design-tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--acme-font-sans);
+  font-size: var(--acme-text-md);
+  line-height: var(--acme-leading-normal);
+  color: var(--acme-color-text);
+  background: var(--acme-color-canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--acme-font-display);
+  line-height: var(--acme-leading-tight);
+  margin: 0 0 var(--acme-space-3);
+  font-weight: 700;
+}
+h1 {
+  font-size: var(--acme-text-4xl);
+  letter-spacing: -0.015em;
+}
+h2 {
+  font-size: var(--acme-text-3xl);
+  letter-spacing: -0.01em;
+}
+h3 {
+  font-size: var(--acme-text-xl);
+}
+h4 {
+  font-size: var(--acme-text-lg);
+}
+
+p {
+  margin: 0 0 var(--acme-space-4);
+}
+
+a {
+  color: var(--acme-color-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color var(--acme-duration-fast) var(--acme-ease-out);
+}
+a:hover {
+  color: var(--acme-color-link-hover);
+}
+
+:is(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--acme-color-focus);
+  outline-offset: 2px;
+  border-radius: var(--acme-radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Wordmark ---------------------------------------------------------------- */
+.acme-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-family: var(--acme-font-sans);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--acme-color-text);
+  text-decoration: none;
+}
+.acme-wordmark__mark {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 1.6em;
+  block-size: 1.6em;
+  border-radius: var(--acme-radius-sm);
+  background: var(--acme-color-primary);
+  color: var(--acme-color-on-primary);
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+/* Buttons ------------------------------------------------------------------ */
+.acme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--acme-space-2);
+  min-height: 2.5rem;
+  padding: 0 var(--acme-space-4);
+  border: 1px solid transparent;
+  border-radius: var(--acme-radius-md);
+  font: 600 var(--acme-text-sm) / 1 var(--acme-font-sans);
+  color: var(--acme-color-text);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--acme-duration-base) var(--acme-ease-out),
+    border-color var(--acme-duration-base) var(--acme-ease-out),
+    color var(--acme-duration-base) var(--acme-ease-out),
+    box-shadow var(--acme-duration-base) var(--acme-ease-out);
+}
+.acme-btn--primary {
+  background: var(--acme-color-primary);
+  color: var(--acme-color-on-primary);
+}
+.acme-btn--primary:hover {
+  background: var(--acme-color-primary-hover);
+}
+.acme-btn--primary:active {
+  background: var(--acme-color-primary-active);
+}
+.acme-btn--secondary {
+  background: var(--acme-color-surface-raised);
+  border-color: var(--acme-color-border-strong);
+  box-shadow: var(--acme-shadow-sm);
+}
+.acme-btn--secondary:hover {
+  background: var(--acme-color-surface);
+}
+.acme-btn--ghost {
+  color: var(--acme-color-text-muted);
+}
+.acme-btn--ghost:hover {
+  background: var(--acme-color-surface);
+  color: var(--acme-color-text);
+}
+.acme-btn--sm {
+  min-height: 2rem;
+  padding: 0 var(--acme-space-3);
+  font-size: var(--acme-text-xs);
+}
+.acme-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Forms ---------------------------------------------------------------- */
+.acme-field {
+  display: grid;
+  gap: var(--acme-space-1);
+}
+.acme-label {
+  font-size: var(--acme-text-sm);
+  font-weight: 600;
+}
+.acme-input {
+  min-height: 2.5rem;
+  padding: 0 var(--acme-space-3);
+  border: 1px solid var(--acme-color-border-strong);
+  border-radius: var(--acme-radius-md);
+  font: 400 var(--acme-text-sm) / var(--acme-leading-normal) var(--acme-font-sans);
+  color: var(--acme-color-text);
+  background: var(--acme-color-surface-raised);
+  transition: border-color var(--acme-duration-base) var(--acme-ease-out);
+}
+.acme-input:hover {
+  border-color: var(--acme-color-text-subtle);
+}
+.acme-help {
+  font-size: var(--acme-text-xs);
+  color: var(--acme-color-text-muted);
+  margin: 0;
+}
+
+.acme-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--acme-space-2);
+  font-size: var(--acme-text-sm);
+}
+.acme-switch input {
+  appearance: none;
+  position: relative;
+  inline-size: 2.5rem;
+  block-size: 1.5rem;
+  flex: none;
+  margin: 0;
+  border: none;
+  border-radius: var(--acme-radius-full);
+  background: var(--acme-color-border-strong);
+  cursor: pointer;
+  transition: background-color var(--acme-duration-base) var(--acme-ease-out);
+}
+.acme-switch input::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 2px;
+  inset-inline-start: 2px;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  border-radius: var(--acme-radius-full);
+  background: var(--acme-gray-0);
+  box-shadow: var(--acme-shadow-sm);
+  transition: translate var(--acme-duration-base) var(--acme-ease-out);
+}
+.acme-switch input:checked {
+  background: var(--acme-color-selected);
+}
+.acme-switch input:checked::before {
+  translate: 1rem 0;
+}
+
+/* Card ------------------------------------------------------------------ */
+.acme-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--acme-color-border);
+  border-radius: var(--acme-radius-lg);
+  background: var(--acme-color-surface-raised);
+  box-shadow: var(--acme-shadow-sm);
+  overflow: hidden;
+}
+.acme-card--interactive {
+  transition:
+    border-color var(--acme-duration-base) var(--acme-ease-out),
+    box-shadow var(--acme-duration-base) var(--acme-ease-out);
+}
+.acme-card--interactive:hover {
+  border-color: var(--acme-color-border-strong);
+  box-shadow: var(--acme-shadow-md);
+}
+.acme-card__media {
+  aspect-ratio: 16 / 9;
+  background: var(--acme-color-surface);
+  display: grid;
+  place-items: center;
+  color: var(--acme-color-text-subtle);
+}
+.acme-card__body {
+  padding: var(--acme-space-5);
+  flex: 1;
+}
+.acme-card__title {
+  font-size: var(--acme-text-lg);
+  margin-block-end: var(--acme-space-1);
+}
+.acme-card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--acme-space-2);
+  padding: var(--acme-space-4) var(--acme-space-5);
+  border-block-start: 1px solid var(--acme-color-border);
+}
+
+/* Badge ------------------------------------------------------------------ */
+.acme-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--acme-space-1);
+  padding: 0.125rem var(--acme-space-2);
+  border-radius: var(--acme-radius-full);
+  font: 600 var(--acme-text-xs) / var(--acme-leading-normal) var(--acme-font-sans);
+  background: var(--acme-color-surface);
+  color: var(--acme-color-text-muted);
+}
+
+/* Alert ------------------------------------------------------------------ */
+.acme-alert {
+  display: flex;
+  gap: var(--acme-space-3);
+  padding: var(--acme-space-4);
+  border: 1px solid var(--acme-color-border);
+  border-inline-start: 3px solid var(--acme-color-info);
+  border-radius: var(--acme-radius-md);
+  background: var(--acme-color-info-soft);
+  font-size: var(--acme-text-sm);
+}
+.acme-alert__title {
+  font-weight: 700;
+  margin-block-end: var(--acme-space-1);
+}
+.acme-alert p:last-child {
+  margin: 0;
+}
+.acme-alert--danger {
+  border-inline-start-color: var(--acme-color-danger);
+  background: var(--acme-color-danger-soft);
+}
+
+/* Table -------------------------------------------------------------------- */
+.acme-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--acme-text-sm);
+}
+.acme-table th {
+  text-align: start;
+  font-size: var(--acme-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--acme-color-text-muted);
+  padding: var(--acme-space-2) var(--acme-space-3);
+  border-block-end: 1px solid var(--acme-color-border-strong);
+}
+.acme-table td {
+  padding: var(--acme-space-3);
+  border-block-end: 1px solid var(--acme-color-border);
+}
+.acme-table tbody tr:hover {
+  background: var(--acme-color-surface);
+}
+.acme-table .acme-table__num {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tabs --------------------------------------------------------------------- */
+.acme-tabs {
+  display: flex;
+  gap: var(--acme-space-2);
+  border-block-end: 1px solid var(--acme-color-border);
+}
+.acme-tab {
+  padding: var(--acme-space-2) var(--acme-space-3);
+  border: none;
+  border-block-end: 2px solid transparent;
+  margin-block-end: -1px;
+  background: none;
+  font: 500 var(--acme-text-sm) / var(--acme-leading-normal) var(--acme-font-sans);
+  color: var(--acme-color-text-muted);
+  cursor: pointer;
+  transition:
+    border-color var(--acme-duration-base) var(--acme-ease-out),
+    color var(--acme-duration-base) var(--acme-ease-out);
+}
+.acme-tab:hover {
+  color: var(--acme-color-text);
+}
+.acme-tab[aria-selected='true'] {
+  border-block-end-color: var(--acme-color-selected);
+  color: var(--acme-color-selected);
+  font-weight: 600;
+}
+
+/* Top bar & breadcrumbs ------------------------------------------------------ */
+.acme-topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--acme-space-6);
+  padding: var(--acme-space-3) var(--acme-space-5);
+  background: var(--acme-color-canvas);
+  border-block-end: 1px solid var(--acme-color-border);
+  color: var(--acme-color-text);
+}
+.acme-topbar__link {
+  padding: var(--acme-space-1) var(--acme-space-3);
+  border-radius: var(--acme-radius-sm);
+  color: var(--acme-color-text-muted);
+  font-size: var(--acme-text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--acme-space-2);
+  transition:
+    background-color var(--acme-duration-base) var(--acme-ease-out),
+    color var(--acme-duration-base) var(--acme-ease-out);
+}
+.acme-topbar__link:hover {
+  color: var(--acme-color-text);
+  background: var(--acme-color-surface);
+}
+.acme-topbar__link.router-link-active {
+  background: var(--acme-color-selected-soft);
+  color: var(--acme-color-selected);
+  font-weight: 600;
+}
+
+.acme-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--acme-space-2);
+  font-size: var(--acme-text-sm);
+  color: var(--acme-color-text-subtle);
+}
+.acme-breadcrumbs a {
+  color: var(--acme-color-text-muted);
+  text-decoration: none;
+}
+.acme-breadcrumbs a:hover {
+  text-decoration: underline;
+}

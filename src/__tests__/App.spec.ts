@@ -1,36 +1,38 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
 import router from '../router'
 import App from '../App.vue'
 
 describe('App', () => {
   beforeEach(async () => {
+    setActivePinia(createPinia())
     await router.push('/')
     await router.isReady()
   })
 
-  it('renders the welcome message and navigation links', async () => {
+  it('renders the Wanderlog wordmark and primary navigation', async () => {
     const wrapper = mount(App, {
       global: {
-        plugins: [router],
+        plugins: [router, createPinia()],
       },
     })
 
-    expect(wrapper.text()).toContain('You did it!')
-    const links = wrapper.findAll('nav a').map((a) => a.text())
-    expect(links).toEqual(['Home', 'About'])
+    expect(wrapper.text()).toContain('Wanderlog')
+    const links = wrapper.findAll('nav a').map((a) => a.text().replace(/\s+/g, ' ').trim())
+    expect(links).toEqual(['Explore', 'Destinations', 'Shortlist', 'Trips', 'About'])
   })
 
   it('renders the about page after navigating to /about', async () => {
     const wrapper = mount(App, {
       global: {
-        plugins: [router],
+        plugins: [router, createPinia()],
       },
     })
 
     await router.push('/about')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).toContain('This is an about page')
+    expect(wrapper.text()).toContain('About Wanderlog')
   })
 })

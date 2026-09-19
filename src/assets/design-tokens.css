@@ -1,0 +1,216 @@
+/* ==========================================================================
+   Wanderlog design tokens, adapted from the ACME Corp design system.
+   Webfont imports were dropped (this app's CSP is script-src/style-src/
+   font-src 'self' only) — the sans/display stacks already fall back to
+   system fonts identically to the source tokens.
+   ========================================================================== */
+:root {
+  color-scheme: light dark;
+
+  --acme-clay-50: #faf0eb;
+  --acme-clay-100: #f3ddd0;
+  --acme-clay-200: #e9c3af;
+  --acme-clay-300: #dda588;
+  --acme-clay-400: #d18b6a;
+  --acme-clay-500: #cc785c;
+  --acme-clay-600: #94513b;
+  --acme-clay-700: #80432f;
+  --acme-clay-800: #6b3624;
+  --acme-clay-900: #552818;
+
+  --acme-gray-0: #fcfbf7;
+  --acme-gray-50: #f3f0e7;
+  --acme-gray-100: #e9e4d5;
+  --acme-gray-200: #c4bda4;
+  --acme-gray-300: #a29b89;
+  --acme-gray-400: #7e7764;
+  --acme-gray-500: #5c5747;
+  --acme-gray-600: #554f41;
+  --acme-gray-700: #433f32;
+  --acme-gray-800: #2f2b21;
+  --acme-gray-900: #1e1b13;
+  --acme-gray-950: #100e08;
+
+  --acme-red-50: #fbeeec;
+  --acme-red-300: #f3a395;
+  --acme-red-400: #ef7361;
+  --acme-red-500: #ac4334;
+  --acme-red-600: #a82e1e;
+  --acme-red-700: #97291b;
+  --acme-red-800: #7a2116;
+
+  --acme-sky-50: #edf1f4;
+  --acme-sky-300: #8db0c9;
+  --acme-sky-500: #5c87a6;
+  --acme-sky-600: #3e6b8c;
+  --acme-sky-700: #305875;
+  --acme-sky-800: #274860;
+
+  --acme-font-sans: 'Inter', 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
+  --acme-font-display: Georgia, 'Times New Roman', ui-serif, serif;
+  --acme-font-mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --acme-text-xs: 0.75rem;
+  --acme-text-sm: 0.875rem;
+  --acme-text-md: 1rem;
+  --acme-text-lg: 1.125rem;
+  --acme-text-xl: 1.25rem;
+  --acme-text-2xl: 1.5rem;
+  --acme-text-3xl: 1.875rem;
+  --acme-text-4xl: 2.25rem;
+  --acme-text-5xl: 3rem;
+  --acme-leading-tight: 1.2;
+  --acme-leading-snug: 1.35;
+  --acme-leading-normal: 1.5;
+  --acme-leading-relaxed: 1.65;
+
+  --acme-space-1: 0.25rem;
+  --acme-space-2: 0.5rem;
+  --acme-space-3: 0.75rem;
+  --acme-space-4: 1rem;
+  --acme-space-5: 1.25rem;
+  --acme-space-6: 1.5rem;
+  --acme-space-8: 2rem;
+  --acme-space-10: 2.5rem;
+  --acme-space-12: 3rem;
+  --acme-space-16: 4rem;
+  --acme-space-20: 5rem;
+  --acme-space-24: 6rem;
+
+  --acme-radius-sm: 4px;
+  --acme-radius-md: 8px;
+  --acme-radius-lg: 12px;
+  --acme-radius-xl: 16px;
+  --acme-radius-full: 999px;
+
+  --acme-shadow-sm: 0 1px 2px rgb(28 25 17 / 0.06);
+  --acme-shadow-md: 0 2px 8px -2px rgb(28 25 17 / 0.09);
+  --acme-shadow-lg: 0 8px 24px -6px rgb(28 25 17 / 0.13);
+
+  --acme-duration-fast: 100ms;
+  --acme-duration-base: 150ms;
+  --acme-ease-out: cubic-bezier(0.2, 0.8, 0.4, 1);
+
+  --acme-color-canvas: var(--acme-gray-50);
+  --acme-color-surface: var(--acme-gray-100);
+  --acme-color-surface-raised: var(--acme-gray-0);
+  --acme-color-border: var(--acme-gray-200);
+  --acme-color-border-strong: var(--acme-gray-400);
+  --acme-color-text: var(--acme-gray-900);
+  --acme-color-text-muted: var(--acme-gray-600);
+  --acme-color-text-subtle: var(--acme-gray-500);
+  --acme-color-primary: var(--acme-clay-600);
+  --acme-color-primary-hover: var(--acme-clay-700);
+  --acme-color-primary-active: var(--acme-clay-800);
+  --acme-color-on-primary: var(--acme-gray-0);
+  --acme-color-accent: var(--acme-clay-700);
+  --acme-color-accent-soft: var(--acme-clay-50);
+  --acme-color-selected: var(--acme-clay-700);
+  --acme-color-selected-soft: var(--acme-clay-50);
+  --acme-color-link: var(--acme-clay-700);
+  --acme-color-link-hover: var(--acme-clay-800);
+  --acme-color-focus: var(--acme-clay-600);
+  --acme-color-success: var(--acme-gray-600);
+  --acme-color-success-soft: var(--acme-gray-100);
+  --acme-color-success-soft-text: var(--acme-gray-800);
+  --acme-color-warning: var(--acme-gray-600);
+  --acme-color-warning-soft: var(--acme-gray-100);
+  --acme-color-warning-soft-text: var(--acme-gray-800);
+  --acme-color-danger: var(--acme-red-700);
+  --acme-color-danger-emphasis: var(--acme-red-700);
+  --acme-color-danger-soft: var(--acme-red-50);
+  --acme-color-danger-soft-text: var(--acme-red-700);
+  --acme-color-info: var(--acme-sky-700);
+  --acme-color-info-soft: var(--acme-sky-50);
+  --acme-color-info-soft-text: var(--acme-sky-800);
+  --acme-color-data: var(--acme-gray-400);
+  --acme-color-data-highlight: var(--acme-clay-600);
+
+  accent-color: var(--acme-color-selected);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --acme-color-canvas: var(--acme-gray-950);
+    --acme-color-surface: var(--acme-gray-900);
+    --acme-color-surface-raised: var(--acme-gray-800);
+    --acme-color-border: var(--acme-gray-700);
+    --acme-color-border-strong: var(--acme-gray-400);
+    --acme-color-text: var(--acme-gray-100);
+    --acme-color-text-muted: var(--acme-gray-300);
+    --acme-color-text-subtle: var(--acme-gray-300);
+    --acme-color-primary: var(--acme-clay-600);
+    --acme-color-primary-hover: var(--acme-clay-700);
+    --acme-color-primary-active: var(--acme-clay-800);
+    --acme-color-on-primary: var(--acme-gray-0);
+    --acme-color-accent: var(--acme-clay-300);
+    --acme-color-accent-soft: color-mix(in oklab, var(--acme-clay-500) 20%, var(--acme-gray-900));
+    --acme-color-selected: var(--acme-clay-300);
+    --acme-color-selected-soft: color-mix(in oklab, var(--acme-clay-500) 18%, var(--acme-gray-900));
+    --acme-color-link: var(--acme-clay-300);
+    --acme-color-link-hover: var(--acme-clay-200);
+    --acme-color-focus: var(--acme-clay-400);
+    --acme-color-success: var(--acme-gray-300);
+    --acme-color-success-soft: var(--acme-gray-800);
+    --acme-color-success-soft-text: var(--acme-gray-200);
+    --acme-color-warning: var(--acme-gray-300);
+    --acme-color-warning-soft: var(--acme-gray-800);
+    --acme-color-warning-soft-text: var(--acme-gray-200);
+    --acme-color-danger: var(--acme-red-400);
+    --acme-color-danger-emphasis: var(--acme-red-500);
+    --acme-color-danger-soft: color-mix(in oklab, var(--acme-red-500) 20%, var(--acme-gray-900));
+    --acme-color-danger-soft-text: var(--acme-red-300);
+    --acme-color-info: var(--acme-sky-300);
+    --acme-color-info-soft: color-mix(in oklab, var(--acme-sky-500) 20%, var(--acme-gray-900));
+    --acme-color-info-soft-text: var(--acme-sky-300);
+    --acme-color-data: var(--acme-gray-400);
+    --acme-color-data-highlight: var(--acme-clay-300);
+    --acme-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+    --acme-shadow-md: 0 2px 8px -2px rgb(0 0 0 / 0.45);
+    --acme-shadow-lg: 0 8px 24px -6px rgb(0 0 0 / 0.55);
+  }
+}
+
+:root[data-theme='dark'] {
+  --acme-color-canvas: var(--acme-gray-950);
+  --acme-color-surface: var(--acme-gray-900);
+  --acme-color-surface-raised: var(--acme-gray-800);
+  --acme-color-border: var(--acme-gray-700);
+  --acme-color-border-strong: var(--acme-gray-400);
+  --acme-color-text: var(--acme-gray-100);
+  --acme-color-text-muted: var(--acme-gray-300);
+  --acme-color-text-subtle: var(--acme-gray-300);
+  --acme-color-primary: var(--acme-clay-600);
+  --acme-color-primary-hover: var(--acme-clay-700);
+  --acme-color-primary-active: var(--acme-clay-800);
+  --acme-color-on-primary: var(--acme-gray-0);
+  --acme-color-accent: var(--acme-clay-300);
+  --acme-color-accent-soft: color-mix(in oklab, var(--acme-clay-500) 20%, var(--acme-gray-900));
+  --acme-color-selected: var(--acme-clay-300);
+  --acme-color-selected-soft: color-mix(in oklab, var(--acme-clay-500) 18%, var(--acme-gray-900));
+  --acme-color-link: var(--acme-clay-300);
+  --acme-color-link-hover: var(--acme-clay-200);
+  --acme-color-focus: var(--acme-clay-400);
+  --acme-color-success: var(--acme-gray-300);
+  --acme-color-success-soft: var(--acme-gray-800);
+  --acme-color-success-soft-text: var(--acme-gray-200);
+  --acme-color-warning: var(--acme-gray-300);
+  --acme-color-warning-soft: var(--acme-gray-800);
+  --acme-color-warning-soft-text: var(--acme-gray-200);
+  --acme-color-danger: var(--acme-red-400);
+  --acme-color-danger-emphasis: var(--acme-red-500);
+  --acme-color-danger-soft: color-mix(in oklab, var(--acme-red-500) 20%, var(--acme-gray-900));
+  --acme-color-danger-soft-text: var(--acme-red-300);
+  --acme-color-info: var(--acme-sky-300);
+  --acme-color-info-soft: color-mix(in oklab, var(--acme-sky-500) 20%, var(--acme-gray-900));
+  --acme-color-info-soft-text: var(--acme-sky-300);
+  --acme-color-data: var(--acme-gray-400);
+  --acme-color-data-highlight: var(--acme-clay-300);
+  --acme-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+  --acme-shadow-md: 0 2px 8px -2px rgb(0 0 0 / 0.45);
+  --acme-shadow-lg: 0 8px 24px -6px rgb(0 0 0 / 0.55);
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
