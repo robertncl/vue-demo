@@ -17,11 +17,12 @@ import AppFooter from '@/components/layout/AppFooter.vue'
 </template>
 
 <style scoped>
+/* ACME motion: opacity and a 6px translate only, ease-out, nothing overshoots. */
 .fade-enter-active,
 .fade-leave-active {
   transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+    opacity var(--acme-duration-slow) var(--acme-ease-out),
+    transform var(--acme-duration-slow) var(--acme-ease-out);
 }
 
 .fade-enter-from,

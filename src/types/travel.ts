@@ -46,7 +46,6 @@ export interface Destination {
   name: string
   country: string
   region: Region
-  emoji: string
   tagline: string
   summary: string
   /** Indicative cost of a day on the ground, in USD. */
@@ -55,7 +54,6 @@ export interface Destination {
   bestMonths: MonthKey[]
   tags: string[]
   highlights: string[]
-  gradient: [string, string]
 
   /* --- extended guide --- */
   /** Longer-form orientation, rendered as paragraphs under a translated heading. */
@@ -122,7 +120,6 @@ export type LocaleCode = 'en' | 'es' | 'fr' | 'de' | 'ja'
 export interface Locale {
   code: LocaleCode
   label: string
-  flag: string
   /** BCP 47 tag used for Intl number and date formatting. */
   intl: string
 }

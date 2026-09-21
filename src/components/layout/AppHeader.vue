@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useTravelStore } from '@/stores/travel'
 import { useDestinationsStore } from '@/stores/destinations'
@@ -10,64 +10,51 @@ const route = useRoute()
 const travel = useTravelStore()
 const destinationsStore = useDestinationsStore()
 const { t } = useI18n()
-const menuOpen = ref(false)
 
-watch(
-  () => route.fullPath,
-  () => {
-    menuOpen.value = false
-  },
-)
+/** Counts ride along on the two links that hold saved work. */
+const links = computed(() => [
+  { to: '/', label: t('nav.explore'), count: 0 },
+  { to: '/destinations', label: t('nav.destinations'), count: 0 },
+  { to: '/wishlist', label: t('nav.wishlist'), count: destinationsStore.wishlist.length },
+  { to: '/trips', label: t('nav.trips'), count: travel.trips.length },
+  { to: '/about', label: t('nav.about'), count: 0 },
+])
+
+/**
+ * The design marks only the page you are on, so a destination guide leaves the
+ * whole bar unmarked — the breadcrumbs carry the orientation there instead.
+ */
+function current(to: string) {
+  return route.path === to ? 'page' : undefined
+}
 </script>
 
 <template>
-  <header class="site-header">
-    <div class="container bar">
-      <RouterLink to="/" class="brand">
-        <span class="brand-mark" aria-hidden="true">🧭</span>
-        <span class="brand-name">{{ t('brand.name') }}</span>
-      </RouterLink>
+  <header class="acme-topbar site-header">
+    <RouterLink to="/" class="brand">
+      <span class="acme-wordmark">
+        <span class="acme-wordmark__mark" aria-hidden="true">A</span>
+        ACME
+      </span>
+      <span class="product">{{ t('brand.name') }}</span>
+    </RouterLink>
 
-      <button
-        class="menu-toggle"
-        type="button"
-        :aria-expanded="menuOpen"
-        :aria-label="t('nav.menu')"
-        @click="menuOpen = !menuOpen"
+    <nav class="nav" :aria-label="t('nav.primary')">
+      <RouterLink
+        v-for="link in links"
+        :key="link.to"
+        :to="link.to"
+        class="acme-topbar__link"
+        active-class=""
+        exact-active-class=""
+        :aria-current="current(link.to)"
       >
-        ☰
-      </button>
+        {{ link.label }}
+        <span v-if="link.count" class="count num">{{ link.count }}</span>
+      </RouterLink>
+    </nav>
 
-      <nav class="nav" :class="{ open: menuOpen }">
-        <ul>
-          <li>
-            <RouterLink to="/">{{ t('nav.explore') }}</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/destinations">{{ t('nav.destinations') }}</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/wishlist">
-              {{ t('nav.wishlist') }}
-              <span v-if="destinationsStore.wishlist.length" class="badge">
-                {{ destinationsStore.wishlist.length }}
-              </span>
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/trips">
-              {{ t('nav.trips') }}
-              <span v-if="travel.trips.length" class="badge">{{ travel.trips.length }}</span>
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/about">{{ t('nav.about') }}</RouterLink>
-          </li>
-        </ul>
-
-        <SettingsMenu class="header-settings" />
-      </nav>
-    </div>
+    <SettingsMenu />
   </header>
 </template>
 
@@ -76,136 +63,53 @@ watch(
   position: sticky;
   top: 0;
   z-index: 20;
-  background: color-mix(in srgb, var(--c-background) 88%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--c-border);
-}
-
-.bar {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  min-height: 64px;
+  padding: var(--acme-space-3) var(--acme-space-6);
   flex-wrap: wrap;
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-weight: 700;
-  font-size: 1.15rem;
-  color: var(--c-heading);
-  letter-spacing: -0.02em;
-  margin-right: auto;
+  gap: var(--acme-space-3);
+  text-decoration: none;
+  color: var(--acme-color-text);
 }
 
-.brand-mark {
-  font-size: 1.35rem;
-}
-
-.menu-toggle {
-  display: none;
-  border: 1px solid var(--c-border);
-  background: var(--c-surface);
-  border-radius: var(--radius-sm);
-  padding: 0.3rem 0.65rem;
-  cursor: pointer;
+.product {
+  font-size: var(--acme-text-sm);
+  color: var(--acme-color-text-muted);
+  border-left: 1px solid var(--acme-color-border);
+  padding-left: var(--acme-space-3);
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--acme-space-1);
+  margin-left: auto;
 }
 
-.nav ul {
-  display: flex;
-  align-items: center;
-  gap: 0.15rem;
-  list-style: none;
-}
-
-.nav a {
+.acme-topbar__link {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.7rem;
-  border-radius: 999px;
-  color: var(--c-muted);
-  font-size: 0.9rem;
-  font-weight: 550;
+  gap: var(--acme-space-2);
   white-space: nowrap;
-  transition:
-    background-color 0.2s,
-    color 0.2s;
 }
 
-.nav a:hover {
-  background: var(--c-surface-soft);
-  color: var(--c-heading);
+.count {
+  color: var(--acme-color-text-subtle);
 }
 
-.nav a.router-link-active {
-  background: var(--c-brand-soft);
-  color: var(--c-brand);
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.25rem;
-  height: 1.25rem;
-  padding: 0 0.3rem;
-  border-radius: 999px;
-  background: var(--c-brand);
-  color: var(--c-on-brand);
-  font-size: 0.7rem;
-  font-weight: 700;
-}
-
-.header-settings {
-  padding-left: 0.6rem;
-  border-left: 1px solid var(--c-border);
-}
-
-@media (max-width: 1040px) {
-  .nav a {
-    padding: 0.4rem 0.5rem;
-    font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 860px) {
-  .menu-toggle {
-    display: block;
+@media (max-width: 900px) {
+  .site-header {
+    gap: var(--acme-space-3);
   }
 
   .nav {
-    display: none;
+    order: 3;
     width: 100%;
-    padding-bottom: 0.85rem;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-  }
-
-  .nav.open {
-    display: flex;
-  }
-
-  .nav ul {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.15rem;
-  }
-
-  .header-settings {
-    padding-left: 0;
-    border-left: none;
-    border-top: 1px solid var(--c-border);
-    padding-top: 0.75rem;
+    margin-left: 0;
+    overflow-x: auto;
   }
 }
 </style>

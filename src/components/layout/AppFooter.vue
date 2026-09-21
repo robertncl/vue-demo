@@ -6,33 +6,33 @@ const { t } = useI18n()
 
 <template>
   <footer class="site-footer">
-    <div class="container inner">
-      <p>
-        <strong>{{ t('brand.name') }}</strong> — {{ t('footer.blurb') }}
-      </p>
-      <p class="muted">{{ t('footer.built') }}</p>
-      <p class="muted rates">{{ t('settings.rateNote') }}</p>
+    <div class="inner">
+      <p>{{ t('footer.blurb') }}</p>
+      <p>{{ t('settings.rateNote') }}</p>
     </div>
   </footer>
 </template>
 
 <style scoped>
 .site-footer {
-  border-top: 1px solid var(--c-border);
-  background: var(--c-surface);
-  padding: 1.75rem 0;
-  font-size: 0.875rem;
+  border-top: 1px solid var(--acme-color-border);
+  background: var(--acme-color-surface-raised);
+  padding: var(--acme-space-6);
 }
 
 .inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  gap: 0.5rem 1rem;
+  gap: var(--acme-space-4);
   flex-wrap: wrap;
+  font-size: var(--acme-text-sm);
+  color: var(--acme-color-text-muted);
 }
 
-.rates {
-  flex-basis: 100%;
-  font-size: 0.8rem;
+.inner p {
+  margin: 0;
 }
 </style>

@@ -16,11 +16,11 @@ export const currencies: Record<CurrencyCode, Currency> = {
 export const currencyList = Object.values(currencies)
 
 export const locales: Record<LocaleCode, Locale> = {
-  en: { code: 'en', label: 'English', flag: '🇬🇧', intl: 'en-US' },
-  es: { code: 'es', label: 'Español', flag: '🇪🇸', intl: 'es-ES' },
-  fr: { code: 'fr', label: 'Français', flag: '🇫🇷', intl: 'fr-FR' },
-  de: { code: 'de', label: 'Deutsch', flag: '🇩🇪', intl: 'de-DE' },
-  ja: { code: 'ja', label: '日本語', flag: '🇯🇵', intl: 'ja-JP' },
+  en: { code: 'en', label: 'English', intl: 'en-US' },
+  es: { code: 'es', label: 'Español', intl: 'es-ES' },
+  fr: { code: 'fr', label: 'Français', intl: 'fr-FR' },
+  de: { code: 'de', label: 'Deutsch', intl: 'de-DE' },
+  ja: { code: 'ja', label: '日本語', intl: 'ja-JP' },
 }
 
 export const localeList = Object.values(locales)

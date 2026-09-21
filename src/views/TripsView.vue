@@ -22,79 +22,86 @@ const prefill = computed<Partial<TripDraft> | null>(() => {
 </script>
 
 <template>
-  <main class="page">
-    <div class="container">
-      <header class="page-head">
-        <p class="eyebrow">{{ t('trips.eyebrow') }}</p>
-        <h1>{{ t('trips.title') }}</h1>
-        <p>{{ t('trips.subtitle') }}</p>
-      </header>
+  <main class="page trips">
+    <header class="head">
+      <p class="kicker">{{ t('trips.eyebrow') }}</p>
+      <h1>{{ t('trips.title') }}</h1>
+      <p class="sub">{{ t('trips.subtitle') }}</p>
+    </header>
 
-      <div class="layout">
-        <aside>
-          <TripForm :prefill="prefill" @create="travel.addTrip" />
-          <TripList
-            :trips="travel.trips"
-            :selected-trip-id="travel.selectedTripId"
-            @select="travel.selectTrip"
-            @remove="travel.removeTrip"
-          />
-        </aside>
-
-        <ItineraryPlanner
-          v-if="travel.selectedTrip"
-          :trip="travel.selectedTrip"
-          :spent-amount="travel.spentAmount"
-          :remaining-budget="travel.remainingBudget"
-          :duration-days="travel.tripDurationDays"
-          :budget-used-percent="travel.budgetUsedPercent"
-          @add-activity="travel.addActivity"
-          @remove-activity="travel.removeActivity"
+    <div class="layout">
+      <aside>
+        <TripForm :prefill="prefill" @create="travel.addTrip" />
+        <TripList
+          :trips="travel.trips"
+          :selected-trip-id="travel.selectedTripId"
+          @select="travel.selectTrip"
+          @remove="travel.removeTrip"
         />
+      </aside>
 
-        <div v-else class="placeholder card">
-          <span class="mark" aria-hidden="true">🧳</span>
-          <h2>{{ t('trips.nothingSelected') }}</h2>
-          <p class="muted">{{ t('trips.selectPrompt') }}</p>
-          <RouterLink class="btn btn-ghost" to="/destinations">
-            {{ t('trips.findDestination') }}
-          </RouterLink>
-        </div>
+      <ItineraryPlanner
+        v-if="travel.selectedTrip"
+        :trip="travel.selectedTrip"
+        :spent-amount="travel.spentAmount"
+        :remaining-budget="travel.remainingBudget"
+        :duration-days="travel.tripDurationDays"
+        :budget-used-percent="travel.budgetUsedPercent"
+        @add-activity="travel.addActivity"
+        @remove-activity="travel.removeActivity"
+      />
+
+      <div v-else class="acme-card empty-state">
+        <h2>{{ t('trips.nothingSelected') }}</h2>
+        <p class="muted">{{ t('trips.selectPrompt') }}</p>
+        <RouterLink class="acme-btn acme-btn--secondary" to="/destinations">
+          {{ t('trips.findDestination') }}
+        </RouterLink>
       </div>
     </div>
   </main>
 </template>
 
 <style scoped>
+.head {
+  margin-bottom: var(--acme-space-6);
+}
+
+.head h1 {
+  margin: var(--acme-space-2) 0 0;
+}
+
+.sub {
+  margin: var(--acme-space-2) 0 0;
+  color: var(--acme-color-text-muted);
+  max-width: 60ch;
+}
+
 .layout {
   display: grid;
-  grid-template-columns: minmax(260px, 340px) 1fr;
-  gap: 2rem;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: var(--acme-space-8);
   align-items: start;
 }
 
 aside {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--acme-space-5);
 }
 
-.placeholder {
-  padding: 3.5rem 1.5rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
+.empty-state h2 {
+  margin: 0 0 var(--acme-space-2);
+  font-size: var(--acme-text-xl);
 }
 
-.mark {
-  font-size: 2.5rem;
+.empty-state p {
+  margin: 0 0 var(--acme-space-5);
 }
 
-@media (max-width: 820px) {
+@media (max-width: 900px) {
   .layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>

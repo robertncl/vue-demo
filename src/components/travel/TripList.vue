@@ -25,18 +25,17 @@ function spend(trip: Trip) {
 
     <p v-if="trips.length === 0" class="empty muted">{{ t('trips.noTrips') }}</p>
 
-    <TransitionGroup v-else tag="ul" name="trip" class="trip-list">
+    <ul v-else class="trip-list">
       <li
         v-for="trip in trips"
         :key="trip.id"
-        class="trip-card card"
+        class="trip-card"
         :class="{ active: trip.id === selectedTripId }"
-        @click="emit('select', trip.id)"
       >
-        <div class="info">
+        <button class="info" type="button" @click="emit('select', trip.id)">
           <strong>{{ trip.destination }}</strong>
-          <span class="dates muted">{{ trip.startDate }} → {{ trip.endDate }}</span>
-          <span class="meta muted">
+          <span class="dates num">{{ trip.startDate }} → {{ trip.endDate }}</span>
+          <span class="meta">
             {{
               t('trips.tripMeta', {
                 count: trip.activities.length,
@@ -45,83 +44,77 @@ function spend(trip: Trip) {
               })
             }}
           </span>
-        </div>
+        </button>
         <button
-          class="icon-btn remove"
+          class="acme-btn acme-btn--ghost acme-btn--sm remove"
           type="button"
           :aria-label="t('trips.removeTrip', { name: trip.destination })"
-          @click.stop="emit('remove', trip.id)"
+          @click="emit('remove', trip.id)"
         >
-          ✕
+          {{ t('common.delete') }}
         </button>
       </li>
-    </TransitionGroup>
+    </ul>
   </section>
 </template>
 
 <style scoped>
-.trip-list-wrap h2 {
-  font-size: 1.05rem;
-  margin-bottom: 0.65rem;
+h2 {
+  margin: 0 0 var(--acme-space-3);
+  font-size: var(--acme-text-lg);
+}
+
+.empty {
+  margin: 0;
+  font-size: var(--acme-text-sm);
 }
 
 .trip-list {
   list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-}
-
-.empty {
-  font-size: 0.9rem;
+  gap: var(--acme-space-2);
 }
 
 .trip-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 0.9rem;
-  cursor: pointer;
-  border-left: 3px solid transparent;
-  transition:
-    border-color 0.2s,
-    background-color 0.2s;
+  gap: var(--acme-space-3);
+  padding: var(--acme-space-3) var(--acme-space-4);
+  border: 1px solid var(--acme-color-border);
+  border-radius: var(--acme-radius-lg);
+  background: var(--acme-color-surface-raised);
 }
 
-.trip-card:hover {
-  background: var(--c-surface-soft);
-}
-
+/* Selection is orientation, so it takes Clay rather than a second fill. */
 .trip-card.active {
-  border-left-color: var(--c-brand);
-  background: var(--c-brand-soft);
+  border-color: var(--acme-color-selected);
+  background: var(--acme-color-selected-soft);
 }
 
 .info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+  flex: 1;
   min-width: 0;
+  text-align: start;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
 }
 
 .info strong {
-  color: var(--c-heading);
+  display: block;
+  font-weight: 600;
 }
 
 .dates,
 .meta {
-  font-size: 0.78rem;
-}
-
-.trip-enter-active,
-.trip-leave-active {
-  transition: all 0.2s ease;
-}
-
-.trip-enter-from,
-.trip-leave-to {
-  opacity: 0;
-  transform: translateX(-8px);
+  display: block;
+  font-size: var(--acme-text-xs);
+  color: var(--acme-color-text-muted);
 }
 </style>

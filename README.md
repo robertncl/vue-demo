@@ -13,13 +13,32 @@ serves, starting at `/`.
 
 - **Explore** — a landing page with search, the month's top pick, featured value and your next departure.
 - **Top pick of the month** — destinations ranked by whether they're in season now, with value breaking ties, plus three runners-up and a reason for the month.
-- **Destinations** — twelve destinations filterable by search text, region, vibe and max daily budget.
+- **Destinations** — twelve destinations filterable by search text, region, vibe, max daily budget and what's in season, shown as cards or a side-by-side compare table.
 - **In-depth guides** — multi-paragraph orientation, where to base yourself, a costed three-day itinerary, what to eat, day trips, season-by-season notes, a practical pre-departure panel and a daily-budget breakdown.
 - **Five languages** — English, Español, Français, Deutsch and 日本語, switchable at any time.
 - **Six currencies** — USD, EUR, GBP, JPY, AUD and CAD, converted from a USD base at fixed reference rates.
-- **Wishlist** — star destinations; the list persists in `localStorage`.
+- **Shortlist** — save destinations and compare them on price and season; the list persists in `localStorage`.
 - **Trip planner** — create dated trips, add activities per day, and watch the budget bar.
 - Responsive layout, automatic light/dark theming, and a proper 404 route.
+- Built on the **ACME design system** — its tokens and component classes are ported into `src/assets/acme.css`.
+
+## Design system
+
+The UI is built on the ACME design system. `src/assets/acme.css` is a port of that system's
+stylesheet — every token (light and dark) plus the `.acme-*` classes for buttons, forms, cards,
+badges, alerts, tables, tabs, the top bar and breadcrumbs. Sections the app has no use for
+(modal, presentation slides, report documents) are left out. `src/assets/main.css` is the thin
+app layer on top: the page well, the section kicker, the card grid; it introduces no new colour,
+type or spacing values, only compositions of the tokens.
+
+Two of ACME's rules shape the content directly:
+
+- **No emoji, no gradients.** Destination art is a flat `surface` panel naming the photograph
+  that would sit there (`DestinationMedia`), which is what the design's own image slot renders
+  when unfilled. The app ships no photography.
+- **Clay is rationed.** The one accent carries both action (the single primary button per view)
+  and orientation (current nav link, selected tab and trip, the leading bar in the budget
+  breakdown). Everything else is warm neutral Oat.
 
 ## Languages and currencies
 
@@ -68,9 +87,12 @@ src/
 │   ├── destinations.ts         # catalog, filters, wishlist, top pick of the month
 │   ├── settings.ts             # language, currency, USD conversion
 │   └── travel.ts               # trips, itineraries, budget math
+├── assets/
+│   ├── acme.css                # ACME design system: tokens, base and .acme-* classes
+│   └── main.css                # app layer composed from those tokens
 ├── components/
 │   ├── layout/                 # AppHeader, AppFooter, SettingsMenu
-│   ├── destinations/           # DestinationCard, TopPick
+│   ├── destinations/           # DestinationCard, DestinationMedia, TopPick
 │   └── travel/                 # TripForm, TripList, ItineraryPlanner
 └── views/                      # one component per route
 ```

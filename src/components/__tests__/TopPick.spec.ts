@@ -17,15 +17,14 @@ describe('TopPick', () => {
     setActivePinia(createPinia())
   })
 
-  it('names the current month in the heading', async () => {
+  it('names the current month in the kicker', async () => {
     const wrapper = mountPick()
     const store = useDestinationsStore()
 
     store.today = new Date('2026-11-15T12:00:00')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).toContain('November')
-    expect(wrapper.text()).toContain('Where to go in November')
+    expect(wrapper.text()).toContain('Top pick for November')
   })
 
   it('shows the headline pick with its reason for the month', async () => {
@@ -36,7 +35,7 @@ describe('TopPick', () => {
     await wrapper.vm.$nextTick()
 
     const pick = store.topPick!
-    expect(wrapper.find('.detail h3').text()).toBe(pick.name)
+    expect(wrapper.find('.detail h2').text()).toBe(pick.name)
     expect(wrapper.text()).toContain(store.noteForMonth(pick))
     expect(wrapper.find('.season-flag').exists()).toBe(true)
   })
@@ -76,14 +75,13 @@ describe('TopPick', () => {
     expect(wrapper.findAll('.runner')).toHaveLength(3)
   })
 
-  it('explains itself when nothing is peaking this month', async () => {
+  it('drops the season badge when the pick is not peaking', async () => {
     const wrapper = mountPick()
     const store = useDestinationsStore()
 
     store.today = new Date('2026-08-15T12:00:00')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).toContain('No destination is at its peak in August')
     expect(wrapper.find('.season-flag').exists()).toBe(false)
   })
 
@@ -97,7 +95,7 @@ describe('TopPick', () => {
     settings.setCurrency('EUR')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).toContain('Où partir en novembre')
+    expect(wrapper.text()).toContain('Choix du mois de novembre')
     expect(wrapper.find('.figures').text()).toContain('€')
   })
 })

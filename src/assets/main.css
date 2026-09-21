@@ -1,185 +1,115 @@
-@import './base.css';
+@import './acme.css';
+
+/* App-level layer. Everything below composes ACME tokens and component
+   classes — no new colour, type or spacing values are introduced here. */
 
 #app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--acme-color-canvas);
 }
 
-.container {
-  width: 100%;
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
-}
-
+/* The page well. Every route renders one <main class="page">. */
 .page {
   flex: 1;
-  padding: 2.5rem 0 4rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--acme-space-10) var(--acme-space-6) var(--acme-space-20);
 }
 
-.page-head {
-  margin-bottom: 2rem;
+.page--roomy {
+  padding-top: var(--acme-space-12);
 }
 
-.page-head p {
-  color: var(--c-muted);
-  max-width: 62ch;
-  margin-top: 0.5rem;
+.page--narrow {
+  max-width: 768px;
+  padding-top: var(--acme-space-12);
 }
 
-.eyebrow {
+.page--slim {
+  max-width: 640px;
+  padding: var(--acme-space-24) var(--acme-space-6);
+  text-align: center;
+}
+
+/* The small uppercase label that opens most sections in the design. */
+.kicker {
+  margin: 0;
+  font-size: var(--acme-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.75rem;
-  font-weight: 650;
-  color: var(--c-brand);
-}
-
-.card {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  color: var(--acme-color-accent);
 }
 
 .muted {
-  color: var(--c-muted);
+  color: var(--acme-color-text-muted);
 }
 
-/* --- buttons --- */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.6rem 1.15rem;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  font-size: 0.925rem;
-  font-weight: 600;
-  cursor: pointer;
-  background: var(--c-brand);
-  color: var(--c-on-brand);
-  transition:
-    transform 0.15s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+.num {
+  font-variant-numeric: tabular-nums;
 }
 
-.btn:hover {
-  background: var(--c-brand-strong);
-  color: var(--c-on-brand);
-}
-
-.btn:active {
-  transform: translateY(1px);
-}
-
-.btn-ghost {
-  background: transparent;
-  border-color: var(--c-border);
-  color: var(--c-text);
-}
-
-.btn-ghost:hover {
-  background: var(--c-surface-soft);
-  color: var(--c-heading);
-  border-color: var(--c-brand);
-}
-
-.btn-sm {
-  padding: 0.35rem 0.8rem;
-  font-size: 0.825rem;
-}
-
-.icon-btn {
-  border: none;
-  background: transparent;
-  color: var(--c-muted);
-  cursor: pointer;
-  border-radius: 50%;
-  width: 1.9rem;
-  height: 1.9rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* The serif numeral used for ordered steps and itinerary days. */
+.numeral {
+  font-family: var(--acme-font-display);
+  font-style: italic;
+  color: var(--acme-color-accent);
   line-height: 1;
 }
 
-.icon-btn:hover {
-  background: var(--c-surface-soft);
-  color: var(--c-danger);
-}
-
-/* --- forms --- */
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.field label {
-  font-size: 0.78rem;
-  font-weight: 650;
-  letter-spacing: 0.02em;
-  color: var(--c-muted);
-  text-transform: uppercase;
-}
-
-.input,
-input[type='text'],
-input[type='date'],
-input[type='time'],
-input[type='number'],
-input[type='search'],
-select {
-  width: 100%;
-  padding: 0.55rem 0.7rem;
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-sm);
-  background: var(--c-background);
-  color: var(--c-text);
-  transition: border-color 0.2s;
-}
-
-.input:focus,
-input:focus,
-select:focus {
-  border-color: var(--c-brand);
-}
-
-/* --- chips / tags --- */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.18rem 0.6rem;
-  border-radius: 999px;
-  background: var(--c-surface-soft);
-  border: 1px solid var(--c-border);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--c-muted);
-}
-
-.chip-brand {
-  background: var(--c-brand-soft);
-  border-color: transparent;
-  color: var(--c-brand);
-}
-
-.grid {
+.card-grid {
   display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--acme-space-5);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* Tables are laid inside a card with a little breathing room, as in the
+   design: the header rule reaches the card's inner edge. */
+.table-card {
+  padding: var(--acme-space-2) var(--acme-space-4) var(--acme-space-4);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* ACME styles .acme-btn for <button>; links used as buttons need the anchor
+   underline and the stretch of a flex column taken off. */
+a.acme-btn {
+  text-decoration: none;
+}
+
+.empty-state {
+  padding: var(--acme-space-16) var(--acme-space-6);
+  text-align: center;
+  align-items: center;
+}
+
+.empty-state > :last-child {
+  margin-bottom: 0;
 }
 
 .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
-  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
+  border: 0;
+}
+
+/* Range inputs are the one native control ACME does not restyle. */
+input[type='range'] {
+  accent-color: var(--acme-color-primary);
+  width: 100%;
+}
+
+select.acme-input {
+  cursor: pointer;
 }

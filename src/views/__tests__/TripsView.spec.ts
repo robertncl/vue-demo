@@ -26,7 +26,9 @@ describe('TripsView', () => {
 
   it('shows the empty state when no trip is selected', async () => {
     const wrapper = await mountView()
-    expect(wrapper.text()).toContain('Select or create a trip to start planning the itinerary.')
+    expect(wrapper.text()).toContain(
+      'Pick a trip on the left, or start one from a destination guide.',
+    )
     expect(wrapper.find('.itinerary').exists()).toBe(false)
   })
 
@@ -55,7 +57,7 @@ describe('TripsView', () => {
     expect(travel.trips).toHaveLength(1)
     expect(wrapper.find('.trip-card').classes()).toContain('active')
     expect(wrapper.find('.itinerary').text()).toContain('Lisbon, Portugal')
-    expect(wrapper.find('.itinerary').text()).toContain('3 day trip')
+    expect(wrapper.find('.itinerary').text()).toContain('3 days')
 
     await wrapper.find('.activity-form input[type="text"]').setValue('Tram 28')
     await wrapper.findAll('.activity-form input[type="number"]')[1].setValue(20)
@@ -80,6 +82,6 @@ describe('TripsView', () => {
     await wrapper.find('.trip-card .remove').trigger('click')
 
     expect(travel.trips).toHaveLength(0)
-    expect(wrapper.text()).toContain('Select or create a trip')
+    expect(wrapper.text()).toContain('No trip selected')
   })
 })

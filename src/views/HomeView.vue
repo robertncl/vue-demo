@@ -1,210 +1,178 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useDestinationsStore } from '@/stores/destinations'
-import { useTravelStore } from '@/stores/travel'
 import { useI18n } from '@/i18n'
 import DestinationCard from '@/components/destinations/DestinationCard.vue'
 import TopPick from '@/components/destinations/TopPick.vue'
 
 const router = useRouter()
-const destinationsStore = useDestinationsStore()
-const travel = useTravelStore()
-const { t, money } = useI18n()
+const store = useDestinationsStore()
+const { t, month } = useI18n()
 const search = ref('')
 
+const monthName = computed(() => month(store.currentMonth))
+
+const inSeasonCount = computed(
+  () => store.catalog.filter((destination) => store.inSeason(destination)).length,
+)
+
+/** Says how the month's ranking was made — or that nothing peaks right now. */
+const subtitle = computed(() =>
+  store.hasSeasonalPick ? t('home.rankedNote') : t('home.noSeasonNote', { month: monthName.value }),
+)
+
 function submitSearch() {
-  destinationsStore.query = search.value
+  store.query = search.value
   router.push('/destinations')
 }
 </script>
 
 <template>
-  <main class="page home">
-    <section class="hero">
-      <div class="container hero-inner">
-        <p class="eyebrow">{{ t('home.eyebrow') }}</p>
+  <main class="page page--roomy home">
+    <section class="intro">
+      <div class="lede-block">
+        <p class="kicker">
+          {{ monthName }} ·
+          {{ t('home.catalogSummary', { count: store.catalog.length, inSeason: inSeasonCount }) }}
+        </p>
         <h1>{{ t('home.title') }}</h1>
-        <p class="lede">{{ t('home.lede') }}</p>
+        <p class="lede">{{ subtitle }} {{ t('home.priceNote') }}</p>
+      </div>
 
-        <form class="search" role="search" @submit.prevent="submitSearch">
-          <label class="sr-only" for="hero-search">{{ t('home.searchLabel') }}</label>
-          <input
-            id="hero-search"
-            v-model="search"
-            type="search"
-            :placeholder="t('home.searchPlaceholder')"
-          />
-          <button class="btn" type="submit">{{ t('home.search') }}</button>
-        </form>
+      <form class="search" role="search" @submit.prevent="submitSearch">
+        <label class="sr-only" for="hero-search">{{ t('home.searchLabel') }}</label>
+        <input
+          id="hero-search"
+          v-model="search"
+          class="acme-input"
+          type="search"
+          :placeholder="t('home.searchPlaceholder')"
+        />
+        <button class="acme-btn acme-btn--primary" type="submit">{{ t('home.search') }}</button>
+      </form>
 
-        <dl class="stats">
-          <div>
-            <dt>{{ t('home.statDestinations') }}</dt>
-            <dd>{{ destinationsStore.catalog.length }}</dd>
-          </div>
-          <div>
-            <dt>{{ t('home.statSaved') }}</dt>
-            <dd>{{ destinationsStore.wishlist.length }}</dd>
-          </div>
-          <div>
-            <dt>{{ t('home.statTrips') }}</dt>
-            <dd>{{ travel.trips.length }}</dd>
-          </div>
-        </dl>
+      <TopPick />
+    </section>
+
+    <section class="block">
+      <div class="section-head">
+        <h2>{{ t('home.featured') }}</h2>
+        <RouterLink to="/destinations">
+          {{ t('home.browseAll', { count: store.catalog.length }) }}
+        </RouterLink>
+      </div>
+      <div class="card-grid">
+        <DestinationCard
+          v-for="destination in store.featured"
+          :key="destination.slug"
+          :destination="destination"
+          :wishlisted="store.isWishlisted(destination.slug)"
+          :in-season="store.inSeason(destination)"
+          @toggle-wishlist="store.toggleWishlist"
+        />
       </div>
     </section>
 
-    <div class="container">
-      <TopPick class="block" />
-
-      <section v-if="travel.nextTrip" class="block">
-        <div class="card next-card">
-          <div>
-            <p class="eyebrow">{{ t('home.nextDeparture') }}</p>
-            <h2>{{ travel.nextTrip.destination }}</h2>
-            <p class="muted">
-              {{ travel.nextTrip.startDate }} → {{ travel.nextTrip.endDate }} ·
-              {{ travel.durationOf(travel.nextTrip) }} {{ t('common.days') }} ·
-              {{ money(travel.nextTrip.budget) }}
-            </p>
-          </div>
-          <RouterLink class="btn" to="/trips">{{ t('home.openPlanner') }}</RouterLink>
-        </div>
-      </section>
-
-      <section class="block">
-        <div class="section-head">
-          <h2>{{ t('home.featured') }}</h2>
-          <RouterLink to="/destinations">{{ t('home.browseAll') }} →</RouterLink>
-        </div>
-        <div class="grid">
-          <DestinationCard
-            v-for="destination in destinationsStore.featured"
-            :key="destination.slug"
-            :destination="destination"
-            :wishlisted="destinationsStore.isWishlisted(destination.slug)"
-            :in-season="destinationsStore.inSeason(destination)"
-            @toggle-wishlist="destinationsStore.toggleWishlist"
-          />
-        </div>
-      </section>
-
-      <section class="block">
-        <h2>{{ t('home.howTitle') }}</h2>
-        <ol class="steps">
-          <li class="card">
-            <span class="step-num">1</span>
-            <h3>{{ t('home.step1Title') }}</h3>
-            <p class="muted">{{ t('home.step1Body') }}</p>
-          </li>
-          <li class="card">
-            <span class="step-num">2</span>
-            <h3>{{ t('home.step2Title') }}</h3>
-            <p class="muted">{{ t('home.step2Body') }}</p>
-          </li>
-          <li class="card">
-            <span class="step-num">3</span>
-            <h3>{{ t('home.step3Title') }}</h3>
-            <p class="muted">{{ t('home.step3Body') }}</p>
-          </li>
-        </ol>
-      </section>
-    </div>
+    <section class="block block--ruled">
+      <h2>{{ t('home.howTitle') }}</h2>
+      <ol class="steps">
+        <li v-for="step in [1, 2, 3]" :key="step">
+          <p class="numeral" aria-hidden="true">{{ step }}</p>
+          <h3>{{ t(`home.step${step}Title`) }}</h3>
+          <p class="muted">{{ t(`home.step${step}Body`) }}</p>
+        </li>
+      </ol>
+    </section>
   </main>
 </template>
 
 <style scoped>
-.hero {
-  background:
-    radial-gradient(900px 400px at 15% -10%, var(--c-brand-soft), transparent 70%),
-    radial-gradient(700px 360px at 90% 0%, rgba(234, 88, 12, 0.14), transparent 65%);
-  padding: 3rem 0 3.5rem;
-  margin-top: -2.5rem;
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--acme-space-6);
 }
 
-.hero-inner {
-  max-width: 760px;
+.lede-block {
+  max-width: 60ch;
+}
+
+.lede-block h1 {
+  margin: var(--acme-space-2) 0 0;
+  font-size: var(--acme-text-5xl);
 }
 
 .lede {
-  margin-top: 0.85rem;
-  font-size: 1.05rem;
-  color: var(--c-muted);
-  max-width: 58ch;
+  margin: var(--acme-space-3) 0 0;
+  font-size: var(--acme-text-lg);
+  color: var(--acme-color-text-muted);
+  text-wrap: pretty;
 }
 
 .search {
   display: flex;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
+  gap: var(--acme-space-2);
   max-width: 520px;
 }
 
-.stats {
-  display: flex;
-  gap: 2.25rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-}
-
-.stats dt {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--c-muted);
-  font-weight: 650;
-}
-
-.stats dd {
-  font-size: 1.65rem;
-  font-weight: 700;
-  color: var(--c-heading);
+.search input {
+  flex: 1;
 }
 
 .block {
-  margin-top: 3rem;
+  margin-top: var(--acme-space-16);
 }
 
-.next-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.25rem 1.5rem;
-  flex-wrap: wrap;
+.block--ruled {
+  border-top: 1px solid var(--acme-color-border);
+  padding-top: var(--acme-space-8);
 }
 
 .section-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
+  gap: var(--acme-space-4);
+  margin-bottom: var(--acme-space-5);
+}
+
+.section-head h2,
+.block h2 {
+  margin: 0;
+  font-size: var(--acme-text-2xl);
+}
+
+.block--ruled h2 {
+  margin-bottom: var(--acme-space-5);
+}
+
+.section-head a {
+  font-size: var(--acme-text-sm);
+  font-weight: 600;
 }
 
 .steps {
   list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  gap: 1rem;
+  gap: var(--acme-space-6);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  margin-top: 1.25rem;
 }
 
-.steps li {
-  padding: 1.25rem;
+.steps .numeral {
+  margin: 0;
+  font-size: var(--acme-text-4xl);
 }
 
-.step-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--c-brand-soft);
-  color: var(--c-brand);
-  font-weight: 700;
-  margin-bottom: 0.6rem;
+.steps h3 {
+  margin: var(--acme-space-2) 0 var(--acme-space-1);
+  font-size: var(--acme-text-lg);
+}
+
+.steps p:last-of-type {
+  margin: 0;
+  font-size: var(--acme-text-sm);
 }
 </style>

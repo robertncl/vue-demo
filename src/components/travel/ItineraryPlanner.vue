@@ -69,31 +69,36 @@ function submit() {
 <template>
   <section class="itinerary">
     <header class="head">
-      <div>
-        <p class="eyebrow">{{ t('planner.eyebrow') }}</p>
-        <h2>{{ trip.destination }}</h2>
-        <p class="muted">
-          {{ trip.startDate }} → {{ trip.endDate }}
-          <template v-if="durationDays > 0">
-            · {{ t('planner.dayTrip', { count: durationDays }) }}
-          </template>
-        </p>
-      </div>
+      <p class="kicker">{{ t('planner.eyebrow') }}</p>
+      <h2>{{ trip.destination }}</h2>
+      <p class="dates num">
+        {{ trip.startDate }} → {{ trip.endDate }}
+        <template v-if="durationDays > 0">
+          · {{ t('planner.dayTrip', { count: durationDays }) }}
+        </template>
+      </p>
     </header>
 
-    <div class="budget card" :class="{ over: overBudget }">
-      <div class="budget-row">
-        <span
-          >{{ t('planner.budget') }} <strong>{{ money(trip.budget) }}</strong></span
-        >
-        <span
-          >{{ t('planner.spent') }} <strong>{{ money(spentAmount) }}</strong></span
-        >
-        <span class="remaining">
-          {{ overBudget ? t('planner.overBy') : t('planner.remaining') }}
-          <strong>{{ money(Math.abs(remainingBudget)) }}</strong>
-        </span>
+    <div class="acme-card budget" :class="{ over: overBudget }">
+      <div class="figures">
+        <div>
+          <p class="figure-label">{{ t('planner.budget') }}</p>
+          <p class="figure num">{{ money(trip.budget) }}</p>
+        </div>
+        <div>
+          <p class="figure-label">{{ t('planner.spent') }}</p>
+          <p class="figure num">{{ money(spentAmount) }}</p>
+        </div>
+        <div>
+          <p class="figure-label">
+            {{ overBudget ? t('planner.overBy') : t('planner.remaining') }}
+          </p>
+          <p class="figure num" :class="{ danger: overBudget }">
+            {{ money(Math.abs(remainingBudget)) }}
+          </p>
+        </div>
       </div>
+
       <div
         class="bar"
         role="progressbar"
@@ -103,63 +108,85 @@ function submit() {
       >
         <span :style="{ width: `${budgetUsedPercent}%` }"></span>
       </div>
+
+      <div v-if="overBudget" class="acme-alert acme-alert--danger">
+        <div>
+          <p class="acme-alert__title">{{ t('planner.overTitle') }}</p>
+          <p>{{ t('planner.overBody', { amount: money(Math.abs(remainingBudget)) }) }}</p>
+        </div>
+      </div>
     </div>
 
-    <form class="activity-form card" @submit.prevent="submit">
-      <input
-        v-model="newActivity.title"
-        type="text"
-        :placeholder="t('planner.activityPlaceholder')"
-        :aria-label="t('planner.activityTitle')"
-        required
-      />
-      <input
-        v-model.number="newActivity.day"
-        type="number"
-        min="1"
-        :max="durationDays || undefined"
-        :title="t('planner.day')"
-        :aria-label="t('planner.day')"
-      />
-      <input
-        v-model="newActivity.time"
-        type="time"
-        :title="t('planner.time')"
-        :aria-label="t('planner.time')"
-      />
-      <input
-        v-model.number="cost"
-        type="number"
-        min="0"
-        step="5"
-        :title="`${t('planner.cost')} (${settings.currency})`"
-        :aria-label="`${t('planner.cost')} (${settings.currency})`"
-      />
-      <button class="btn" type="submit">{{ t('planner.add') }}</button>
+    <form class="acme-card activity-form" @submit.prevent="submit">
+      <div class="acme-field grow">
+        <label class="acme-label" for="a-title">{{ t('planner.activityTitle') }}</label>
+        <input
+          id="a-title"
+          v-model="newActivity.title"
+          class="acme-input"
+          type="text"
+          :placeholder="t('planner.activityPlaceholder')"
+          required
+        />
+      </div>
+      <div class="acme-field narrow">
+        <label class="acme-label" for="a-day">{{ t('planner.day') }}</label>
+        <input
+          id="a-day"
+          v-model.number="newActivity.day"
+          class="acme-input"
+          type="number"
+          min="1"
+        />
+      </div>
+      <div class="acme-field narrow">
+        <label class="acme-label" for="a-time">{{ t('planner.time') }}</label>
+        <input id="a-time" v-model="newActivity.time" class="acme-input" type="time" />
+      </div>
+      <div class="acme-field narrow">
+        <label class="acme-label" for="a-cost">{{ t('planner.cost') }}</label>
+        <input
+          id="a-cost"
+          v-model.number="cost"
+          class="acme-input"
+          type="number"
+          min="0"
+          step="1"
+        />
+      </div>
+      <button class="acme-btn acme-btn--primary" type="submit">{{ t('planner.add') }}</button>
     </form>
 
-    <p v-if="activitiesByDay.length === 0" class="empty muted">{{ t('planner.empty') }}</p>
+    <p v-if="trip.activities.length === 0" class="empty muted">{{ t('planner.empty') }}</p>
 
-    <div v-for="[day, activities] in activitiesByDay" :key="day" class="day-group">
+    <div
+      v-for="[day, activities] in activitiesByDay"
+      :key="day"
+      class="acme-card table-card day-group"
+    >
       <div class="day-head">
         <h3>{{ t('planner.dayLabel', { n: day }) }}</h3>
-        <span class="muted">{{ money(dayTotal(activities)) }}</span>
+        <span class="num muted">{{ money(dayTotal(activities)) }}</span>
       </div>
-      <ul>
-        <li v-for="activity in activities" :key="activity.id" class="card">
-          <span class="time">{{ activity.time }}</span>
-          <span class="title">{{ activity.title }}</span>
-          <span class="cost">{{ money(activity.cost) }}</span>
-          <button
-            class="icon-btn remove"
-            type="button"
-            :aria-label="t('planner.removeActivity', { name: activity.title })"
-            @click="emit('removeActivity', activity.id)"
-          >
-            ✕
-          </button>
-        </li>
-      </ul>
+      <table class="acme-table">
+        <tbody>
+          <tr v-for="activity in activities" :key="activity.id">
+            <td class="time num">{{ activity.time }}</td>
+            <td>{{ activity.title }}</td>
+            <td class="acme-table__num cost">{{ money(activity.cost) }}</td>
+            <td class="row-action">
+              <button
+                class="acme-btn acme-btn--ghost acme-btn--sm remove"
+                type="button"
+                :aria-label="t('planner.removeActivity', { name: activity.title })"
+                @click="emit('removeActivity', activity.id)"
+              >
+                {{ t('common.remove') }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 </template>
@@ -168,110 +195,118 @@ function submit() {
 .itinerary {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: var(--acme-space-5);
 }
 
 .head h2 {
-  margin-top: 0.15rem;
+  margin: var(--acme-space-1) 0 0;
+  font-size: var(--acme-text-3xl);
+}
+
+.dates {
+  margin: 0;
+  color: var(--acme-color-text-muted);
 }
 
 .budget {
-  padding: 0.9rem 1.1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  padding: var(--acme-space-5);
+  gap: var(--acme-space-3);
 }
 
-.budget-row {
+.figures {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--acme-space-8);
   flex-wrap: wrap;
-  font-size: 0.9rem;
-  color: var(--c-muted);
 }
 
-.budget-row strong {
-  color: var(--c-heading);
+.figure-label {
+  margin: 0;
+  font-size: var(--acme-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: var(--acme-color-text-muted);
 }
 
-.budget.over .remaining,
-.budget.over .remaining strong {
-  color: var(--c-danger);
+.figure {
+  margin: 0;
+  font-size: var(--acme-text-xl);
+  font-weight: 600;
+}
+
+.figure.danger {
+  color: var(--acme-color-danger);
 }
 
 .bar {
-  height: 7px;
-  border-radius: 999px;
-  background: var(--c-surface-soft);
+  height: 8px;
+  background: var(--acme-color-surface);
+  border: 1px solid var(--acme-color-border);
+  border-radius: var(--acme-radius-sm);
   overflow: hidden;
 }
 
 .bar span {
   display: block;
   height: 100%;
-  background: var(--c-brand);
-  transition: width 0.3s ease;
+  background: var(--acme-color-primary);
 }
 
 .budget.over .bar span {
-  background: var(--c-danger);
+  background: var(--acme-color-danger);
 }
 
 .activity-form {
-  display: flex;
-  gap: 0.5rem;
+  padding: var(--acme-space-4);
+  flex-direction: row;
   flex-wrap: wrap;
-  padding: 0.85rem;
+  gap: var(--acme-space-3);
+  align-items: flex-end;
 }
 
-.activity-form input[type='text'] {
-  flex: 1;
-  min-width: 180px;
+.activity-form .grow {
+  flex: 1 1 200px;
+  min-width: 0;
 }
 
-.activity-form input[type='number'] {
-  width: 90px;
+.activity-form .narrow {
+  flex: 0 1 110px;
+  min-width: 0;
 }
 
-.activity-form input[type='time'] {
-  width: 120px;
+.activity-form .acme-input {
+  min-width: 0;
+  width: 100%;
+}
+
+.empty {
+  margin: 0;
 }
 
 .day-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  padding: var(--acme-space-3) 0;
 }
 
-.day-group ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.day-group li {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.55rem 0.85rem;
+.day-head h3 {
+  margin: 0;
+  font-size: var(--acme-text-lg);
 }
 
 .time {
-  color: var(--c-muted);
-  font-variant-numeric: tabular-nums;
-  font-size: 0.875rem;
-}
-
-.title {
-  flex: 1;
-  min-width: 0;
+  width: 5rem;
+  color: var(--acme-color-text-muted);
 }
 
 .cost {
-  font-weight: 650;
-  color: var(--c-heading);
-  font-variant-numeric: tabular-nums;
+  width: 6rem;
+  font-weight: 600;
+}
+
+.row-action {
+  width: 6rem;
+  text-align: end;
 }
 </style>

@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useI18n } from '@/i18n'
+import DestinationMedia from './DestinationMedia.vue'
 import type { Destination } from '@/types/travel'
 
 const props = defineProps<{
@@ -17,188 +18,160 @@ const emit = defineEmits<{
 
 const { t, money, month, region, tag } = useI18n()
 
-const banner = computed(
-  () =>
-    `linear-gradient(135deg, ${props.destination.gradient[0]}, ${props.destination.gradient[1]})`,
-)
-
 const bestMonths = computed(() =>
   props.destination.bestMonths.map((m) => month(m, true)).join(', '),
 )
 </script>
 
 <template>
-  <article class="destination-card card">
-    <RouterLink
-      :to="`/destinations/${destination.slug}`"
-      class="banner"
-      :style="{ background: banner }"
-    >
-      <span class="emoji" aria-hidden="true">{{ destination.emoji }}</span>
-      <span class="region">{{ region(destination.region) }}</span>
-      <span v-if="inSeason" class="season">{{ t('topPick.inSeason') }}</span>
-    </RouterLink>
+  <article class="acme-card acme-card--interactive destination-card">
+    <div class="media-wrap">
+      <DestinationMedia :label="t('media.photoOf', { name: destination.name })" />
+      <div class="flags">
+        <span class="acme-badge flag region">{{ region(destination.region) }}</span>
+        <span v-if="inSeason" class="acme-badge flag season">{{ t('common.inSeason') }}</span>
+      </div>
+    </div>
 
-    <div class="body">
-      <header>
-        <h3>
-          <RouterLink :to="`/destinations/${destination.slug}`">{{ destination.name }}</RouterLink>
-        </h3>
+    <div class="acme-card__body body">
+      <div class="head">
+        <div>
+          <h3 class="acme-card__title">{{ destination.name }}</h3>
+          <p class="country">{{ destination.country }}</p>
+        </div>
         <button
-          class="wish"
+          class="acme-btn acme-btn--ghost acme-btn--sm wish"
           type="button"
           :class="{ on: wishlisted }"
           :aria-pressed="Boolean(wishlisted)"
           :aria-label="
             wishlisted
-              ? t('card.remove', { name: destination.name })
-              : t('card.save', { name: destination.name })
+              ? t('card.removeAria', { name: destination.name })
+              : t('card.saveAria', { name: destination.name })
           "
           @click="emit('toggleWishlist', destination.slug)"
         >
-          {{ wishlisted ? '★' : '☆' }}
+          {{ wishlisted ? t('card.saved') : t('card.save') }}
         </button>
-      </header>
+      </div>
 
-      <p class="country muted">{{ destination.country }}</p>
       <p class="tagline">{{ destination.tagline }}</p>
 
       <ul class="tags">
-        <li v-for="item in destination.tags" :key="item" class="chip">{{ tag(item) }}</li>
+        <li v-for="item in destination.tags" :key="item" class="acme-badge">{{ tag(item) }}</li>
       </ul>
+    </div>
 
-      <footer>
-        <span class="price">
-          {{ money(destination.dailyBudget) }}<small>{{ t('common.perDay') }}</small>
-        </span>
-        <span class="months muted">{{ t('common.best') }}: {{ bestMonths }}</span>
-      </footer>
+    <div class="acme-card__footer footer">
+      <div>
+        <p class="price num">
+          {{ money(destination.dailyBudget) }}<span class="per">{{ t('common.aDay') }}</span>
+        </p>
+        <p class="months">{{ t('common.best') }} {{ bestMonths }}</p>
+      </div>
+      <RouterLink
+        class="acme-btn acme-btn--secondary acme-btn--sm"
+        :to="`/destinations/${destination.slug}`"
+      >
+        {{ t('card.readGuide') }}
+      </RouterLink>
     </div>
   </article>
 </template>
 
 <style scoped>
 .destination-card {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  height: 100%;
 }
 
-.destination-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
-}
-
-.banner {
+.media-wrap {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 130px;
 }
 
-.emoji {
-  font-size: 2.75rem;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
-}
-
-.region,
-.season {
+.flags {
   position: absolute;
-  top: 0.6rem;
-  padding: 0.15rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  top: var(--acme-space-3);
+  left: var(--acme-space-3);
+  display: flex;
+  gap: var(--acme-space-2);
+  pointer-events: none;
 }
 
-.region {
-  left: 0.7rem;
-  background: var(--c-on-gradient-chip);
-  color: var(--c-on-gradient);
+.flag {
+  background: var(--acme-color-surface-raised);
+  border: 1px solid var(--acme-color-border);
 }
 
 .season {
-  right: 0.7rem;
-  background: var(--c-season-bg);
-  color: var(--c-season-text);
+  background: var(--acme-color-selected-soft);
+  color: var(--acme-color-accent);
 }
 
 .body {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 1rem 1.1rem 1.15rem;
-  flex: 1;
+  gap: var(--acme-space-2);
 }
 
-.body header {
+.head {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: var(--acme-space-3);
 }
 
-.body h3 a {
-  color: var(--c-heading);
+.acme-card__title {
+  margin: 0;
+}
+
+.country,
+.tagline,
+.months,
+.price {
+  margin: 0;
 }
 
 .country {
-  font-size: 0.85rem;
-  margin-top: -0.35rem;
+  font-size: var(--acme-text-sm);
+  color: var(--acme-color-text-muted);
 }
 
 .tagline {
-  font-size: 0.925rem;
-}
-
-.wish {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: var(--c-muted);
+  font-size: var(--acme-text-sm);
+  text-wrap: pretty;
 }
 
 .wish.on {
-  color: var(--c-accent);
+  color: var(--acme-color-accent);
+  font-weight: 600;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: var(--acme-space-2);
+  margin-top: var(--acme-space-1);
   list-style: none;
-  margin-top: 0.2rem;
+  padding: 0;
 }
 
-.body footer {
-  display: flex;
-  align-items: baseline;
+.footer {
   justify-content: space-between;
-  gap: 0.5rem;
-  margin-top: auto;
-  padding-top: 0.75rem;
-  flex-wrap: wrap;
 }
 
 .price {
-  font-weight: 700;
-  color: var(--c-heading);
+  font-size: var(--acme-text-lg);
+  font-weight: 600;
 }
 
-.price small {
-  font-weight: 500;
-  color: var(--c-muted);
+.per {
+  font-size: var(--acme-text-sm);
+  font-weight: 400;
+  color: var(--acme-color-text-muted);
 }
 
 .months {
-  font-size: 0.78rem;
+  font-size: var(--acme-text-xs);
+  color: var(--acme-color-text-muted);
 }
 </style>

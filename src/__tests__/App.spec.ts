@@ -22,13 +22,13 @@ describe('App', () => {
 
     expect(wrapper.text()).toContain('Wanderlog')
     const links = wrapper.findAll('.nav a').map((a) => a.text().replace(/\s+\d+$/, ''))
-    expect(links).toEqual(['Explore', 'Destinations', 'Wishlist', 'My trips', 'About'])
+    expect(links).toEqual(['Explore', 'Destinations', 'Shortlist', 'Trips', 'About'])
   })
 
   it('renders the travel home page at the root route', () => {
     const wrapper = mountApp()
 
-    expect(wrapper.text()).toContain('Find somewhere worth the flight.')
+    expect(wrapper.text()).toContain('Where to go this month')
     expect(wrapper.text()).not.toContain('You did it!')
   })
 
@@ -70,7 +70,7 @@ describe('App', () => {
 
     const nav = wrapper.find('.nav').text()
     expect(nav).toContain('旅先')
-    expect(nav).toContain('マイトリップ')
+    expect(nav).toContain('旅程')
   })
 
   it('switching currency changes prices across the page', async () => {
@@ -88,6 +88,6 @@ describe('App', () => {
   it('shows the top pick for the current month on the home page', () => {
     const wrapper = mountApp()
     expect(wrapper.find('.top-pick').exists()).toBe(true)
-    expect(wrapper.text()).toContain('Where to go in')
+    expect(wrapper.text()).toMatch(/Top pick for \w+/)
   })
 })

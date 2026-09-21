@@ -31,11 +31,11 @@ describe('DestinationCard', () => {
 
   it('links to the destination detail route', () => {
     const wrapper = mountCard()
-    const link = wrapper.findComponent(RouterLinkStub)
-    expect(link.props().to).toBe(`/destinations/${destination.slug}`)
+    const links = wrapper.findAllComponents(RouterLinkStub)
+    expect(links.some((l) => l.props().to === `/destinations/${destination.slug}`)).toBe(true)
   })
 
-  it('emits toggleWishlist with the slug when starred', async () => {
+  it('emits toggleWishlist with the slug when saved', async () => {
     const wrapper = mountCard()
 
     await wrapper.find('.wish').trigger('click')
@@ -43,9 +43,9 @@ describe('DestinationCard', () => {
     expect(wrapper.emitted('toggleWishlist')).toEqual([[destination.slug]])
   })
 
-  it('shows a filled star when already wishlisted', () => {
-    expect(mountCard({ wishlisted: true }).find('.wish').text()).toBe('★')
-    expect(mountCard({ wishlisted: false }).find('.wish').text()).toBe('☆')
+  it('labels the save button with the current state', () => {
+    expect(mountCard({ wishlisted: true }).find('.wish').text()).toBe('Saved')
+    expect(mountCard({ wishlisted: false }).find('.wish').text()).toBe('Save')
   })
 
   it('shows an in-season badge only when flagged', () => {
