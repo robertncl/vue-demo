@@ -23,13 +23,13 @@ describe('i18n', () => {
     const { t } = useI18n()
     const settings = useSettingsStore()
 
-    expect(t('nav.trips')).toBe('My trips')
+    expect(t('nav.trips')).toBe('Trips')
 
     settings.setLocale('es')
-    expect(t('nav.trips')).toBe('Mis viajes')
+    expect(t('nav.trips')).toBe('Viajes')
 
     settings.setLocale('ja')
-    expect(t('nav.trips')).toBe('マイトリップ')
+    expect(t('nav.trips')).toBe('旅程')
   })
 
   it('interpolates named parameters', () => {

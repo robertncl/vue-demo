@@ -1,38 +1,55 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { useDestinationsStore } from '@/stores/destinations'
 import { useTravelStore } from '@/stores/travel'
 import { useI18n } from '@/i18n'
+import DestinationMedia from '@/components/destinations/DestinationMedia.vue'
 import type { Destination } from '@/types/travel'
 
 const route = useRoute()
-const router = useRouter()
 const store = useDestinationsStore()
 const travel = useTravelStore()
-const { t, money, month, region, tag } = useI18n()
+const { t, money, month, region } = useI18n()
 
 const destination = computed(() => store.bySlug(String(route.params.slug)))
-
-const banner = computed(() => {
-  const d = destination.value
-  return d ? `linear-gradient(135deg, ${d.gradient[0]}, ${d.gradient[1]})` : ''
-})
 
 /** A sensible one-week budget to pre-fill the planner with. */
 const weekBudget = computed(() => (destination.value ? destination.value.dailyBudget * 7 : 0))
 
+/**
+ * Where a day's money goes. Bars are scaled against the largest line, and only
+ * that line takes the Clay highlight — the rest stay neutral data marks.
+ */
 const breakdown = computed(() => {
   const d = destination.value
   if (!d) return []
   const parts = [
-    { key: 'detail.stay', value: d.budgetBreakdown.stay },
-    { key: 'detail.food', value: d.budgetBreakdown.food },
-    { key: 'detail.transport', value: d.budgetBreakdown.transport },
-    { key: 'detail.activitiesCost', value: d.budgetBreakdown.activities },
+    { key: 'stay', label: t('detail.stay'), value: d.budgetBreakdown.stay },
+    { key: 'food', label: t('detail.food'), value: d.budgetBreakdown.food },
+    { key: 'transport', label: t('detail.transport'), value: d.budgetBreakdown.transport },
+    { key: 'activities', label: t('detail.activitiesCost'), value: d.budgetBreakdown.activities },
   ]
-  const total = parts.reduce((sum, part) => sum + part.value, 0) || 1
-  return parts.map((part) => ({ ...part, percent: Math.round((part.value / total) * 100) }))
+  const max = Math.max(...parts.map((part) => part.value)) || 1
+  return parts.map((part) => ({
+    ...part,
+    percent: Math.round((part.value / max) * 100),
+    leads: part.value === max,
+  }))
+})
+
+const practical = computed(() => {
+  const d = destination.value
+  if (!d) return []
+  return [
+    { label: t('detail.language'), value: d.practical.language },
+    { label: t('detail.localCurrency'), value: d.practical.currency },
+    { label: t('detail.timeZone'), value: d.practical.timeZone },
+    { label: t('detail.plug'), value: d.practical.plug },
+    { label: t('detail.visa'), value: d.practical.visa },
+    { label: t('detail.gettingAround'), value: d.practical.gettingAround },
+    { label: t('detail.safety'), value: d.practical.safety },
+  ]
 })
 
 const related = computed(() =>
@@ -52,641 +69,488 @@ const alreadyPlanned = computed(
     travel.trips.some((trip) => trip.destination.includes(destination.value!.name)),
 )
 
-function planTrip() {
-  const d = destination.value
-  if (!d) return
-  router.push({
-    path: '/trips',
-    query: { destination: `${d.name}, ${d.country}`, budget: String(weekBudget.value) },
-  })
-}
+/** Hands the planner a pre-filled week at this destination. */
+const planRoute = computed(() => ({
+  path: '/trips',
+  query: {
+    destination: destination.value ? `${destination.value.name}, ${destination.value.country}` : '',
+    budget: String(weekBudget.value),
+  },
+}))
 </script>
 
 <template>
-  <main class="page">
-    <div class="container">
-      <template v-if="destination">
-        <RouterLink class="back" to="/destinations">← {{ t('detail.back') }}</RouterLink>
+  <main class="page page--tight">
+    <template v-if="destination">
+      <nav class="acme-breadcrumbs" :aria-label="t('detail.breadcrumbs')">
+        <RouterLink to="/">{{ t('nav.explore') }}</RouterLink>
+        <span aria-hidden="true">/</span>
+        <RouterLink to="/destinations">{{ t('nav.destinations') }}</RouterLink>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{{ destination.name }}</span>
+      </nav>
 
-        <section class="hero card" :style="{ background: banner }">
-          <span class="emoji" aria-hidden="true">{{ destination.emoji }}</span>
-          <div class="hero-text">
-            <p class="region">{{ region(destination.region) }}</p>
-            <h1>{{ destination.name }}</h1>
-            <p class="country">{{ destination.country }} · {{ destination.tagline }}</p>
-          </div>
-          <span v-if="store.inSeason(destination)" class="season-flag">
-            {{ t('topPick.inSeason') }}
-          </span>
-        </section>
-
-        <div class="layout">
-          <article class="main">
-            <section>
-              <h2>{{ t('detail.overview') }}</h2>
-              <p class="summary">{{ destination.summary }}</p>
-            </section>
-
-            <section>
-              <h2>{{ t('detail.guide') }}</h2>
-              <p v-for="(para, i) in destination.overview" :key="i" class="prose">{{ para }}</p>
-            </section>
-
-            <section>
-              <h2>{{ t('detail.dontMiss') }}</h2>
-              <ul class="highlights">
-                <li v-for="highlight in destination.highlights" :key="highlight" class="card">
-                  {{ highlight }}
-                </li>
-              </ul>
-            </section>
-
-            <section>
-              <h2>{{ t('detail.neighbourhoods') }}</h2>
-              <ul class="areas">
-                <li v-for="area in destination.neighbourhoods" :key="area.name" class="card area">
-                  <h3>{{ area.name }}</h3>
-                  <p class="best-for">
-                    <span class="chip chip-brand">{{ t('detail.bestFor') }}</span>
-                    {{ area.bestFor }}
-                  </p>
-                  <p class="muted">{{ area.description }}</p>
-                </li>
-              </ul>
-            </section>
-
-            <section>
-              <h2>{{ t('detail.itinerary') }}</h2>
-              <ol class="itinerary">
-                <li v-for="plan in destination.sampleItinerary" :key="plan.day" class="card plan">
-                  <header>
-                    <span class="day-badge">{{ t('planner.dayLabel', { n: plan.day }) }}</span>
-                    <h3>{{ plan.title }}</h3>
-                  </header>
-                  <dl>
-                    <div>
-                      <dt>{{ t('detail.morning') }}</dt>
-                      <dd>{{ plan.morning }}</dd>
-                    </div>
-                    <div>
-                      <dt>{{ t('detail.afternoon') }}</dt>
-                      <dd>{{ plan.afternoon }}</dd>
-                    </div>
-                    <div>
-                      <dt>{{ t('detail.evening') }}</dt>
-                      <dd>{{ plan.evening }}</dd>
-                    </div>
-                  </dl>
-                </li>
-              </ol>
-            </section>
-
-            <section class="two-up">
-              <div>
-                <h2>{{ t('detail.foodPicks') }}</h2>
-                <ul class="bullets">
-                  <li v-for="item in destination.foodPicks" :key="item">{{ item }}</li>
-                </ul>
-              </div>
-              <div>
-                <h2>{{ t('detail.dayTrips') }}</h2>
-                <ul class="bullets">
-                  <li v-for="item in destination.dayTrips" :key="item">{{ item }}</li>
-                </ul>
-              </div>
-            </section>
-
-            <section>
-              <h2>{{ t('detail.seasons') }}</h2>
-              <ul class="seasons">
-                <li v-for="season in destination.seasons" :key="season.label" class="card season">
-                  <div class="season-months">
-                    <span v-for="m in season.months" :key="m" class="chip">{{
-                      month(m, true)
-                    }}</span>
-                  </div>
-                  <h3>{{ season.label }}</h3>
-                  <p class="muted">{{ season.note }}</p>
-                </li>
-              </ul>
-            </section>
-
-            <section>
-              <h2>{{ t('detail.practical') }}</h2>
-              <dl class="practical card">
-                <div>
-                  <dt>{{ t('detail.language') }}</dt>
-                  <dd>{{ destination.practical.language }}</dd>
-                </div>
-                <div>
-                  <dt>{{ t('detail.localCurrency') }}</dt>
-                  <dd>{{ destination.practical.currency }}</dd>
-                </div>
-                <div>
-                  <dt>{{ t('detail.timeZone') }}</dt>
-                  <dd>{{ destination.practical.timeZone }}</dd>
-                </div>
-                <div>
-                  <dt>{{ t('detail.plug') }}</dt>
-                  <dd>{{ destination.practical.plug }}</dd>
-                </div>
-                <div>
-                  <dt>{{ t('detail.visa') }}</dt>
-                  <dd>{{ destination.practical.visa }}</dd>
-                </div>
-                <div>
-                  <dt>{{ t('detail.gettingAround') }}</dt>
-                  <dd>{{ destination.practical.gettingAround }}</dd>
-                </div>
-                <div class="wide">
-                  <dt>{{ t('detail.safety') }}</dt>
-                  <dd>{{ destination.practical.safety }}</dd>
-                </div>
-              </dl>
-            </section>
-
-            <section>
-              <h2>{{ t('detail.tags') }}</h2>
-              <ul class="tags">
-                <li v-for="item in destination.tags" :key="item" class="chip chip-brand">
-                  {{ tag(item) }}
-                </li>
-              </ul>
-            </section>
-          </article>
-
-          <aside class="side">
-            <div class="card panel">
-              <dl class="figures">
-                <div>
-                  <dt>{{ t('detail.dailyBudget') }}</dt>
-                  <dd>{{ money(destination.dailyBudget) }}</dd>
-                </div>
-                <div>
-                  <dt>{{ t('detail.oneWeek') }}</dt>
-                  <dd>{{ money(weekBudget) }}</dd>
-                </div>
-                <div>
-                  <dt>{{ t('detail.bestMonths') }}</dt>
-                  <dd>{{ destination.bestMonths.map((m) => month(m, true)).join(', ') }}</dd>
-                </div>
-              </dl>
-
-              <div class="breakdown">
-                <p class="breakdown-title">{{ t('detail.breakdown') }}</p>
-                <div class="bar" role="presentation">
-                  <span
-                    v-for="part in breakdown"
-                    :key="part.key"
-                    :class="`seg seg-${part.key.split('.')[1]}`"
-                    :style="{ width: `${part.percent}%` }"
-                  ></span>
-                </div>
-                <ul class="legend">
-                  <li v-for="part in breakdown" :key="part.key">
-                    <span :class="`dot dot-${part.key.split('.')[1]}`"></span>
-                    <span class="legend-label">{{ t(part.key) }}</span>
-                    <span class="legend-value">{{ money(part.value) }}</span>
-                  </li>
-                </ul>
-                <p class="muted note">{{ t('detail.breakdownNote') }}</p>
-              </div>
-
-              <button class="btn" type="button" @click="planTrip">
-                {{ t('detail.planTrip') }}
-              </button>
-              <button
-                class="btn btn-ghost"
-                type="button"
-                @click="store.toggleWishlist(destination.slug)"
-              >
-                {{
-                  store.isWishlisted(destination.slug)
-                    ? `★ ${t('detail.saved')}`
-                    : `☆ ${t('detail.save')}`
-                }}
-              </button>
-              <p v-if="alreadyPlanned" class="planned muted">{{ t('detail.alreadyPlanned') }}</p>
+      <div class="layout">
+        <article>
+          <header class="guide-head">
+            <div class="guide-kicker">
+              <p class="kicker">{{ region(destination.region) }} · {{ destination.country }}</p>
+              <span v-if="store.inSeason(destination)" class="acme-badge season-flag">
+                {{ t('common.inSeasonNow') }}
+              </span>
             </div>
-          </aside>
-        </div>
+            <h1>{{ destination.name }}</h1>
+            <p class="tagline">{{ destination.tagline }}</p>
+          </header>
 
-        <section v-if="related.length" class="related">
-          <h2>{{ t('detail.moreIn', { region: region(destination.region) }) }}</h2>
-          <ul>
-            <li v-for="item in related" :key="item.slug" class="card related-item">
-              <RouterLink :to="`/destinations/${item.slug}`">
-                <span aria-hidden="true">{{ item.emoji }}</span>
+          <div class="hero">
+            <DestinationMedia :label="t('media.photoOf', { name: destination.name })" />
+          </div>
+
+          <section class="prose">
+            <p class="summary">{{ destination.summary }}</p>
+            <p v-for="(para, index) in destination.overview" :key="index">{{ para }}</p>
+          </section>
+
+          <section class="block">
+            <h2>{{ t('detail.dontMiss') }}</h2>
+            <ul class="highlights">
+              <li v-for="item in destination.highlights" :key="item" class="acme-badge highlight">
+                {{ item }}
+              </li>
+            </ul>
+          </section>
+
+          <section class="block">
+            <h2>{{ t('detail.neighbourhoods') }}</h2>
+            <div class="areas">
+              <div v-for="area in destination.neighbourhoods" :key="area.name" class="acme-card">
+                <div class="acme-card__body area">
+                  <h3>{{ area.name }}</h3>
+                  <p class="best-for">{{ t('detail.bestFor', { what: area.bestFor }) }}</p>
+                  <p class="area-body">{{ area.description }}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="block">
+            <h2>{{ t('detail.itinerary') }}</h2>
+            <div class="plans">
+              <div v-for="plan in destination.sampleItinerary" :key="plan.day" class="acme-card">
+                <div class="acme-card__body plan">
+                  <div class="plan-head">
+                    <span class="numeral" aria-hidden="true">{{ plan.day }}</span>
+                    <h3>{{ plan.title }}</h3>
+                  </div>
+                  <table class="acme-table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">{{ t('detail.morning') }}</th>
+                        <td>{{ plan.morning }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">{{ t('detail.afternoon') }}</th>
+                        <td>{{ plan.afternoon }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">{{ t('detail.evening') }}</th>
+                        <td>{{ plan.evening }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="block lists">
+            <div>
+              <h2>{{ t('detail.foodPicks') }}</h2>
+              <ul class="bullets">
+                <li v-for="item in destination.foodPicks" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+            <div>
+              <h2>{{ t('detail.dayTrips') }}</h2>
+              <ul class="bullets">
+                <li v-for="item in destination.dayTrips" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="block">
+            <h2>{{ t('detail.seasons') }}</h2>
+            <div class="acme-card table-card">
+              <table class="acme-table">
+                <tbody>
+                  <tr v-for="item in destination.seasons" :key="item.label" class="season">
+                    <td class="season-months num">
+                      {{ item.months.map((m) => month(m, true)).join(' · ') }}
+                    </td>
+                    <td class="season-label">{{ item.label }}</td>
+                    <td>{{ item.note }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="block">
+            <h2>{{ t('detail.practical') }}</h2>
+            <div class="acme-card table-card practical">
+              <table class="acme-table">
+                <tbody>
+                  <tr v-for="row in practical" :key="row.label">
+                    <th scope="row" class="practical-label">{{ row.label }}</th>
+                    <td>{{ row.value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section v-if="related.length">
+            <h2>{{ t('detail.moreIn', { region: region(destination.region) }) }}</h2>
+            <div class="related">
+              <RouterLink
+                v-for="item in related"
+                :key="item.slug"
+                class="acme-card acme-card--interactive related-item"
+                :to="`/destinations/${item.slug}`"
+              >
                 <strong>{{ item.name }}</strong>
-                <span class="muted">{{ money(item.dailyBudget) }}{{ t('common.perDay') }}</span>
+                <span class="num muted">{{ money(item.dailyBudget) }}</span>
               </RouterLink>
-            </li>
-          </ul>
-        </section>
-      </template>
+            </div>
+          </section>
+        </article>
 
-      <div v-else class="missing card">
-        <h1>{{ t('detail.notFoundTitle') }}</h1>
-        <p class="muted">{{ t('detail.notFoundBody', { slug: String(route.params.slug) }) }}</p>
-        <RouterLink class="btn" to="/destinations">{{ t('detail.notFoundCta') }}</RouterLink>
+        <aside class="acme-card panel">
+          <div class="figures">
+            <p class="panel-label">{{ t('detail.dailyBudget') }}</p>
+            <p class="panel-price num">{{ money(destination.dailyBudget) }}</p>
+            <p class="panel-note">{{ t('detail.weekNote', { amount: money(weekBudget) }) }}</p>
+          </div>
+
+          <div class="panel-section">
+            <p class="panel-label">{{ t('detail.breakdown') }}</p>
+            <div v-for="part in breakdown" :key="part.key" class="legend">
+              <div class="legend-row">
+                <span>{{ part.label }}</span>
+                <span class="num legend-amount">{{ money(part.value) }}</span>
+              </div>
+              <div class="bar">
+                <span
+                  class="seg"
+                  :class="{ leads: part.leads }"
+                  :style="{ width: `${part.percent}%` }"
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-section actions">
+            <RouterLink class="acme-btn acme-btn--primary" :to="planRoute">
+              {{ t('detail.planTrip') }}
+            </RouterLink>
+            <button
+              class="acme-btn acme-btn--secondary"
+              type="button"
+              :aria-pressed="store.isWishlisted(destination.slug)"
+              @click="store.toggleWishlist(destination.slug)"
+            >
+              {{ store.isWishlisted(destination.slug) ? t('detail.saved') : t('detail.save') }}
+            </button>
+            <p v-if="alreadyPlanned" class="acme-alert planned">{{ t('detail.alreadyPlanned') }}</p>
+          </div>
+        </aside>
       </div>
+    </template>
+
+    <div v-else class="acme-card empty-state">
+      <h1>{{ t('detail.notFoundTitle') }}</h1>
+      <p class="muted">{{ t('detail.notFoundBody', { slug: String(route.params.slug) }) }}</p>
+      <RouterLink class="acme-btn acme-btn--primary" to="/destinations">
+        {{ t('detail.notFoundCta') }}
+      </RouterLink>
     </div>
   </main>
 </template>
 
 <style scoped>
-.back {
-  display: inline-block;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+.page--tight {
+  padding-top: var(--acme-space-6);
 }
 
-.hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2.25rem 1.75rem;
-  border: none;
-  color: var(--c-on-gradient);
-}
-
-.emoji {
-  font-size: 3.5rem;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
-}
-
-.hero h1 {
-  color: var(--c-on-gradient);
-}
-
-.region {
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.72rem;
-  font-weight: 700;
-  opacity: 0.75;
-}
-
-.country {
-  font-weight: 550;
-  opacity: 0.85;
-}
-
-.season-flag {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  background: var(--c-season-bg);
-  color: var(--c-season-text);
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.acme-breadcrumbs {
+  margin-bottom: var(--acme-space-5);
 }
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 2.5rem;
-  margin-top: 2rem;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--acme-space-10);
   align-items: start;
 }
 
-.main section {
-  margin-bottom: 2.25rem;
+.guide-head {
+  margin-bottom: var(--acme-space-6);
 }
 
-.main h2 {
-  margin-bottom: 0.85rem;
+.guide-kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--acme-space-3);
+  flex-wrap: wrap;
 }
 
-.summary,
+.season-flag {
+  background: var(--acme-color-selected-soft);
+  color: var(--acme-color-accent);
+}
+
+.guide-head h1 {
+  margin: var(--acme-space-2) 0 0;
+  font-size: var(--acme-text-5xl);
+}
+
+.tagline {
+  margin: var(--acme-space-2) 0 0;
+  font-size: var(--acme-text-lg);
+  color: var(--acme-color-text-muted);
+}
+
+.hero {
+  border: 1px solid var(--acme-color-border);
+  border-radius: var(--acme-radius-lg);
+  overflow: hidden;
+  margin: var(--acme-space-8) 0;
+}
+
 .prose {
   max-width: 68ch;
+  margin-bottom: var(--acme-space-10);
 }
 
-.prose + .prose {
-  margin-top: 0.9rem;
+.prose p {
+  text-wrap: pretty;
 }
 
-.highlights,
-.tags {
+.summary {
+  font-size: var(--acme-text-lg);
+}
+
+.block {
+  margin-bottom: var(--acme-space-10);
+}
+
+h2 {
+  margin: 0 0 var(--acme-space-4);
+  font-size: var(--acme-text-2xl);
+}
+
+.highlights {
   list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: var(--acme-space-2);
 }
 
-.highlights li {
-  padding: 0.65rem 0.9rem;
-  font-size: 0.925rem;
+.highlight {
+  font-size: var(--acme-text-sm);
+  padding: var(--acme-space-2) var(--acme-space-3);
 }
 
-.areas,
-.seasons {
-  list-style: none;
+.areas {
   display: grid;
-  gap: 0.85rem;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--acme-space-4);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
-.area,
-.season {
-  padding: 1rem 1.1rem;
-}
-
-.area h3,
-.season h3 {
-  margin-bottom: 0.35rem;
+.area h3 {
+  margin: 0 0 var(--acme-space-1);
+  font-size: var(--acme-text-lg);
 }
 
 .best-for {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.85rem;
-  margin-bottom: 0.4rem;
-  flex-wrap: wrap;
+  margin: 0 0 var(--acme-space-2);
+  font-size: var(--acme-text-sm);
+  color: var(--acme-color-accent);
+  font-weight: 600;
 }
 
-.season-months {
-  display: flex;
-  gap: 0.3rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.5rem;
+.area-body {
+  margin: 0;
+  font-size: var(--acme-text-sm);
+  color: var(--acme-color-text-muted);
+  text-wrap: pretty;
 }
 
-.itinerary {
-  list-style: none;
+.plans {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: var(--acme-space-4);
 }
 
-.plan {
-  padding: 1.1rem 1.25rem;
-}
-
-.plan header {
+.plan-head {
   display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 0.7rem;
-  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--acme-space-3);
+  margin-bottom: var(--acme-space-3);
 }
 
-.day-badge {
-  padding: 0.15rem 0.6rem;
-  border-radius: 999px;
-  background: var(--c-brand-soft);
-  color: var(--c-brand);
-  font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
+.plan-head .numeral {
+  font-size: var(--acme-text-2xl);
 }
 
-.plan dl {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.plan-head h3 {
+  margin: 0;
+  font-size: var(--acme-text-lg);
 }
 
-.plan dt {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--c-muted);
-  font-weight: 700;
+.plan .acme-table th {
+  width: 7rem;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--acme-text-sm);
+  font-weight: 400;
+  border-block-end: 1px solid var(--acme-color-border);
 }
 
-.plan dd {
-  font-size: 0.925rem;
-}
-
-.two-up {
+.lists {
   display: grid;
+  gap: var(--acme-space-8);
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
 }
 
 .bullets {
-  list-style: none;
+  margin: 0;
+  padding-left: var(--acme-space-5);
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: var(--acme-space-2);
+  font-size: var(--acme-text-sm);
 }
 
-.bullets li {
-  position: relative;
-  padding-left: 1.25rem;
-  font-size: 0.925rem;
+.season-months {
+  width: 9rem;
+  color: var(--acme-color-text-muted);
 }
 
-.bullets li::before {
-  content: '·';
-  position: absolute;
-  left: 0.35rem;
-  color: var(--c-brand);
-  font-weight: 900;
+.season-label {
+  width: 11rem;
+  font-weight: 600;
 }
 
-.practical {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem 1.5rem;
-  padding: 1.25rem;
-}
-
-.practical .wide {
-  grid-column: 1 / -1;
-}
-
-.practical dt {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--c-muted);
-  font-weight: 700;
-  margin-bottom: 0.2rem;
-}
-
-.practical dd {
-  font-size: 0.9rem;
-}
-
-.panel {
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  position: sticky;
-  top: 84px;
-}
-
-.figures {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.figures > div {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  align-items: baseline;
-}
-
-.figures dt {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--c-muted);
-  font-weight: 650;
-}
-
-.figures dd {
-  font-weight: 650;
-  color: var(--c-heading);
-  text-align: right;
-}
-
-.breakdown {
-  border-top: 1px solid var(--c-border);
-  padding-top: 0.9rem;
-}
-
-.breakdown-title {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--c-muted);
-  font-weight: 650;
-  margin-bottom: 0.5rem;
-}
-
-.bar {
-  display: flex;
-  height: 9px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: var(--c-surface-soft);
-}
-
-/* A 2px surface gap keeps adjacent segments legible without a border colour.
-   Taken from the inside so the percentage widths stay accurate. */
-.bar .seg {
-  box-sizing: border-box;
-  border-right: 2px solid var(--c-surface);
-}
-
-.bar .seg:last-child {
-  border-right: none;
-}
-
-.seg-stay {
-  background: var(--c-series-stay);
-}
-.seg-food {
-  background: var(--c-series-food);
-}
-.seg-transport {
-  background: var(--c-series-transport);
-}
-.seg-activitiesCost {
-  background: var(--c-series-activities);
-}
-
-.legend {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  margin-top: 0.7rem;
-}
-
-.legend li {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.82rem;
-}
-
-.dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex: none;
-}
-
-.dot-stay {
-  background: var(--c-series-stay);
-}
-.dot-food {
-  background: var(--c-series-food);
-}
-.dot-transport {
-  background: var(--c-series-transport);
-}
-.dot-activitiesCost {
-  background: var(--c-series-activities);
-}
-
-.legend-label {
-  flex: 1;
-  color: var(--c-muted);
-}
-
-.legend-value {
-  font-weight: 650;
-  color: var(--c-heading);
-}
-
-.note {
-  font-size: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-.planned {
-  font-size: 0.82rem;
-  text-align: center;
+.practical-label {
+  width: 11rem;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--acme-text-sm);
+  font-weight: 400;
+  color: var(--acme-color-text-muted);
+  border-block-end: 1px solid var(--acme-color-border);
 }
 
 .related {
-  margin-top: 1rem;
-}
-
-.related ul {
-  list-style: none;
   display: grid;
+  gap: var(--acme-space-3);
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.75rem;
-  margin-top: 0.85rem;
 }
 
-.related-item a {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  color: var(--c-text);
+.related-item {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: var(--acme-space-3);
+  padding: var(--acme-space-4);
+  text-decoration: none;
+  color: var(--acme-color-text);
 }
 
-.missing {
-  padding: 3rem;
-  text-align: center;
+.panel {
+  padding: var(--acme-space-5);
+  gap: var(--acme-space-4);
+  position: sticky;
+  /* Clears the sticky top bar. */
+  top: var(--acme-space-20);
+}
+
+.panel-label {
+  margin: 0;
+  font-size: var(--acme-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: var(--acme-color-text-muted);
+}
+
+.panel-price {
+  margin: 0;
+  font-size: var(--acme-text-3xl);
+  font-weight: 600;
+}
+
+.panel-note {
+  margin: 0;
+  font-size: var(--acme-text-sm);
+  color: var(--acme-color-text-muted);
+}
+
+.panel-section {
+  border-top: 1px solid var(--acme-color-border);
+  padding-top: var(--acme-space-4);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
+  gap: var(--acme-space-3);
 }
 
-@media (max-width: 920px) {
+.legend-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--acme-text-sm);
+  margin-bottom: var(--acme-space-1);
+}
+
+.legend-amount {
+  font-weight: 600;
+}
+
+.bar {
+  height: 6px;
+  background: var(--acme-color-surface);
+  border: 1px solid var(--acme-color-border);
+  border-radius: var(--acme-radius-sm);
+  overflow: hidden;
+}
+
+.seg {
+  display: block;
+  height: 100%;
+  background: var(--acme-color-data);
+}
+
+.seg.leads {
+  background: var(--acme-color-data-highlight);
+}
+
+.actions {
+  gap: var(--acme-space-2);
+}
+
+.planned {
+  margin: var(--acme-space-2) 0 0;
+}
+
+.empty-state h1 {
+  font-size: var(--acme-text-2xl);
+}
+
+@media (max-width: 960px) {
   .layout {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .panel {

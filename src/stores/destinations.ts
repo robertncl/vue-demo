@@ -21,6 +21,7 @@ export const useDestinationsStore = defineStore('destinations', () => {
   const region = ref<Region | 'all'>('all')
   const tag = ref<string | 'all'>('all')
   const maxDailyBudget = ref(250)
+  const inSeasonOnly = ref(false)
   const wishlist = ref<string[]>(loadWishlist())
 
   watch(
@@ -31,19 +32,23 @@ export const useDestinationsStore = defineStore('destinations', () => {
     { deep: true },
   )
 
+  /** Cheapest first, as the catalog's "A day \u2191" column header promises. */
   const filtered = computed(() => {
     const needle = query.value.trim().toLowerCase()
-    return catalog.value.filter((destination) => {
-      const matchesQuery =
-        !needle ||
-        destination.name.toLowerCase().includes(needle) ||
-        destination.country.toLowerCase().includes(needle) ||
-        destination.tags.some((t) => t.includes(needle))
-      const matchesRegion = region.value === 'all' || destination.region === region.value
-      const matchesTag = tag.value === 'all' || destination.tags.includes(tag.value)
-      const matchesBudget = destination.dailyBudget <= maxDailyBudget.value
-      return matchesQuery && matchesRegion && matchesTag && matchesBudget
-    })
+    return catalog.value
+      .filter((destination) => {
+        const matchesQuery =
+          !needle ||
+          destination.name.toLowerCase().includes(needle) ||
+          destination.country.toLowerCase().includes(needle) ||
+          destination.tags.some((t) => t.includes(needle))
+        const matchesRegion = region.value === 'all' || destination.region === region.value
+        const matchesTag = tag.value === 'all' || destination.tags.includes(tag.value)
+        const matchesBudget = destination.dailyBudget <= maxDailyBudget.value
+        const matchesSeason = !inSeasonOnly.value || inSeason(destination)
+        return matchesQuery && matchesRegion && matchesTag && matchesBudget && matchesSeason
+      })
+      .sort((a, b) => a.dailyBudget - b.dailyBudget)
   })
 
   const featured = computed(() =>
@@ -100,7 +105,8 @@ export const useDestinationsStore = defineStore('destinations', () => {
       query.value !== '' ||
       region.value !== 'all' ||
       tag.value !== 'all' ||
-      maxDailyBudget.value < 250,
+      maxDailyBudget.value < 250 ||
+      inSeasonOnly.value,
   )
 
   function isWishlisted(slug: string) {
@@ -124,6 +130,7 @@ export const useDestinationsStore = defineStore('destinations', () => {
     region.value = 'all'
     tag.value = 'all'
     maxDailyBudget.value = 250
+    inSeasonOnly.value = false
   }
 
   return {
@@ -132,6 +139,7 @@ export const useDestinationsStore = defineStore('destinations', () => {
     region,
     tag,
     maxDailyBudget,
+    inSeasonOnly,
     wishlist,
     filtered,
     featured,

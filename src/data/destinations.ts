@@ -13,7 +13,6 @@ export const destinations: Destination[] = [
     name: 'Kyoto',
     country: 'Japan',
     region: 'Asia',
-    emoji: '⛩️',
     tagline: 'Temple mornings and lantern-lit alleys',
     summary:
       'Japan’s old capital keeps a thousand years of craft alive in its tea houses, moss gardens and cedar shrines. Mornings belong to the temples, evenings to the riverside lanes of Pontocho.',
@@ -22,7 +21,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Mar', 'Apr', 'Oct', 'Nov'],
     tags: ['culture', 'food', 'walkable'],
     highlights: ['Fushimi Inari at sunrise', 'Arashiyama bamboo grove', 'Kaiseki dinner in Gion'],
-    gradient: ['#f3a5b1', '#8f5fbf'],
     overview: [
       'Kyoto was the imperial capital for over a thousand years, and it escaped the worst of the wartime bombing that flattened other Japanese cities. What survives is an unusually dense concentration of wooden temples, imperial villas and merchant townhouses, wrapped around a modern city of 1.5 million people.',
       'The city sits in a basin ringed by mountains on three sides, which traps the heat in August and the cold in January. The grid of the old capital makes the centre easy to read: streets run north–south and east–west, numbered avenues climb from the station towards the Imperial Palace.',
@@ -127,7 +125,6 @@ export const destinations: Destination[] = [
     name: 'Lisbon',
     country: 'Portugal',
     region: 'Europe',
-    emoji: '🚋',
     tagline: 'Seven hills, tiled facades, endless custard tarts',
     summary:
       'A city built on viewpoints. Ride the 28 tram up through Alfama, eat your weight in pastéis de nata, and end the night with fado drifting out of a basement bar.',
@@ -136,7 +133,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Apr', 'May', 'Sep', 'Oct'],
     tags: ['food', 'coast', 'budget'],
     highlights: ['Tram 28 through Alfama', 'Belém at golden hour', 'Day trip to Sintra'],
-    gradient: ['#ffd76f', '#ff8a5c'],
     overview: [
       'Lisbon is a port city that faces the Atlantic through the mouth of the Tagus, and it has the light to prove it — low, golden and bouncing off a million azulejo tiles. The 1755 earthquake levelled the centre, so the downtown Baixa is a rational grid while the surrounding hills kept their medieval tangle.',
       'It is among the cheapest capitals in Western Europe, though a decade of tourism has pushed the centre upmarket. The trade-off is a food scene that still runs on €10 lunches in tiled tascas alongside tasting menus that would cost triple in Paris.',
@@ -241,7 +237,6 @@ export const destinations: Destination[] = [
     name: 'Reykjavík',
     country: 'Iceland',
     region: 'Europe',
-    emoji: '🌋',
     tagline: 'Basecamp for volcanoes and northern lights',
     summary:
       'A pocket-sized capital with outsized ambition: geothermal pools on every corner, and a ring road that drops you into glaciers, black sand and steam within the hour.',
@@ -250,7 +245,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Feb', 'Mar', 'Sep', 'Oct'],
     tags: ['nature', 'adventure', 'nordic'],
     highlights: ['Golden Circle loop', 'Aurora hunt from Grótta', 'Soak at Sky Lagoon'],
-    gradient: ['#7ad7f0', '#3b5bdb'],
     overview: [
       'Reykjavík holds around a third of Iceland’s population in a low-rise sprawl of corrugated-iron houses, and you can cross the old centre on foot in twenty minutes. It is best understood as a warm, well-fed basecamp rather than a destination in itself.',
       'Everything is expensive — Iceland imports most of its food and taxes alcohol heavily. The offsetting truth is that the best things are cheap or free: the geothermal neighbourhood pools cost a few dollars, and the landscape costs nothing at all.',
@@ -356,7 +350,6 @@ export const destinations: Destination[] = [
     name: 'Marrakech',
     country: 'Morocco',
     region: 'Africa',
-    emoji: '🕌',
     tagline: 'Souks, riad courtyards and mint tea at dusk',
     summary:
       'The medina is a maze worth getting lost in. Trade the noise of Jemaa el-Fnaa for a quiet riad rooftop, then head for the Atlas foothills when the heat peaks.',
@@ -365,7 +358,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Mar', 'Apr', 'Oct', 'Nov'],
     tags: ['culture', 'markets', 'budget'],
     highlights: ['Jardin Majorelle', 'Atlas Mountains day trip', 'Rooftop dinner over the medina'],
-    gradient: ['#ff9d6c', '#c2410c'],
     overview: [
       'Marrakech is a thousand-year-old caravan city on the edge of the Sahara, and the red walls of its medina still enclose a working neighbourhood rather than a museum. Donkeys, mopeds and tourists share lanes barely wide enough for two people.',
       'The city splits cleanly in two. Inside the walls is the medina, where the souks, the riads and the Jemaa el-Fnaa square are. Outside is Gueliz, the French-built new town, with wide boulevards, wine lists and none of the intensity.',
@@ -470,7 +462,6 @@ export const destinations: Destination[] = [
     name: 'Queenstown',
     country: 'New Zealand',
     region: 'Oceania',
-    emoji: '🏔️',
     tagline: 'Adventure capital on a glacial lake',
     summary:
       'Bungee, ski and hike straight out of town, with the Remarkables at your back and Lake Wakatipu in front. Fiordland is close enough for a long, spectacular day.',
@@ -479,7 +470,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Jan', 'Feb', 'Mar', 'Dec'],
     tags: ['adventure', 'nature', 'hiking'],
     highlights: ['Milford Sound cruise', 'Ben Lomond track', 'Gibbston valley wineries'],
-    gradient: ['#6ee7b7', '#0f766e'],
     overview: [
       'Queenstown is a resort town of about 16,000 people wedged between a glacial lake and a wall of mountains called the Remarkables, and it has built an entire economy on adrenaline. Commercial bungee jumping was invented here in 1988.',
       'The setting does most of the work. Lake Wakatipu is a 80km zigzag of meltwater, and the town sits on a small delta halfway along it, which is why everything feels vertical — you climb out of town in every direction.',
@@ -584,7 +574,6 @@ export const destinations: Destination[] = [
     name: 'Mexico City',
     country: 'Mexico',
     region: 'Americas',
-    emoji: '🌮',
     tagline: 'Murals, mezcal and the best street food anywhere',
     summary:
       'An endlessly layered capital: Aztec foundations under colonial squares, Art Deco Roma Norte, and a food scene that runs from taquería stools to the world’s best tables.',
@@ -593,7 +582,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Mar', 'Apr', 'Oct', 'Nov'],
     tags: ['food', 'culture', 'budget'],
     highlights: ['Teotihuacán pyramids', 'Frida Kahlo’s Casa Azul', 'Sunday in Chapultepec'],
-    gradient: ['#fca5a5', '#be185d'],
     overview: [
       'Mexico City is built on a drained lake bed at 2,240 metres, on top of the Aztec capital Tenochtitlán, and it is sinking — you can see it in the tilted colonial facades around the Zócalo. Nine million people live in the city proper and over twenty in the metro area.',
       'It is one of the great museum cities: the Museo Nacional de Antropología alone justifies the trip. But the real draw is how liveable the central neighbourhoods are, with jacaranda-lined streets, Art Deco apartment blocks and a park bigger than Central Park.',
@@ -698,7 +686,6 @@ export const destinations: Destination[] = [
     name: 'Hanoi',
     country: 'Vietnam',
     region: 'Asia',
-    emoji: '🍜',
     tagline: 'Old Quarter chaos and lakeside calm',
     summary:
       'Plastic stools, charcoal smoke and motorbike rivers — then a block later, a still lake and a temple. Hạ Long Bay and the Ninh Bình karsts are both easy escapes.',
@@ -707,7 +694,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Oct', 'Nov', 'Mar', 'Apr'],
     tags: ['food', 'budget', 'culture'],
     highlights: ['Bún chả lunch', 'Train Street coffee', 'Ninh Bình boat ride'],
-    gradient: ['#fde68a', '#15803d'],
     overview: [
       'Hanoi is a thousand years old and wears its history in layers: a Chinese-influenced old quarter of guild streets, a French colonial quarter of villas and boulevards, and a socialist capital of monuments and parade grounds.',
       'The Old Quarter is the heart of it — 36 streets each historically dedicated to one trade, now a dense tangle of shophouses, street kitchens and motorbikes. It is loud and relentless, and the lakes scattered through the city are the pressure valve.',
@@ -812,7 +798,6 @@ export const destinations: Destination[] = [
     name: 'Cape Town',
     country: 'South Africa',
     region: 'Africa',
-    emoji: '🐧',
     tagline: 'A mountain, two oceans and a wine valley',
     summary:
       'Table Mountain anchors the city; on either side there are penguins, surf beaches and some of the oldest vineyards in the southern hemisphere.',
@@ -821,7 +806,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Nov', 'Dec', 'Feb', 'Mar'],
     tags: ['nature', 'coast', 'wine'],
     highlights: ['Table Mountain at dawn', 'Cape Point drive', 'Stellenbosch tasting'],
-    gradient: ['#93c5fd', '#1d4ed8'],
     overview: [
       'Cape Town is wrapped around a 1,000-metre flat-topped mountain that sits in the middle of the city, and almost every decision you make here — where to stay, what to do, whether the beach is windy — comes back to it.',
       'The peninsula runs 50km south from the centre to the Cape of Good Hope, with the cold Atlantic on one side and the warmer False Bay on the other. That geography packs an improbable amount into a short drive: penguins, baboons, vineyards and empty white beaches.',
@@ -926,7 +910,6 @@ export const destinations: Destination[] = [
     name: 'Florence',
     country: 'Italy',
     region: 'Europe',
-    emoji: '🎨',
     tagline: 'The Renaissance at walking pace',
     summary:
       'Small enough to cross on foot, dense enough to fill a week. Book the Uffizi ahead, climb the Duomo early, and let Tuscany take the rest of the trip.',
@@ -935,7 +918,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Apr', 'May', 'Sep', 'Oct'],
     tags: ['culture', 'food', 'walkable'],
     highlights: ['Duomo cupola climb', 'Uffizi Gallery', 'Sunset at Piazzale Michelangelo'],
-    gradient: ['#fbcfe8', '#9d174d'],
     overview: [
       'Florence packed more artistic invention into a century than most countries manage in a millennium, and the compact medieval centre still holds most of it. You can walk from the Duomo to the Pitti Palace in twenty minutes, crossing the Arno on a bridge built in 1345.',
       'That density is also the problem: around 15 million visitors a year funnel through a historic centre you could cross in half an hour. The fix is timing rather than avoidance — the same streets that are impassable at noon are yours at eight in the morning.',
@@ -1039,7 +1021,6 @@ export const destinations: Destination[] = [
     name: 'Patagonia',
     country: 'Chile & Argentina',
     region: 'Americas',
-    emoji: '🏕️',
     tagline: 'Granite towers, glaciers and relentless wind',
     summary:
       'The end of the continent, and the best multi-day trekking on it. Torres del Paine’s W circuit and El Chaltén’s day hikes bookend a long, wild road.',
@@ -1048,7 +1029,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Nov', 'Dec', 'Jan', 'Feb'],
     tags: ['adventure', 'hiking', 'nature'],
     highlights: ['W trek in Torres del Paine', 'Perito Moreno glacier', 'Fitz Roy sunrise'],
-    gradient: ['#a5b4fc', '#334155'],
     overview: [
       'Patagonia is not a country but a region split between Chile and Argentina, covering a million square kilometres of steppe, ice field and granite. Most visitors focus on a small southern corner: Torres del Paine in Chile and El Chaltén and El Calafate in Argentina.',
       'The Southern Patagonian Ice Field is the largest outside the poles, and it feeds glaciers you can walk up to — Perito Moreno calves house-sized blocks into a lake all day, in full view of a boardwalk.',
@@ -1153,7 +1133,6 @@ export const destinations: Destination[] = [
     name: 'Istanbul',
     country: 'Türkiye',
     region: 'Europe',
-    emoji: '🫖',
     tagline: 'Two continents, one ferry ride',
     summary:
       'Byzantine domes, Ottoman palaces and a bazaar that has been trading for 500 years — best seen with a tea in hand from the deck of a Bosphorus ferry.',
@@ -1162,7 +1141,6 @@ export const destinations: Destination[] = [
     bestMonths: ['Apr', 'May', 'Sep', 'Oct'],
     tags: ['culture', 'food', 'budget'],
     highlights: ['Hagia Sophia', 'Bosphorus ferry at dusk', 'Spice Bazaar crawl'],
-    gradient: ['#fcd34d', '#b45309'],
     overview: [
       'Istanbul has been the capital of two empires and sits on both sides of the Bosphorus, the strait that separates Europe from Asia. Sixteen million people live here, and the commuter ferries crossing between continents are ordinary public transport.',
       'The historic peninsula holds the headline sights — Hagia Sophia, the Blue Mosque, Topkapı, the Grand Bazaar — within a walkable square kilometre. But the city that people fall for is usually the other one: Karaköy’s coffee, Kadıköy’s fish market, the Asian side’s ordinary streets.',
@@ -1267,7 +1245,6 @@ export const destinations: Destination[] = [
     name: 'Bali',
     country: 'Indonesia',
     region: 'Asia',
-    emoji: '🌴',
     tagline: 'Rice terraces, reef breaks and temple smoke',
     summary:
       'Split the trip: Ubud for jungle, ceremony and long lunches, then the Bukit peninsula for cliffs, surf and sunsets over the Indian Ocean.',
@@ -1276,7 +1253,6 @@ export const destinations: Destination[] = [
     bestMonths: ['May', 'Jun', 'Sep', 'Oct'],
     tags: ['beach', 'budget', 'nature'],
     highlights: ['Tegallalang rice terraces', 'Uluwatu cliff temple', 'Nusa Penida day trip'],
-    gradient: ['#86efac', '#0369a1'],
     overview: [
       'Bali is a Hindu island in the world’s largest Muslim country, and that distinctiveness shapes everything: the daily canang sari offerings on every doorstep, the temple festivals, the volcanic landscape terraced into rice paddies by a thousand-year-old irrigation system.',
       'Tourism has hit the south hard. Canggu and Seminyak are dense with traffic and construction, and the "real Bali" of the brochures now takes some seeking out — usually north and east, towards Sidemen, Amed and the slopes of Mount Agung.',

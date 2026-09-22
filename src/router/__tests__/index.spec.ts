@@ -49,6 +49,6 @@ describe('router', () => {
 
   it('sets a translated document title from route meta', async () => {
     await router.push('/trips')
-    expect(document.title).toBe('My trips · Wanderlog')
+    expect(document.title).toBe('Trips · Wanderlog')
   })
 })

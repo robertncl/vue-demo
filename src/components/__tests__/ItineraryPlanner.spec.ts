@@ -92,7 +92,7 @@ describe('ItineraryPlanner', () => {
 
   it('shows an empty state when there is nothing planned', () => {
     const wrapper = mountPlanner({ trip: { ...trip, activities: [] } })
-    expect(wrapper.text()).toContain('No activities planned yet')
+    expect(wrapper.text()).toContain('Nothing planned yet')
   })
 
   it('shows all money in the selected currency', async () => {

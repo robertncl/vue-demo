@@ -17,35 +17,27 @@ function onCurrency(event: Event) {
 
 <template>
   <div class="settings">
-    <label class="control">
-      <span class="sr-only">{{ t('settings.language') }}</span>
-      <select
-        class="picker"
-        :value="settings.locale"
-        :title="t('settings.language')"
-        :aria-label="t('settings.language')"
-        @change="onLocale"
-      >
-        <option v-for="option in settings.locales" :key="option.code" :value="option.code">
-          {{ option.flag }} {{ option.label }}
-        </option>
-      </select>
-    </label>
+    <select
+      class="acme-input picker"
+      :value="settings.locale"
+      :aria-label="t('settings.language')"
+      @change="onLocale"
+    >
+      <option v-for="option in settings.locales" :key="option.code" :value="option.code">
+        {{ option.label }}
+      </option>
+    </select>
 
-    <label class="control">
-      <span class="sr-only">{{ t('settings.currency') }}</span>
-      <select
-        class="picker"
-        :value="settings.currency"
-        :title="t('settings.currency')"
-        :aria-label="t('settings.currency')"
-        @change="onCurrency"
-      >
-        <option v-for="option in settings.currencies" :key="option.code" :value="option.code">
-          {{ option.symbol }} {{ option.code }}
-        </option>
-      </select>
-    </label>
+    <select
+      class="acme-input picker"
+      :value="settings.currency"
+      :aria-label="t('settings.currency')"
+      @change="onCurrency"
+    >
+      <option v-for="option in settings.currencies" :key="option.code" :value="option.code">
+        {{ option.symbol }} {{ option.code }}
+      </option>
+    </select>
   </div>
 </template>
 
@@ -53,35 +45,12 @@ function onCurrency(event: Event) {
 .settings {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-}
-
-.control {
-  display: block;
+  gap: var(--acme-space-2);
 }
 
 .picker {
+  min-height: 2rem;
   width: auto;
-  padding: 0.3rem 0.5rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  border-radius: 999px;
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  cursor: pointer;
-}
-
-.picker:hover {
-  border-color: var(--c-brand);
-}
-
-@media (max-width: 760px) {
-  .settings {
-    width: 100%;
-  }
-
-  .picker {
-    width: 100%;
-  }
+  font-size: var(--acme-text-sm);
 }
 </style>

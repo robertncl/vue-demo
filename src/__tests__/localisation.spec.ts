@@ -68,11 +68,11 @@ describe('localisation', () => {
     await router.push('/')
     await flushPromises()
 
-    expect(wrapper.find('.top-pick').text()).toMatch(/Where to go in \w+/)
+    expect(wrapper.find('.top-pick').text()).toMatch(/Top pick for \w+/)
 
     settings.setLocale('de')
     await flushPromises()
-    expect(wrapper.find('.top-pick').text()).toMatch(/Wohin im \w+/)
+    expect(wrapper.find('.top-pick').text()).toMatch(/Top-Tipp für \w+/)
 
     wrapper.unmount()
   })

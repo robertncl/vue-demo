@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import DestinationDetailView from '../DestinationDetailView.vue'
@@ -45,24 +45,27 @@ describe('DestinationDetailView', () => {
     const wrapper = await mountView('bali')
     const store = useDestinationsStore()
 
-    expect(wrapper.text()).toContain('Save to wishlist')
-    await wrapper.findAll('.panel button')[1].trigger('click')
+    expect(wrapper.text()).toContain('Save to shortlist')
+    await wrapper.find('.panel button').trigger('click')
 
     expect(store.isWishlisted('bali')).toBe(true)
-    expect(wrapper.text()).toContain('★ Saved')
+    expect(wrapper.text()).toContain('Saved to shortlist')
   })
 
   it('sends a pre-filled trip to the planner', async () => {
     const wrapper = await mountView('lisbon')
     const lisbon = findDestination('lisbon')!
 
-    await wrapper.findAll('.panel button')[0].trigger('click')
-    await flushPromises()
+    const planLink = wrapper
+      .findAllComponents(RouterLinkStub)
+      .find((link) => (link.props().to as { path?: string })?.path === '/trips')
 
-    expect(router.currentRoute.value.path).toBe('/trips')
-    expect(router.currentRoute.value.query).toEqual({
-      destination: 'Lisbon, Portugal',
-      budget: String(lisbon.dailyBudget * 7),
+    expect(planLink!.props().to).toMatchObject({
+      path: '/trips',
+      query: {
+        destination: 'Lisbon, Portugal',
+        budget: String(lisbon.dailyBudget * 7),
+      },
     })
   })
 
@@ -118,11 +121,14 @@ describe('DestinationDetailView', () => {
 
     expect(wrapper.findAll('.bar .seg')).toHaveLength(4)
 
-    const legend = wrapper.find('.legend').text()
-    expect(legend).toContain(`$${kyoto.budgetBreakdown.stay}`)
-    expect(legend).toContain(`$${kyoto.budgetBreakdown.food}`)
-    expect(legend).toContain('Stay')
-    expect(legend).toContain('Transport')
+    // Only the largest line takes the Clay highlight; the rest stay neutral.
+    expect(wrapper.findAll('.seg.leads')).toHaveLength(1)
+
+    const legend = wrapper.findAll('.legend').map((row) => row.text())
+    expect(legend[0]).toContain('Stay')
+    expect(legend[0]).toContain(`$${kyoto.budgetBreakdown.stay}`)
+    expect(legend[1]).toContain(`$${kyoto.budgetBreakdown.food}`)
+    expect(legend[2]).toContain('Transport')
   })
 
   it('converts every price into the selected currency', async () => {

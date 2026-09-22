@@ -18,11 +18,11 @@ describe('WishlistView', () => {
 
   it('shows an empty state when nothing is saved', () => {
     const wrapper = mountView()
-    expect(wrapper.text()).toContain('No saved destinations yet')
-    expect(wrapper.findAll('.destination-card')).toHaveLength(0)
+    expect(wrapper.text()).toContain('Nothing saved yet')
+    expect(wrapper.findAll('.saved-row')).toHaveLength(0)
   })
 
-  it('lists saved destinations and removes them when unstarred', async () => {
+  it('compares saved destinations in a table and removes them again', async () => {
     const wrapper = mountView()
     const store = useDestinationsStore()
 
@@ -30,12 +30,16 @@ describe('WishlistView', () => {
     store.toggleWishlist('kyoto')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.findAll('.destination-card')).toHaveLength(2)
+    const rows = wrapper.findAll('.saved-row')
+    expect(rows).toHaveLength(2)
     expect(wrapper.text()).toContain('Bali')
+    // Daily and weekly budgets sit side by side for comparison.
+    expect(rows[0].text()).toContain('$70')
+    expect(rows[0].text()).toContain('$490')
 
-    await wrapper.find('.destination-card .wish').trigger('click')
+    await wrapper.find('.saved-row .wish').trigger('click')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.findAll('.destination-card')).toHaveLength(1)
+    expect(wrapper.findAll('.saved-row')).toHaveLength(1)
   })
 })
