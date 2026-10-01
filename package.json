@@ -35,13 +35,13 @@
     "@types/node": "26.6.3",
     "@vitejs/plugin-vue": "6.0.9",
     "@vitejs/plugin-vue-jsx": "5.1.6",
-    "@vitest/coverage-v8": "5.0.2",
+    "@vitest/coverage-v8": "5.0.3",
     "@vitest/eslint-plugin": "1.6.27",
     "@vue/eslint-config-prettier": "10.2.0",
     "@vue/eslint-config-typescript": "14.9.0",
     "@vue/test-utils": "2.5.1",
     "@vue/tsconfig": "0.9.1",
-    "cypress": "16.1.0",
+    "cypress": "16.1.1",
     "eslint": "10.11.0",
     "eslint-plugin-cypress": "7.0.2",
     "eslint-plugin-oxlint": "1.86.0",
@@ -54,7 +54,7 @@
     "typescript": "6.0.3",
     "vite": "8.3.1",
     "vite-plugin-vue-devtools": "8.2.1",
-    "vitest": "5.0.2",
+    "vitest": "5.0.3",
     "vue-tsc": "3.3.11"
   }
 }
