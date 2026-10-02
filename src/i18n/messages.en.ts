@@ -21,7 +21,6 @@ export const en = {
     dayCount: '{count} days',
     best: 'Best',
     now: 'now',
-    inSeason: 'In season',
     inSeasonNow: 'In season now',
     reset: 'Clear all',
     remove: 'Remove',

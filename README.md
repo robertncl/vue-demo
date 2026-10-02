@@ -19,26 +19,30 @@ serves, starting at `/`.
 - **Six currencies** — USD, EUR, GBP, JPY, AUD and CAD, converted from a USD base at fixed reference rates.
 - **Shortlist** — save destinations and compare them on price and season; the list persists in `localStorage`.
 - **Trip planner** — create dated trips, add activities per day, and watch the budget bar.
-- Responsive layout, automatic light/dark theming, and a proper 404 route.
+- Responsive layout and a proper 404 route.
 - Built on the **ACME design system** — its tokens and component classes are ported into `src/assets/acme.css`.
 
 ## Design system
 
-The UI is built on the ACME design system. `src/assets/acme.css` is a port of that system's
-stylesheet — every token (light and dark) plus the `.acme-*` classes for buttons, forms, cards,
+The UI is built on the ACME design system (v3). `src/assets/acme.css` is a port of that system's
+stylesheet — every token plus the `.acme-*` classes for buttons, forms, cards,
 badges, alerts, tables, tabs, the top bar and breadcrumbs. Sections the app has no use for
 (modal, presentation slides, report documents) are left out. `src/assets/main.css` is the thin
 app layer on top: the page well, the section kicker, the card grid; it introduces no new colour,
 type or spacing values, only compositions of the tokens.
+
+ACME v3 is a cool Slate base with a single Cobalt highlight, and it is **light theme only**: there
+is no `prefers-color-scheme` override and no theme switch, so the app looks the same whatever the
+system preference.
 
 Two of ACME's rules shape the content directly:
 
 - **No emoji, no gradients.** Destination art is a flat `surface` panel naming the photograph
   that would sit there (`DestinationMedia`), which is what the design's own image slot renders
   when unfilled. The app ships no photography.
-- **Clay is rationed.** The one accent carries both action (the single primary button per view)
+- **Cobalt is rationed.** The one accent carries both action (the single primary button per view)
   and orientation (current nav link, selected tab and trip, the leading bar in the budget
-  breakdown). Everything else is warm neutral Oat.
+  breakdown). Everything else is neutral Slate.
 
 ## Languages and currencies
 

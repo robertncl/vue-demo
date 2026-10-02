@@ -29,7 +29,7 @@ const bestMonths = computed(() =>
       <DestinationMedia :label="t('media.photoOf', { name: destination.name })" />
       <div class="flags">
         <span class="acme-badge flag region">{{ region(destination.region) }}</span>
-        <span v-if="inSeason" class="acme-badge flag season">{{ t('common.inSeason') }}</span>
+        <span v-if="inSeason" class="acme-badge flag season">{{ t('common.inSeasonNow') }}</span>
       </div>
     </div>
 

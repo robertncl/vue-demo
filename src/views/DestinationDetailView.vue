@@ -19,7 +19,7 @@ const weekBudget = computed(() => (destination.value ? destination.value.dailyBu
 
 /**
  * Where a day's money goes. Bars are scaled against the largest line, and only
- * that line takes the Clay highlight — the rest stay neutral data marks.
+ * that line takes the Cobalt highlight — the rest stay neutral data marks.
  */
 const breakdown = computed(() => {
   const d = destination.value
