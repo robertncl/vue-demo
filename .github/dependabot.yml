@@ -11,7 +11,7 @@ updates:
       interval: "weekly"
     ignore:
       # @angular-devkit/build-angular (through at least 22.1.7) pins typescript
-      # to ">=6.0 <6.1", and vue-tsc 3.3.11 throws ERR_PACKAGE_PATH_NOT_EXPORTED
+      # to ">=6.0 <6.1", and vue-tsc (verified through 3.3.12) throws ERR_PACKAGE_PATH_NOT_EXPORTED
       # against TS7's restructured ./lib/tsc export. Revisit when Angular supports 7.x.
       # See: https://github.com/robertncl/vue-demo/issues/74
       - dependency-name: "typescript"
