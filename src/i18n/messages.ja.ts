@@ -23,7 +23,6 @@ export const ja: Messages = {
     dayCount: '{count}日間',
     best: 'ベスト',
     now: '今',
-    inSeason: 'シーズン',
     inSeasonNow: '今がシーズン',
     reset: 'すべて解除',
     remove: '外す',

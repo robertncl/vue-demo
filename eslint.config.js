@@ -13,7 +13,7 @@ export default [
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '.claude/worktrees/**'],
   },
 
   ...pluginVue.configs['flat/essential'],

@@ -1,11 +1,15 @@
 /* ==========================================================================
-   ACME Corp Design Language — acme.css (v2.0.0)
+   ACME Corp Design Language — acme.css (v3.0.0)
 
    Ported from the design-canvas project's
    _ds/acme-design-system-.../tokens/acme.css. Sections 1-11 (tokens, base,
    wordmark, buttons, forms, card, badge, alert, table, tabs, top bar) are the
    ones Wanderlog builds on; the upstream modal, presentation-slide and
    report-document sections are left out because no screen uses them.
+
+   v3 is upstream's rebrand from warm Oat + Clay to a cool Slate base with one
+   Cobalt highlight, and it is light theme only: no prefers-color-scheme
+   overrides and no data-theme switch.
 
    tokens/fonts.css is not imported: it only hosts JetBrains Mono, and nothing
    here sets a mono face. Styrene B and Tiempos Headline are commercial
@@ -18,51 +22,52 @@
    1. Tokens
    -------------------------------------------------------------------------- */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
-  /* Clay — the single highlight: primary action, links, selection, editorial
-     marks, the wordmark mark, the chart takeaway. A warm coral over paper. */
-  --acme-clay-50: #faf0eb;
-  --acme-clay-100: #f3ddd0;
-  --acme-clay-200: #e9c3af;
-  --acme-clay-300: #dda588;
-  --acme-clay-400: #d18b6a;
-  --acme-clay-500: #cc785c;
-  --acme-clay-600: #94513b;
-  --acme-clay-700: #80432f;
-  --acme-clay-800: #6b3624;
-  --acme-clay-900: #552818;
+  /* Cobalt — the single highlight: primary action, links, selection, focus,
+     editorial marks, the wordmark mark, the chart takeaway. A clear, confident
+     blue over a cool blue-white page. */
+  --acme-blue-50: #edf3ff;
+  --acme-blue-100: #d9e6ff;
+  --acme-blue-200: #b6cdfe;
+  --acme-blue-300: #86acfa;
+  --acme-blue-400: #5387f0;
+  --acme-blue-500: #2f6be4;
+  --acme-blue-600: #1f57c9;
+  --acme-blue-700: #1a47a6;
+  --acme-blue-800: #163a85;
+  --acme-blue-900: #112c64;
 
-  /* Oat — the warm neutral base: paper canvas, ink text, quiet borders */
-  --acme-gray-0: #fcfbf7;
-  --acme-gray-50: #f3f0e7;
-  --acme-gray-100: #e9e4d5;
-  --acme-gray-200: #c4bda4;
-  --acme-gray-300: #a29b89;
-  --acme-gray-400: #7e7764;
-  --acme-gray-500: #5c5747;
-  --acme-gray-600: #554f41;
-  --acme-gray-700: #433f32;
-  --acme-gray-800: #2f2b21;
-  --acme-gray-900: #1e1b13;
-  --acme-gray-950: #100e08;
+  /* Slate — the blue-tinted neutral base: blue-white canvas, navy ink text,
+     cool borders. */
+  --acme-gray-0: #ffffff;
+  --acme-gray-50: #f5f8fc;
+  --acme-gray-100: #e9eff7;
+  --acme-gray-200: #bac7d8;
+  --acme-gray-300: #a0afc3;
+  --acme-gray-400: #6e7e94;
+  --acme-gray-500: #526278;
+  --acme-gray-600: #44536a;
+  --acme-gray-700: #323f55;
+  --acme-gray-800: #212c3e;
+  --acme-gray-900: #111a2b;
+  --acme-gray-950: #0a111e;
 
-  /* Brick — danger only. A true red, kept distinct from Clay's coral. */
-  --acme-red-50: #fbeeec;
-  --acme-red-300: #f3a395;
-  --acme-red-400: #ef7361;
-  --acme-red-500: #ac4334;
-  --acme-red-600: #a82e1e;
-  --acme-red-700: #97291b;
-  --acme-red-800: #7a2116;
+  /* Red — danger only. A true red, the one warm hue in the system. */
+  --acme-red-50: #fdeeee;
+  --acme-red-300: #f4a3a3;
+  --acme-red-500: #d63a3a;
+  --acme-red-600: #bf2a2a;
+  --acme-red-700: #a42222;
+  --acme-red-800: #871c1c;
 
-  /* Sky — info only. A muted slate blue. */
-  --acme-sky-50: #edf1f4;
-  --acme-sky-300: #8db0c9;
-  --acme-sky-500: #5c87a6;
-  --acme-sky-600: #3e6b8c;
-  --acme-sky-700: #305875;
-  --acme-sky-800: #274860;
+  /* Teal — info only. Kept green-leaning so it never reads as Cobalt. */
+  --acme-teal-50: #e7f5f4;
+  --acme-teal-300: #7acbc5;
+  --acme-teal-500: #1f8a84;
+  --acme-teal-600: #16716c;
+  --acme-teal-700: #105c58;
+  --acme-teal-800: #0c4845;
 
   /* Typography — editorial serif display over a neutral grotesque body */
   --acme-font-sans: 'Styrene B', 'Inter', 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
@@ -104,10 +109,11 @@
   --acme-radius-xl: 16px;
   --acme-radius-full: 999px;
 
-  /* Elevation — quiet, structural; borders carry most of the separation */
-  --acme-shadow-sm: 0 1px 2px rgb(28 25 17 / 0.06);
-  --acme-shadow-md: 0 2px 8px -2px rgb(28 25 17 / 0.09);
-  --acme-shadow-lg: 0 8px 24px -6px rgb(28 25 17 / 0.13);
+  /* Elevation — quiet, structural, navy-tinted; borders carry most of the
+     separation */
+  --acme-shadow-sm: 0 1px 2px rgb(17 26 43 / 0.06);
+  --acme-shadow-md: 0 2px 8px -2px rgb(17 26 43 / 0.1);
+  --acme-shadow-lg: 0 8px 24px -6px rgb(17 26 43 / 0.14);
 
   /* Motion — calm and precise; nothing overshoots */
   --acme-duration-fast: 100ms;
@@ -117,8 +123,8 @@
   --acme-ease-out: cubic-bezier(0.2, 0.8, 0.4, 1);
   --acme-ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
 
-  /* Semantic aliases — light theme (default). Warm Oat base; Clay is the one
-     highlight; Brick (danger) and Sky (info) are the only functional hues. */
+  /* Semantic aliases — light theme (the only theme). Slate base; Cobalt is the
+     one highlight; Red (danger) and Teal (info) are the only functional hues. */
   --acme-color-canvas: var(--acme-gray-50);
   --acme-color-surface: var(--acme-gray-100);
   --acme-color-surface-raised: var(--acme-gray-0);
@@ -127,23 +133,22 @@
   --acme-color-text: var(--acme-gray-900);
   --acme-color-text-muted: var(--acme-gray-600);
   --acme-color-text-subtle: var(--acme-gray-500);
-  /* Clay — the accent. A fixed hue, so unlike a neutral fill it needs no
-     light/dark flip: the primary fill is clay with white text in both. */
-  --acme-color-primary: var(--acme-clay-600);
-  --acme-color-primary-hover: var(--acme-clay-700);
-  --acme-color-primary-active: var(--acme-clay-800);
+  /* Cobalt — the accent. A white label on a cobalt fill. */
+  --acme-color-primary: var(--acme-blue-600);
+  --acme-color-primary-hover: var(--acme-blue-700);
+  --acme-color-primary-active: var(--acme-blue-800);
   --acme-color-on-primary: var(--acme-gray-0);
   /* Editorial marks: kickers, rules, numerals, callout accents. */
-  --acme-color-accent: var(--acme-clay-700);
-  --acme-color-accent-soft: var(--acme-clay-50);
+  --acme-color-accent: var(--acme-blue-700);
+  --acme-color-accent-soft: var(--acme-blue-50);
   /* Orientation: current page, active tab, selected rows, checked controls. */
-  --acme-color-selected: var(--acme-clay-700);
-  --acme-color-selected-soft: var(--acme-clay-50);
-  --acme-color-link: var(--acme-clay-700);
-  --acme-color-link-hover: var(--acme-clay-800);
-  --acme-color-focus: var(--acme-clay-600);
-  /* Success and warning share the warm neutral ink — icon + label carry the
-     meaning; only danger (Brick) and info (Sky) take a functional hue. */
+  --acme-color-selected: var(--acme-blue-700);
+  --acme-color-selected-soft: var(--acme-blue-50);
+  --acme-color-link: var(--acme-blue-700);
+  --acme-color-link-hover: var(--acme-blue-800);
+  --acme-color-focus: var(--acme-blue-600);
+  /* Success and warning share the slate ink — icon + label carry the
+     meaning; only danger (Red) and info (Teal) take a functional hue. */
   --acme-color-success: var(--acme-gray-600);
   --acme-color-success-soft: var(--acme-gray-100);
   --acme-color-success-soft-text: var(--acme-gray-800);
@@ -154,116 +159,16 @@
   --acme-color-danger-emphasis: var(--acme-red-700);
   --acme-color-danger-soft: var(--acme-red-50);
   --acme-color-danger-soft-text: var(--acme-red-700);
-  --acme-color-info: var(--acme-sky-700);
-  --acme-color-info-soft: var(--acme-sky-50);
-  --acme-color-info-soft-text: var(--acme-sky-800);
-  /* Chart marks: neutral bars carry the data, Clay marks the one takeaway
-     (with a direct label). Both clear 3:1 on the surface. */
+  --acme-color-info: var(--acme-teal-700);
+  --acme-color-info-soft: var(--acme-teal-50);
+  --acme-color-info-soft-text: var(--acme-teal-800);
+  /* Chart marks: slate bars carry the data, Cobalt marks the one takeaway
+     (with a direct label). Both clear 3:1 on the canvas. */
   --acme-color-data: var(--acme-gray-400);
-  --acme-color-data-highlight: var(--acme-clay-600);
+  --acme-color-data-highlight: var(--acme-blue-600);
 
-  /* Selection is orientation, not action — checked controls are Clay. */
+  /* Selection is orientation, not action — checked controls are Cobalt. */
   accent-color: var(--acme-color-selected);
-}
-
-/* Semantic aliases — dark theme. Follows the system preference unless the
-   host pins a theme with data-theme="light" | "dark" on <html>. The two
-   highlights lighten here so they stay legible on a near-black canvas, but
-   they do not invert: a red fill stays a red fill with white text in both
-   themes, which a graphite fill could not do. */
-@media (prefers-color-scheme: dark) {
-  /* Local deviation from DLS: upstream writes :root:not([data-theme="light"]),
-     which this project's token compiler does not read as a theme scope. The
-     enumerated form resolves identically and registers the tokens. */
-  :root[data-theme=''],
-  :root:not([data-theme]) {
-    --acme-color-canvas: var(--acme-gray-950);
-    --acme-color-surface: var(--acme-gray-900);
-    --acme-color-surface-raised: var(--acme-gray-800);
-    --acme-color-border: var(--acme-gray-700);
-    --acme-color-border-strong: var(--acme-gray-400);
-    --acme-color-text: var(--acme-gray-100);
-    --acme-color-text-muted: var(--acme-gray-300);
-    --acme-color-text-subtle: var(--acme-gray-300);
-    /* Clay is a fixed hue: the primary fill stays clay with white text in both
-       themes, deepening on hover rather than inverting. */
-    --acme-color-primary: var(--acme-clay-600);
-    --acme-color-primary-hover: var(--acme-clay-700);
-    --acme-color-primary-active: var(--acme-clay-800);
-    --acme-color-on-primary: var(--acme-gray-0);
-    /* Accent & selected lighten to clay-300: these are small marks and must
-       hold AA on raised surfaces too. */
-    --acme-color-accent: var(--acme-clay-300);
-    --acme-color-accent-soft: color-mix(in oklab, var(--acme-clay-500) 20%, var(--acme-gray-900));
-    --acme-color-selected: var(--acme-clay-300);
-    --acme-color-selected-soft: color-mix(in oklab, var(--acme-clay-500) 18%, var(--acme-gray-900));
-    --acme-color-link: var(--acme-clay-300);
-    --acme-color-link-hover: var(--acme-clay-200);
-    --acme-color-focus: var(--acme-clay-400);
-    --acme-color-success: var(--acme-gray-300);
-    --acme-color-success-soft: var(--acme-gray-800);
-    --acme-color-success-soft-text: var(--acme-gray-200);
-    --acme-color-warning: var(--acme-gray-300);
-    --acme-color-warning-soft: var(--acme-gray-800);
-    --acme-color-warning-soft-text: var(--acme-gray-200);
-    --acme-color-danger: var(--acme-red-400);
-    --acme-color-danger-emphasis: var(--acme-red-500);
-    --acme-color-danger-soft: color-mix(in oklab, var(--acme-red-500) 20%, var(--acme-gray-900));
-    --acme-color-danger-soft-text: var(--acme-red-300);
-    --acme-color-info: var(--acme-sky-300);
-    --acme-color-info-soft: color-mix(in oklab, var(--acme-sky-500) 20%, var(--acme-gray-900));
-    --acme-color-info-soft-text: var(--acme-sky-300);
-    --acme-color-data: var(--acme-gray-400);
-    --acme-color-data-highlight: var(--acme-clay-300);
-    --acme-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
-    --acme-shadow-md: 0 2px 8px -2px rgb(0 0 0 / 0.45);
-    --acme-shadow-lg: 0 8px 24px -6px rgb(0 0 0 / 0.55);
-  }
-}
-
-:root[data-theme='dark'] {
-  --acme-color-canvas: var(--acme-gray-950);
-  --acme-color-surface: var(--acme-gray-900);
-  --acme-color-surface-raised: var(--acme-gray-800);
-  --acme-color-border: var(--acme-gray-700);
-  --acme-color-border-strong: var(--acme-gray-400);
-  --acme-color-text: var(--acme-gray-100);
-  --acme-color-text-muted: var(--acme-gray-300);
-  --acme-color-text-subtle: var(--acme-gray-300);
-  --acme-color-primary: var(--acme-clay-600);
-  --acme-color-primary-hover: var(--acme-clay-700);
-  --acme-color-primary-active: var(--acme-clay-800);
-  --acme-color-on-primary: var(--acme-gray-0);
-  --acme-color-accent: var(--acme-clay-300);
-  --acme-color-accent-soft: color-mix(in oklab, var(--acme-clay-500) 20%, var(--acme-gray-900));
-  --acme-color-selected: var(--acme-clay-300);
-  --acme-color-selected-soft: color-mix(in oklab, var(--acme-clay-500) 18%, var(--acme-gray-900));
-  --acme-color-link: var(--acme-clay-300);
-  --acme-color-link-hover: var(--acme-clay-200);
-  --acme-color-focus: var(--acme-clay-400);
-  --acme-color-success: var(--acme-gray-300);
-  --acme-color-success-soft: var(--acme-gray-800);
-  --acme-color-success-soft-text: var(--acme-gray-200);
-  --acme-color-warning: var(--acme-gray-300);
-  --acme-color-warning-soft: var(--acme-gray-800);
-  --acme-color-warning-soft-text: var(--acme-gray-200);
-  --acme-color-danger: var(--acme-red-400);
-  --acme-color-danger-emphasis: var(--acme-red-500);
-  --acme-color-danger-soft: color-mix(in oklab, var(--acme-red-500) 20%, var(--acme-gray-900));
-  --acme-color-danger-soft-text: var(--acme-red-300);
-  --acme-color-info: var(--acme-sky-300);
-  --acme-color-info-soft: color-mix(in oklab, var(--acme-sky-500) 20%, var(--acme-gray-900));
-  --acme-color-info-soft-text: var(--acme-sky-300);
-  --acme-color-data: var(--acme-gray-400);
-  --acme-color-data-highlight: var(--acme-clay-300);
-  --acme-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
-  --acme-shadow-md: 0 2px 8px -2px rgb(0 0 0 / 0.45);
-  --acme-shadow-lg: 0 8px 24px -6px rgb(0 0 0 / 0.55);
-  color-scheme: dark;
-}
-
-:root[data-theme='light'] {
-  color-scheme: light;
 }
 
 /* --------------------------------------------------------------------------
@@ -684,7 +589,7 @@ textarea.acme-input {
   font-variant-numeric: tabular-nums;
 }
 
-/* Clay marks orientation: which column orders the data, which rows are held */
+/* Blue marks orientation: which column orders the data, which rows are held */
 .acme-table th:is([aria-sort='ascending'], [aria-sort='descending']) {
   color: var(--acme-color-selected);
   border-block-end-color: var(--acme-color-selected);
@@ -698,7 +603,7 @@ textarea.acme-input {
    10. Tabs
    -------------------------------------------------------------------------- */
 /* Underline tabs: a hairline baseline across the set; the selected tab
-   carries a 2 px Clay indicator that sits on the baseline. */
+   carries a 2 px Cobalt indicator that sits on the baseline. */
 .acme-tabs {
   display: flex;
   gap: var(--acme-space-2);

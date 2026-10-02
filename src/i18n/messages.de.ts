@@ -23,7 +23,6 @@ export const de: Messages = {
     dayCount: '{count} Tage',
     best: 'Am besten',
     now: 'jetzt',
-    inSeason: 'Saison',
     inSeasonNow: 'Gerade Saison',
     reset: 'Alles löschen',
     remove: 'Entfernen',
