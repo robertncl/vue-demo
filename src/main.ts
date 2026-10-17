@@ -7,6 +7,12 @@ import App from './App.vue'
 import router from './router'
 import { useSettingsStore } from './stores/settings'
 
+// The passenger picker and filter chips are native popovers. Browsers that
+// predate the Popover API get the polyfill, loaded only when it's needed.
+if (!('popover' in HTMLElement.prototype)) {
+  import('@oddbird/popover-polyfill')
+}
+
 const app = createApp(App)
 
 app.use(createPinia())

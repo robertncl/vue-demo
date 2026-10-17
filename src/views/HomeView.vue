@@ -1,86 +1,69 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { useDestinationsStore } from '@/stores/destinations'
-import { useI18n } from '@/i18n'
-import DestinationCard from '@/components/destinations/DestinationCard.vue'
+import FlightSearchForm from '@/components/flights/FlightSearchForm.vue'
+import DealCard from '@/components/flights/DealCard.vue'
 import TopPick from '@/components/destinations/TopPick.vue'
+import { findAirport } from '@/data/airports'
+import { useFlightsStore } from '@/stores/flights'
+import { useI18n } from '@/i18n'
+import { addDays } from '@/lib/dates'
+import { dealsFrom, departureWindow } from '@/lib/deals'
+import { toQuery } from '@/lib/flightSearch'
+import type { FlightSearch } from '@/types/flights'
 
 const router = useRouter()
-const store = useDestinationsStore()
-const { t, month } = useI18n()
-const search = ref('')
+const flights = useFlightsStore()
+const { t } = useI18n()
 
-const monthName = computed(() => month(store.currentMonth))
+const initial = computed(() => flights.lastSearch ?? { from: flights.homeAirport })
 
-const inSeasonCount = computed(
-  () => store.catalog.filter((destination) => store.inSeason(destination)).length,
-)
-
-/** Says how the month's ranking was made — or that nothing peaks right now. */
-const subtitle = computed(() =>
-  store.hasSeasonalPick ? t('home.rankedNote') : t('home.noSeasonNote', { month: monthName.value }),
-)
-
-function submitSearch() {
-  store.query = search.value
-  router.push('/destinations')
+function go(search: FlightSearch) {
+  router.push({ path: '/flights', query: toQuery(search) })
 }
+
+/** A week away, leaving some time in the next two to eight weeks. */
+const deals = computed(() =>
+  dealsFrom(flights.homeAirport, departureWindow(addDays(flights.today, 14), 42, 4), 7, flights.today).slice(0, 6),
+)
+
+const homeCity = computed(() => findAirport(flights.homeAirport)?.city ?? flights.homeAirport)
+
+const tools = ['grid', 'graph', 'track'] as const
 </script>
 
 <template>
   <main class="page page--roomy home">
     <section class="intro">
-      <div class="lede-block">
-        <p class="kicker">
-          {{ monthName }} ·
-          {{ t('home.catalogSummary', { count: store.catalog.length, inSeason: inSeasonCount }) }}
-        </p>
-        <h1>{{ t('home.title') }}</h1>
-        <p class="lede">{{ subtitle }} {{ t('home.priceNote') }}</p>
-      </div>
-
-      <form class="search" role="search" @submit.prevent="submitSearch">
-        <label class="sr-only" for="hero-search">{{ t('home.searchLabel') }}</label>
-        <input
-          id="hero-search"
-          v-model="search"
-          class="acme-input"
-          type="search"
-          :placeholder="t('home.searchPlaceholder')"
-        />
-        <button class="acme-btn acme-btn--primary" type="submit">{{ t('home.search') }}</button>
-      </form>
-
-      <TopPick />
+      <p class="kicker">{{ t('home.eyebrow') }}</p>
+      <h1>{{ t('home.title') }}</h1>
+      <p class="lede">{{ t('home.lede') }}</p>
     </section>
+
+    <FlightSearchForm :initial="initial" @search="go" />
 
     <section class="block">
       <div class="section-head">
-        <h2>{{ t('home.featured') }}</h2>
-        <RouterLink to="/destinations">
-          {{ t('home.browseAll', { count: store.catalog.length }) }}
-        </RouterLink>
+        <h2>{{ t('home.dealsTitle', { city: homeCity }) }}</h2>
+        <RouterLink to="/explore">{{ t('home.exploreAll') }}</RouterLink>
       </div>
+      <p class="muted note">{{ t('home.dealsNote') }}</p>
       <div class="card-grid">
-        <DestinationCard
-          v-for="destination in store.featured"
-          :key="destination.slug"
-          :destination="destination"
-          :wishlisted="store.isWishlisted(destination.slug)"
-          :in-season="store.inSeason(destination)"
-          @toggle-wishlist="store.toggleWishlist"
-        />
+        <DealCard v-for="deal in deals" :key="deal.destination.slug" :deal="deal" />
       </div>
     </section>
 
+    <section class="block">
+      <TopPick />
+    </section>
+
     <section class="block block--ruled">
-      <h2>{{ t('home.howTitle') }}</h2>
+      <h2>{{ t('home.toolsTitle') }}</h2>
       <ol class="steps">
-        <li v-for="step in [1, 2, 3]" :key="step">
-          <p class="numeral" aria-hidden="true">{{ step }}</p>
-          <h3>{{ t(`home.step${step}Title`) }}</h3>
-          <p class="muted">{{ t(`home.step${step}Body`) }}</p>
+        <li v-for="(tool, index) in tools" :key="tool">
+          <p class="numeral" aria-hidden="true">{{ index + 1 }}</p>
+          <h3>{{ t(`home.tool_${tool}Title`) }}</h3>
+          <p class="muted">{{ t(`home.tool_${tool}Body`) }}</p>
         </li>
       </ol>
     </section>
@@ -88,17 +71,17 @@ function submitSearch() {
 </template>
 
 <style scoped>
-.intro {
+.home {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-6);
 }
 
-.lede-block {
+.intro {
   max-width: 60ch;
+  margin-bottom: var(--acme-space-6);
 }
 
-.lede-block h1 {
+.intro h1 {
   margin: var(--acme-space-2) 0 0;
   font-size: var(--acme-text-5xl);
 }
@@ -108,16 +91,6 @@ function submitSearch() {
   font-size: var(--acme-text-lg);
   color: var(--acme-color-text-muted);
   text-wrap: pretty;
-}
-
-.search {
-  display: flex;
-  gap: var(--acme-space-2);
-  max-width: 520px;
-}
-
-.search input {
-  flex: 1;
 }
 
 .block {
@@ -134,11 +107,10 @@ function submitSearch() {
   align-items: baseline;
   justify-content: space-between;
   gap: var(--acme-space-4);
-  margin-bottom: var(--acme-space-5);
 }
 
 .section-head h2,
-.block h2 {
+.block--ruled h2 {
   margin: 0;
   font-size: var(--acme-text-2xl);
 }
@@ -150,6 +122,11 @@ function submitSearch() {
 .section-head a {
   font-size: var(--acme-text-sm);
   font-weight: 600;
+}
+
+.note {
+  margin: var(--acme-space-2) 0 var(--acme-space-5);
+  font-size: var(--acme-text-sm);
 }
 
 .steps {

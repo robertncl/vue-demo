@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import router from '../router'
 import App from '../App.vue'
@@ -22,14 +22,28 @@ describe('App', () => {
 
     expect(wrapper.text()).toContain('Wanderlog')
     const links = wrapper.findAll('.nav a').map((a) => a.text().replace(/\s+\d+$/, ''))
-    expect(links).toEqual(['Explore', 'Destinations', 'Shortlist', 'Trips', 'About'])
+    expect(links).toEqual(['Flights', 'Explore', 'Tracked', 'Trips', 'Guides'])
+
+    const footer = wrapper.findAll('.site-footer a').map((a) => a.text())
+    expect(footer).toEqual(['Shortlist', 'About'])
   })
 
-  it('renders the travel home page at the root route', () => {
+  it('renders the flight search home page at the root route', () => {
     const wrapper = mountApp()
 
-    expect(wrapper.text()).toContain('Where to go this month')
-    expect(wrapper.text()).not.toContain('You did it!')
+    expect(wrapper.find('h1').text()).toBe('Find your flight')
+    expect(wrapper.find('form[role="search"]').exists()).toBe(true)
+    expect(wrapper.findAll('.deal-card').length).toBeGreaterThan(0)
+    expect(wrapper.find('.nav [aria-current="page"]').text()).toBe('Flights')
+  })
+
+  it('marks Flights as current on the results page too', async () => {
+    const wrapper = mountApp()
+
+    await router.push('/flights')
+    await flushPromises()
+
+    expect(wrapper.find('.nav [aria-current="page"]').text()).toBe('Flights')
   })
 
   it('renders the about page after navigating to /about', async () => {
@@ -63,14 +77,16 @@ describe('App', () => {
     const wrapper = mountApp()
     const settings = useSettingsStore()
 
-    expect(wrapper.find('.nav').text()).toContain('Destinations')
+    expect(wrapper.find('.nav').text()).toContain('Guides')
 
     settings.setLocale('ja')
     await wrapper.vm.$nextTick()
 
     const nav = wrapper.find('.nav').text()
+    expect(nav).toContain('フライト')
     expect(nav).toContain('旅先')
     expect(nav).toContain('旅程')
+    expect(wrapper.find('h1').text()).toBe('フライトを探す')
   })
 
   it('switching currency changes prices across the page', async () => {

@@ -2,30 +2,31 @@
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useTravelStore } from '@/stores/travel'
-import { useDestinationsStore } from '@/stores/destinations'
+import { useFlightsStore } from '@/stores/flights'
 import { useI18n } from '@/i18n'
 import SettingsMenu from './SettingsMenu.vue'
 
 const route = useRoute()
 const travel = useTravelStore()
-const destinationsStore = useDestinationsStore()
+const flights = useFlightsStore()
 const { t } = useI18n()
 
 /** Counts ride along on the two links that hold saved work. */
 const links = computed(() => [
-  { to: '/', label: t('nav.explore'), count: 0 },
-  { to: '/destinations', label: t('nav.destinations'), count: 0 },
-  { to: '/wishlist', label: t('nav.wishlist'), count: destinationsStore.wishlist.length },
-  { to: '/trips', label: t('nav.trips'), count: travel.trips.length },
-  { to: '/about', label: t('nav.about'), count: 0 },
+  { to: '/', label: t('nav.flights'), count: 0, also: ['/flights'] },
+  { to: '/explore', label: t('nav.explore'), count: 0, also: [] },
+  { to: '/tracked', label: t('nav.tracked'), count: flights.tracked.length, also: [] },
+  { to: '/trips', label: t('nav.trips'), count: travel.trips.length, also: [] },
+  { to: '/destinations', label: t('nav.guides'), count: 0, also: [] },
 ])
 
 /**
  * The design marks only the page you are on, so a destination guide leaves the
  * whole bar unmarked — the breadcrumbs carry the orientation there instead.
+ * Flight results are the one exception: they are the Flights page, searched.
  */
-function current(to: string) {
-  return route.path === to ? 'page' : undefined
+function current(link: { to: string; also: string[] }) {
+  return route.path === link.to || link.also.includes(route.path) ? 'page' : undefined
 }
 </script>
 
@@ -47,7 +48,7 @@ function current(to: string) {
         class="acme-topbar__link"
         active-class=""
         exact-active-class=""
-        :aria-current="current(link.to)"
+        :aria-current="current(link)"
       >
         {{ link.label }}
         <span v-if="link.count" class="count num">{{ link.count }}</span>

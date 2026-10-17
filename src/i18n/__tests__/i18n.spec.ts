@@ -84,6 +84,39 @@ describe('i18n', () => {
     expect(tag('food')).toBe('gastronomie')
   })
 
+  it('picks plural forms by each language’s rules', () => {
+    const { plural } = useI18n()
+    const settings = useSettingsStore()
+
+    expect(plural('search.travellers', 1)).toBe('1 traveller')
+    expect(plural('search.travellers', 2)).toBe('2 travellers')
+
+    // French treats zero as singular.
+    settings.setLocale('fr')
+    expect(plural('flights.stops', 0)).toBe('0 escale')
+    expect(plural('flights.stops', 2)).toBe('2 escales')
+
+    settings.setLocale('ja')
+    expect(plural('flights.stops', 1)).toBe('乗継1回')
+  })
+
+  it('formats local flight times, dates and durations', () => {
+    const { time, date, duration } = useI18n()
+    const settings = useSettingsStore()
+    // 2026-11-10 at 23:05 on the local clock.
+    const wall = Date.UTC(2026, 10, 10) / 60_000 + 23 * 60 + 5
+
+    expect(time(wall)).toBe('11:05 PM')
+    expect(date('2026-11-10')).toBe('Tue, Nov 10')
+    expect(date('2026-11-10', 'month')).toBe('November 2026')
+    expect(duration(785)).toBe('13 hr, 5 min')
+    expect(duration(120)).toBe('2 hr')
+
+    settings.setLocale('de')
+    expect(time(wall)).toBe('23:05')
+    expect(duration(785)).toMatch(/^13 Std\.,? 5 Min\.$/)
+  })
+
   it('maps a date to the right month key', () => {
     expect(monthKeyFor(new Date('2026-01-15T12:00:00'))).toBe('Jan')
     expect(monthKeyFor(new Date('2026-09-15T12:00:00'))).toBe('Sep')

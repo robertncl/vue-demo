@@ -5,17 +5,44 @@ import { useI18n } from '@/i18n'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
-    return savedPosition ?? { top: 0 }
+    if (savedPosition) return savedPosition
+    // Filtering and re-dating results only changes the query; keep your place.
+    if (to.path === from.path && to.query.out === from.query.out) return false
+    return { top: 0 }
   },
   routes: [
     {
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { titleKey: 'nav.explore' },
+      meta: { titleKey: 'nav.flights' },
     },
     {
       // Route level code-splitting: each view below ships as its own lazy chunk.
+      path: '/flights',
+      name: 'flights',
+      component: () => import('@/views/FlightResultsView.vue'),
+      meta: { titleKey: 'nav.flights' },
+    },
+    {
+      path: '/flights/booking',
+      name: 'booking',
+      component: () => import('@/views/BookingView.vue'),
+      meta: { titleKey: 'booking.title' },
+    },
+    {
+      path: '/explore',
+      name: 'explore',
+      component: () => import('@/views/ExploreView.vue'),
+      meta: { titleKey: 'nav.explore' },
+    },
+    {
+      path: '/tracked',
+      name: 'tracked',
+      component: () => import('@/views/TrackedView.vue'),
+      meta: { titleKey: 'nav.tracked' },
+    },
+    {
       path: '/destinations',
       name: 'destinations',
       component: () => import('@/views/DestinationsView.vue'),
