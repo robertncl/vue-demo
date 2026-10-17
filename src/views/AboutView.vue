@@ -3,8 +3,18 @@ import { useI18n } from '@/i18n'
 
 const { t } = useI18n()
 
-const features = ['catalog', 'thisMonth', 'shortlist', 'planner', 'money']
-const built = ['built1', 'built2', 'built3', 'built4', 'built5']
+const features = [
+  'flights',
+  'tools',
+  'tracked',
+  'explore',
+  'catalog',
+  'thisMonth',
+  'shortlist',
+  'planner',
+  'money',
+]
+const built = ['built1', 'built2', 'built3', 'built4', 'built5', 'built6']
 </script>
 
 <template>
@@ -48,6 +58,11 @@ const built = ['built1', 'built2', 'built3', 'built4', 'built5']
     <section>
       <h2>{{ t('about.ratesTitle') }}</h2>
       <p class="muted">{{ t('about.ratesBody') }}</p>
+    </section>
+
+    <section>
+      <h2>{{ t('about.flightsDataTitle') }}</h2>
+      <p class="muted">{{ t('about.flightsDataBody') }}</p>
     </section>
   </main>
 </template>

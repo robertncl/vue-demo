@@ -113,3 +113,47 @@ input[type='range'] {
 select.acme-input {
   cursor: pointer;
 }
+
+/* A row of mutually exclusive choices: visually hidden radios inside labels,
+   so the browser keeps arrow-key navigation and form semantics. The checked
+   option takes the selection treatment. */
+.segmented {
+  display: inline-flex;
+  margin: 0;
+  padding: 2px;
+  border: 1px solid var(--acme-color-border-strong);
+  border-radius: var(--acme-radius-md);
+  background: var(--acme-color-surface-raised);
+}
+
+.segmented label > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: calc(2.25rem - 6px);
+  padding: 0 var(--acme-space-3);
+  border-radius: calc(var(--acme-radius-md) - 2px);
+  font-size: var(--acme-text-sm);
+  font-weight: 500;
+  color: var(--acme-color-text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.segmented input:checked + span {
+  background: var(--acme-color-selected-soft);
+  color: var(--acme-color-selected);
+  font-weight: 600;
+}
+
+.segmented input:focus-visible + span {
+  outline: 2px solid var(--acme-color-focus);
+  outline-offset: 2px;
+}
+
+/* The popover polyfill marks open popovers with a `.:popover-open` class
+   because it cannot define the pseudo-class. Pair the two inside :is() — a
+   browser that doesn't know :popover-open would otherwise drop the rule. This
+   repeats the polyfill's own hide rule in case its stylesheet can't load. */
+[popover]:not(:is(:popover-open, .\:popover-open)) {
+  display: none;
+}

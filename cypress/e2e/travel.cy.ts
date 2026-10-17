@@ -3,10 +3,11 @@ describe('Wanderlog', () => {
     cy.visit('/')
   })
 
-  it('loads the travel app at the root url', () => {
-    cy.contains('h1', 'Where to go this month')
+  it('loads the flight search at the root url', () => {
+    cy.contains('h1', 'Find your flight')
     cy.contains('.brand', 'Wanderlog')
     cy.get('.nav a').should('have.length', 5)
+    cy.get('.deal-card').should('have.length', 6)
   })
 
   it('shows the top pick for the current month', () => {
@@ -20,17 +21,17 @@ describe('Wanderlog', () => {
 
   it('switches language and currency across the app', () => {
     cy.get('.settings select').eq(1).select('EUR')
-    cy.contains('.kicker', 'destinations')
+    cy.get('.deal-card .amount').first().should('contain', '€')
     cy.get('.top-pick .figures').should('contain', '€')
 
     cy.get('.settings select').eq(0).select('fr')
-    cy.get('.nav').should('contain', 'Destinations')
-    cy.contains('h1', 'Où partir ce mois-ci')
+    cy.get('.nav').should('contain', 'Vols')
+    cy.contains('h1', 'Trouvez votre vol')
     cy.get('html').should('have.attr', 'lang', 'fr')
 
     // the choice survives a reload
     cy.reload()
-    cy.contains('h1', 'Où partir ce mois-ci')
+    cy.contains('h1', 'Trouvez votre vol')
     cy.get('.top-pick .figures').should('contain', '€')
 
     cy.get('.settings select').eq(0).select('en')
@@ -38,7 +39,7 @@ describe('Wanderlog', () => {
   })
 
   it('browses, filters and opens a destination', () => {
-    cy.contains('.nav a', 'Destinations').click()
+    cy.contains('.nav a', 'Guides').click()
     cy.get('.destination-card').should('have.length', 12)
 
     cy.get('#f-query').type('japan')
@@ -56,7 +57,7 @@ describe('Wanderlog', () => {
   })
 
   it('compares the catalog as a table and filters to what is in season', () => {
-    cy.contains('.nav a', 'Destinations').click()
+    cy.contains('.nav a', 'Guides').click()
 
     cy.contains('.acme-tab', 'Compare table').click()
     cy.get('.compare tbody tr').should('have.length', 12)
@@ -71,7 +72,7 @@ describe('Wanderlog', () => {
   it('reads a full destination guide', () => {
     cy.visit('/destinations/kyoto')
 
-    cy.get('.acme-breadcrumbs').should('contain', 'Destinations').and('contain', 'Kyoto')
+    cy.get('.acme-breadcrumbs').should('contain', 'Guides').and('contain', 'Kyoto')
 
     cy.contains('h2', 'Where to base yourself')
     cy.get('.area').should('have.length.at.least', 3)
@@ -99,7 +100,7 @@ describe('Wanderlog', () => {
     cy.contains('button', 'Save to shortlist').click()
     cy.contains('button', 'Saved to shortlist')
 
-    cy.contains('.nav a', 'Shortlist').click()
+    cy.contains('.site-footer a', 'Shortlist').click()
     cy.contains('.saved-row', 'Bali')
 
     cy.get('.saved-row .wish').click()
@@ -147,7 +148,7 @@ describe('Wanderlog', () => {
   it('shows a not-found page for unknown routes', () => {
     cy.visit('/nowhere', { failOnStatusCode: false })
     cy.contains('h1', 'Off the map')
-    cy.contains('.acme-btn', 'Back to explore').click()
+    cy.contains('.acme-btn', 'Back to flights').click()
     cy.location('pathname').should('eq', '/')
   })
 })

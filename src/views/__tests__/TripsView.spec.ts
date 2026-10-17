@@ -27,7 +27,7 @@ describe('TripsView', () => {
   it('shows the empty state when no trip is selected', async () => {
     const wrapper = await mountView()
     expect(wrapper.text()).toContain(
-      'Pick a trip on the left, or start one from a destination guide.',
+      'Pick a trip on the left, or start one from a flight or a destination guide.',
     )
     expect(wrapper.find('.itinerary').exists()).toBe(false)
   })

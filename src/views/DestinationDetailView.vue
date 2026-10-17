@@ -3,16 +3,36 @@ import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useDestinationsStore } from '@/stores/destinations'
 import { useTravelStore } from '@/stores/travel'
+import { useFlightsStore } from '@/stores/flights'
 import { useI18n } from '@/i18n'
 import DestinationMedia from '@/components/destinations/DestinationMedia.vue'
+import { findAirport } from '@/data/airports'
+import { addDays } from '@/lib/dates'
+import { cheapestTrip, departureWindow } from '@/lib/deals'
+import { toQuery } from '@/lib/flightSearch'
 import type { Destination } from '@/types/travel'
 
 const route = useRoute()
 const store = useDestinationsStore()
 const travel = useTravelStore()
-const { t, money, month, region } = useI18n()
+const flights = useFlightsStore()
+const { t, money, month, region, date } = useI18n()
 
 const destination = computed(() => store.bySlug(String(route.params.slug)))
+
+/** The cheapest week here from your airport, leaving in the next two to eight weeks. */
+const flightDeal = computed(() =>
+  destination.value
+    ? cheapestTrip(
+        destination.value,
+        flights.homeAirport,
+        departureWindow(addDays(flights.today, 14), 42, 4),
+        7,
+        flights.today,
+      )
+    : null,
+)
+const homeCity = computed(() => findAirport(flights.homeAirport)?.city ?? flights.homeAirport)
 
 /** A sensible one-week budget to pre-fill the planner with. */
 const weekBudget = computed(() => (destination.value ? destination.value.dailyBudget * 7 : 0))
@@ -83,9 +103,7 @@ const planRoute = computed(() => ({
   <main class="page page--tight">
     <template v-if="destination">
       <nav class="acme-breadcrumbs" :aria-label="t('detail.breadcrumbs')">
-        <RouterLink to="/">{{ t('nav.explore') }}</RouterLink>
-        <span aria-hidden="true">/</span>
-        <RouterLink to="/destinations">{{ t('nav.destinations') }}</RouterLink>
+        <RouterLink to="/destinations">{{ t('nav.guides') }}</RouterLink>
         <span aria-hidden="true">/</span>
         <span aria-current="page">{{ destination.name }}</span>
       </nav>
@@ -248,6 +266,24 @@ const planRoute = computed(() => ({
                 ></span>
               </div>
             </div>
+          </div>
+
+          <div v-if="flightDeal" class="panel-section flights">
+            <p class="panel-label">{{ t('detail.flightsFrom', { city: homeCity }) }}</p>
+            <p class="panel-price num">{{ money(flightDeal.total) }}</p>
+            <p class="panel-note">
+              {{
+                t('detail.flightsNote', {
+                  dates: `${date(flightDeal.search.depart)} – ${date(flightDeal.search.return!)}`,
+                })
+              }}
+            </p>
+            <RouterLink
+              class="acme-btn acme-btn--secondary"
+              :to="{ path: '/flights', query: toQuery(flightDeal.search) }"
+            >
+              {{ t('deals.viewFlights') }}
+            </RouterLink>
           </div>
 
           <div class="panel-section actions">
