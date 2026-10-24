@@ -20,9 +20,9 @@
   },
   "overrides": {
     "brace-expansion": "5.0.12",
-    "baseline-browser-mapping": "2.11.28",
-    "browserslist": "4.29.3",
-    "joi": "18.2.9",
+    "baseline-browser-mapping": "2.11.31",
+    "browserslist": "4.29.4",
+    "joi": "18.3.0",
     "vite-plugin-inspect": {
       "vite": "$vite"
     },

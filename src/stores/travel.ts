@@ -1,13 +1,52 @@
 import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
-import type { ActivityDraft, Trip, TripDraft } from '@/types/travel'
+import { isIsoDate } from '@/lib/dates'
+import type { Activity, ActivityDraft, Trip, TripDraft } from '@/types/travel'
 
 const STORAGE_KEY = 'vue-demo-travel-trips'
 
+const isFiniteNumber = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isFinite(value)
+
+function isActivity(value: unknown): value is Activity {
+  if (typeof value !== 'object' || value === null) return false
+  const activity = value as Record<string, unknown>
+  return (
+    typeof activity.id === 'string' &&
+    Number.isInteger(activity.day) &&
+    (activity.day as number) >= 1 &&
+    typeof activity.time === 'string' &&
+    typeof activity.title === 'string' &&
+    isFiniteNumber(activity.cost)
+  )
+}
+
+function isTrip(value: unknown): value is Trip {
+  if (typeof value !== 'object' || value === null) return false
+  const trip = value as Record<string, unknown>
+  return (
+    typeof trip.id === 'string' &&
+    typeof trip.destination === 'string' &&
+    isIsoDate(trip.startDate) &&
+    isIsoDate(trip.endDate) &&
+    isFiniteNumber(trip.budget) &&
+    Array.isArray(trip.activities)
+  )
+}
+
+/**
+ * Storage can hold anything — an older version's data, a hand edit — and the
+ * header reads the trip count on every page, so a bad value must never reach
+ * the store. Unreadable trips and activities are dropped; the rest survive.
+ */
 function loadTrips(): Trip[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as Trip[]) : []
+    const stored: unknown = raw ? JSON.parse(raw) : []
+    if (!Array.isArray(stored)) return []
+    return stored
+      .filter(isTrip)
+      .map((trip) => ({ ...trip, activities: trip.activities.filter(isActivity) }))
   } catch {
     return []
   }
@@ -59,7 +98,11 @@ export const useTravelStore = defineStore('travel', () => {
   watch(
     trips,
     (value) => {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
+      } catch {
+        /* storage unavailable — the change just won't persist */
+      }
     },
     { deep: true },
   )
