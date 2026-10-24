@@ -6,10 +6,14 @@ import type { Destination, MonthKey, Region } from '@/types/travel'
 
 const WISHLIST_KEY = 'wanderlog-wishlist'
 
+/** Only a list of slugs is a shortlist; anything else in storage is ignored. */
 function loadWishlist(): string[] {
   try {
     const raw = localStorage.getItem(WISHLIST_KEY)
-    return raw ? (JSON.parse(raw) as string[]) : []
+    const stored: unknown = raw ? JSON.parse(raw) : []
+    return Array.isArray(stored)
+      ? stored.filter((slug): slug is string => typeof slug === 'string')
+      : []
   } catch {
     return []
   }
@@ -27,7 +31,11 @@ export const useDestinationsStore = defineStore('destinations', () => {
   watch(
     wishlist,
     (value) => {
-      localStorage.setItem(WISHLIST_KEY, JSON.stringify(value))
+      try {
+        localStorage.setItem(WISHLIST_KEY, JSON.stringify(value))
+      } catch {
+        /* storage unavailable — the change just won't persist */
+      }
     },
     { deep: true },
   )

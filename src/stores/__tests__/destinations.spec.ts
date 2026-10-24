@@ -222,4 +222,14 @@ describe('Destinations Store', () => {
       }
     })
   })
+
+  it('reads only slugs back from a stored shortlist', () => {
+    localStorage.setItem('wanderlog-wishlist', JSON.stringify(['kyoto', 7, null, { slug: 'bali' }, 'lisbon']))
+    setActivePinia(createPinia())
+    expect(useDestinationsStore().wishlist).toEqual(['kyoto', 'lisbon'])
+
+    localStorage.setItem('wanderlog-wishlist', '{"0":"kyoto"}')
+    setActivePinia(createPinia())
+    expect(useDestinationsStore().wishlist).toEqual([])
+  })
 })

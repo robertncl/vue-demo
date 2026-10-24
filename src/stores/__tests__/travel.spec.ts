@@ -190,4 +190,44 @@ describe('Travel Store', () => {
     expect(stored).toHaveLength(1)
     expect(stored[0].destination).toBe('Porto')
   })
+
+  it('keeps readable trips from storage and drops the rest', () => {
+    const good = {
+      id: 'a1',
+      destination: 'Porto',
+      startDate: '2026-11-01',
+      endDate: '2026-11-04',
+      budget: 800,
+      activities: [
+        { id: 'x', day: 1, time: '09:00', title: 'Tram 28', cost: 3 },
+        { id: 'y', day: 0, time: '09:00', title: 'Day zero', cost: 3 },
+        { id: 'z', day: 2, time: '10:00', title: 'Free?', cost: 'free' },
+      ],
+    }
+    localStorage.setItem(
+      'vue-demo-travel-trips',
+      JSON.stringify([
+        good,
+        { ...good, id: 'bad-date', startDate: '2026-02-30' },
+        { ...good, id: 'bad-budget', budget: null },
+        { ...good, id: 'no-activities', activities: 'none' },
+        null,
+        'Porto',
+      ]),
+    )
+    setActivePinia(createPinia())
+    const travel = useTravelStore()
+
+    expect(travel.trips.map((trip) => trip.id)).toEqual(['a1'])
+    expect(travel.trips[0]!.activities.map((a) => a.id)).toEqual(['x'])
+    expect(travel.selectedTripId).toBe('a1')
+  })
+
+  it('starts empty when storage holds something other than a list', () => {
+    for (const raw of ['null', '{}', '7', '"trips"']) {
+      localStorage.setItem('vue-demo-travel-trips', raw)
+      setActivePinia(createPinia())
+      expect(useTravelStore().trips).toEqual([])
+    }
+  })
 })
