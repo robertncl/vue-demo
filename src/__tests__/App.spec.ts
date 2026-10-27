@@ -69,7 +69,7 @@ describe('App', () => {
 
     const selects = wrapper.findAll('.settings select')
     expect(selects).toHaveLength(2)
-    expect(selects[0].findAll('option')).toHaveLength(5)
+    expect(selects[0].findAll('option')).toHaveLength(12)
     expect(selects[1].findAll('option')).toHaveLength(6)
   })
 

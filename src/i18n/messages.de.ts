@@ -32,6 +32,7 @@ export const de: Messages = {
     delete: 'Löschen',
     actions: 'Aktionen',
     close: 'Schließen',
+    range: '{from} → {to}',
   },
 
   media: {
@@ -216,8 +217,8 @@ export const de: Messages = {
     gridTitle: 'Datumsraster',
     gridCaption:
       'Günstigster Preis für Hin- und Rückflug für jede Kombination aus Hin- und Rückflugdatum',
-    departAxis: 'Hinflug',
-    returnAxis: 'Rückflug',
+    departAxis: 'Hinflug ↓',
+    returnAxis: 'Rückflug →',
     gridCell: 'Hinflug {depart}, Rückflug {ret}: {price}',
   },
 
@@ -487,6 +488,9 @@ export const de: Messages = {
     exploreLabel: 'Entdecken',
     exploreBody:
       'Jedes Reiseziel mit Preis ab deinem Flughafen für ein Wochenende, eine oder zwei Wochen.',
+    languagesLabel: 'Sprachen',
+    languagesBody:
+      'Zwölf, darunter Arabisch und Urdu, die von rechts nach links geschrieben werden. Datum, Uhrzeit, Dauer, Zahlen und Pluralformen folgen den Regeln jeder Sprache.',
     catalogLabel: 'Reiseführer',
     catalogBody:
       'Zwölf Reiseziele mit ausführlichen Reiseführern, filterbar nach Region, Stimmung und Tagesbudget.',

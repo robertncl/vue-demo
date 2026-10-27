@@ -21,7 +21,7 @@ serves, starting at `/`.
 - **Top pick of the month** — destinations ranked by whether they're in season now, with value breaking ties, plus three runners-up and a reason for the month.
 - **Guides** — twelve destinations filterable by search text, region, vibe, max daily budget and what's in season, shown as cards or a side-by-side compare table.
 - **In-depth guides** — multi-paragraph orientation, where to base yourself, a costed three-day itinerary, what to eat, day trips, season-by-season notes, a practical pre-departure panel and a daily-budget breakdown.
-- **Five languages** — English, Español, Français, Deutsch and 日本語, switchable at any time.
+- **Twelve languages** — the world's ten most-spoken (English, 中文, हिन्दी, Español, العربية, Français, বাংলা, Português, Русский, اردو) plus Deutsch and 日本語, with a fully mirrored right-to-left layout for Arabic and Urdu.
 - **Six currencies** — USD, EUR, GBP, JPY, AUD and CAD, converted from a USD base at fixed reference rates.
 - **Shortlist** — save destinations and compare them on price and season; the list persists in `localStorage`.
 - **Trip planner** — create dated trips (by hand or from a booking), add activities per day, and watch the budget bar.
@@ -96,6 +96,51 @@ itself, plus `Intl` for number, currency, date, time, duration (`Intl.DurationFo
 fallback) and plural formatting (`Intl.PluralRules`). Each translation file is typed as
 `Messages`, so a missing key is a **compile error** rather than a blank label.
 
+### Twelve languages, loaded on demand
+
+| Code | Language | Intl tag | Direction |
+| ---- | -------- | -------- | --------- |
+| `en` | English | `en-US` | LTR |
+| `es` | Español | `es-ES` | LTR |
+| `fr` | Français | `fr-FR` | LTR |
+| `de` | Deutsch | `de-DE` | LTR |
+| `ja` | 日本語 | `ja-JP` | LTR |
+| `zh` | 中文（简体） | `zh-CN` | LTR |
+| `hi` | हिन्दी | `hi-IN` | LTR |
+| `ar` | العربية | `ar` | **RTL** |
+| `bn` | বাংলা | `bn-BD` | LTR |
+| `pt` | Português (Brasil) | `pt-BR` | LTR |
+| `ru` | Русский | `ru-RU` | LTR |
+| `ur` | اردو | `ur-PK` | **RTL** |
+
+English ships in the main bundle as the fallback; every other language is its own chunk
+([`src/i18n/load.ts`](src/i18n/load.ts)), fetched before the first render if it was saved, and
+before switching when you pick it — so a visitor downloads one language (about 7 kB gzipped),
+not all twelve, and the page never flashes English.
+
+**Plurals** follow each language's own rules through `Intl.PluralRules`. A plural message has a
+required `other` form and whichever of `zero`/`one`/`two`/`few`/`many` the language needs: Chinese
+and Japanese use one form, Russian three (рейс, рейса, рейсов), Arabic all six.
+
+**Right to left.** Choosing Arabic or Urdu sets `<html dir="rtl">` and the layout mirrors: styles
+use logical properties (`margin-inline-start`, `inset-inline-end`…) wherever the layout should
+flip, and physical ones only where it shouldn't. Some details need care:
+
+- Arrows live in translations, because which way they point depends on the text around them:
+  date ranges use `←` in RTL, but airport-code routes keep `→` since Latin codes read left to right
+  even inside Arabic.
+- Prices are held together with Unicode isolates in RTL so a symbol like `US$` can't be split
+  into `$US` by the bidi algorithm; `+1` day markers are marked left to right for the same reason.
+- The two time-series charts stay left to right in every language, as financial charts usually
+  do; their readouts and labels keep the page's direction.
+- Popovers anchor to their trigger's start edge, which is its right edge in RTL.
+- Letter-spacing is switched off for Arabic, Urdu, Hindi and Bengali, where it would pull apart
+  joined letters and conjuncts.
+
+**Translations of the newer languages were machine-written** and checked by tests for complete
+keys, matching `{placeholders}` and correct plural forms, but not yet by native speakers — worth a
+review before relying on them.
+
 One limitation worth naming: the **UI chrome is translated, but the long-form guide prose is
 not** — destination overviews, neighbourhood descriptions and itineraries stay in English in
 every language. Translating that content is a copywriting job rather than a code one.
@@ -135,8 +180,9 @@ src/
 ├── types/                      # travel.ts and flights.ts
 ├── i18n/
 │   ├── config.ts               # currencies, locales and exchange rates
-│   ├── index.ts                # useI18n(): t(), money(), month(), region(), tag()
-│   └── messages.{en,es,fr,de,ja}.ts
+│   ├── index.ts                # useI18n(): t(), plural(), money(), date(), time(), duration()…
+│   ├── load.ts                 # loads each language's bundle on demand
+│   └── messages.{en,es,fr,de,ja,zh,hi,ar,bn,pt,ru,ur}.ts
 ├── stores/
 │   ├── destinations.ts         # catalog, filters, wishlist, top pick of the month
 │   ├── flights.ts              # today, last search, tracked searches, home airport
@@ -191,8 +237,9 @@ npm run test:unit
 Covers the flight engine (route network, schedules, fares, date tools, ranking), URL parsing and
 validation, filters, the four stores, the i18n layer, the router, the flight search form, flight
 rows and the results, booking, tracked and explore views, plus the destination and trip
-components. A localisation suite mounts the whole app in all five languages across every route —
-including results and booking pages — and fails if an untranslated key reaches the DOM.
+components. A localisation suite mounts the whole app in all twelve languages across every route —
+including results and booking pages — and fails if an untranslated key reaches the DOM; the i18n
+suite checks every translation keeps its `{placeholders}` and its language's plural forms.
 
 ### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
 

@@ -112,7 +112,7 @@ const summaryLabel = computed(() =>
       <span class="col when">
         <span class="lead num">
           {{ time(option.departs) }} – {{ time(option.arrives)
-          }}<sup v-if="arrivalOffset" class="offset">{{ signed(arrivalOffset) }}</sup>
+          }}<sup v-if="arrivalOffset" class="offset" dir="ltr">{{ signed(arrivalOffset) }}</sup>
         </span>
         <span class="sub">{{ airlineNames }}</span>
       </span>
@@ -149,7 +149,7 @@ const summaryLabel = computed(() =>
           <li class="segment">
             <p class="stop">
               <strong class="num">{{ time(segment.departs) }}</strong>
-              <sup v-if="dayOffset(segment.departs)" class="offset">
+              <sup v-if="dayOffset(segment.departs)" class="offset" dir="ltr">
                 {{ signed(dayOffset(segment.departs)) }}
               </sup>
               · {{ airportName(segment.from) }}
@@ -157,7 +157,7 @@ const summaryLabel = computed(() =>
             <p class="travel">{{ t('flights.travelTime', { duration: duration(segment.durationMin) }) }}</p>
             <p class="stop">
               <strong class="num">{{ time(segment.arrives) }}</strong>
-              <sup v-if="dayOffset(segment.arrives)" class="offset">
+              <sup v-if="dayOffset(segment.arrives)" class="offset" dir="ltr">
                 {{ signed(dayOffset(segment.arrives)) }}
               </sup>
               · {{ airportName(segment.to) }}
@@ -278,7 +278,9 @@ const summaryLabel = computed(() =>
 .details {
   display: grid;
   gap: var(--acme-space-4);
-  padding: 0 var(--acme-space-5) var(--acme-space-5) calc(var(--acme-space-5) + 2.25rem + var(--acme-space-4));
+  padding: 0 var(--acme-space-5) var(--acme-space-5);
+  /* Line the timeline up under the times, past the airline mark. */
+  padding-inline-start: calc(var(--acme-space-5) + 2.25rem + var(--acme-space-4));
 }
 
 .timeline {

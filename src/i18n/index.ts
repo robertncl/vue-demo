@@ -1,14 +1,11 @@
 import { computed } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
 import { en } from './messages.en'
-import { es } from './messages.es'
-import { fr } from './messages.fr'
-import { de } from './messages.de'
-import { ja } from './messages.ja'
+import { bundleFor } from './load'
 import type { Messages } from './messages.en'
-import type { LocaleCode, MonthKey } from '@/types/travel'
+import type { MonthKey } from '@/types/travel'
 
-export const messages: Record<LocaleCode, Messages> = { en, es, fr, de, ja }
+export { bundleFor, loadAllLocales, loadLocale } from './load'
 
 export const monthKeys: MonthKey[] = [
   'Jan',
@@ -43,6 +40,11 @@ function interpolate(template: string, params?: Record<string, string | number>)
     key in params ? String(params[key]) : match,
   )
 }
+
+/** Unicode bidi isolates: left-to-right, first-strong, and the closing pop. */
+const LRI = '\u2066'
+const FSI = '\u2068'
+const PDI = '\u2069'
 
 /** Intl.DurationFormat is newer than the ES2022 lib this project types against. */
 type DurationFormatter = { format(duration: { hours?: number; minutes?: number }): string }
@@ -81,7 +83,8 @@ function cachedFormatter<T extends Intl.DateTimeFormat | DurationFormatter>(
 export function useI18n() {
   const settings = useSettingsStore()
 
-  const bundle = computed(() => messages[settings.locale] ?? en)
+  // Until a language's chunk arrives (a moment at most), English fills in.
+  const bundle = computed(() => bundleFor(settings.locale) ?? en)
 
   /**
    * Translates a dotted key. Falls back to English, then to the key itself, so a
@@ -108,12 +111,21 @@ export function useI18n() {
     const { code, decimals } = settings.activeCurrency
     const value = settings.fromBase(usd)
     try {
-      return new Intl.NumberFormat(settings.activeLocale.intl, {
+      const format = new Intl.NumberFormat(settings.activeLocale.intl, {
         style: 'currency',
         currency: code,
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
-      }).format(value)
+      })
+      if (settings.activeLocale.dir === 'ltr') return format.format(value)
+      // In right-to-left text a symbol like "US$" is "US" plus a neutral "$",
+      // and the bidi algorithm moves the "$" to the far side ("$US"). Keep the
+      // symbol as one left-to-right unit, and isolate the whole amount so it
+      // can't tangle with the words around it.
+      const parts = format
+        .formatToParts(value)
+        .map((part) => (part.type === 'currency' ? `${LRI}${part.value}${PDI}` : part.value))
+      return `${FSI}${parts.join('')}${PDI}`
     } catch {
       return `${settings.activeCurrency.symbol}${Math.round(value)}`
     }
@@ -192,6 +204,8 @@ export function useI18n() {
     date,
     duration,
     locale: computed(() => settings.locale),
+    /** "ltr" or "rtl", for the few places that must set direction explicitly. */
+    dir: computed(() => settings.activeLocale.dir),
     currency: computed(() => settings.currency),
   }
 }

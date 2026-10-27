@@ -8,6 +8,7 @@ const features = [
   'tools',
   'tracked',
   'explore',
+  'languages',
   'catalog',
   'thisMonth',
   'shortlist',

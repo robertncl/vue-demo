@@ -88,7 +88,7 @@ const planRoute = computed(() => ({
           <p class="kicker">{{ t('home.nextDeparture') }}</p>
           <h3>{{ travel.nextTrip.destination }}</h3>
           <p class="next-meta num">
-            {{ travel.nextTrip.startDate }} → {{ travel.nextTrip.endDate }} ·
+            {{ t('common.range', { from: travel.nextTrip.startDate, to: travel.nextTrip.endDate }) }} ·
             {{ t('common.dayCount', { count: travel.durationOf(travel.nextTrip) }) }} ·
             {{ money(travel.nextTrip.budget) }}
           </p>

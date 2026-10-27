@@ -90,8 +90,8 @@ const bestMonths = computed(() =>
 
 .flags {
   position: absolute;
-  top: var(--acme-space-3);
-  left: var(--acme-space-3);
+  inset-block-start: var(--acme-space-3);
+  inset-inline-start: var(--acme-space-3);
   display: flex;
   gap: var(--acme-space-2);
   pointer-events: none;

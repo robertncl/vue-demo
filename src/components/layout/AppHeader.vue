@@ -79,15 +79,15 @@ function current(link: { to: string; also: string[] }) {
 .product {
   font-size: var(--acme-text-sm);
   color: var(--acme-color-text-muted);
-  border-left: 1px solid var(--acme-color-border);
-  padding-left: var(--acme-space-3);
+  border-inline-start: 1px solid var(--acme-color-border);
+  padding-inline-start: var(--acme-space-3);
 }
 
 .nav {
   display: flex;
   align-items: center;
   gap: var(--acme-space-1);
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .acme-topbar__link {
@@ -109,7 +109,7 @@ function current(link: { to: string; also: string[] }) {
   .nav {
     order: 3;
     width: 100%;
-    margin-left: 0;
+    margin-inline-start: 0;
     overflow-x: auto;
   }
 }

@@ -32,6 +32,7 @@ export const es: Messages = {
     delete: 'Eliminar',
     actions: 'Acciones',
     close: 'Cerrar',
+    range: '{from} → {to}',
   },
 
   media: {
@@ -215,8 +216,8 @@ export const es: Messages = {
     noFlights: 'Sin vuelos',
     gridTitle: 'Cuadrícula de fechas',
     gridCaption: 'Precio de ida y vuelta más bajo para cada combinación de fechas de ida y vuelta',
-    departAxis: 'Ida',
-    returnAxis: 'Vuelta',
+    departAxis: 'Ida ↓',
+    returnAxis: 'Vuelta →',
     gridCell: 'Ida {depart}, vuelta {ret}: {price}',
   },
 
@@ -482,6 +483,9 @@ export const es: Messages = {
     exploreLabel: 'Explorar',
     exploreBody:
       'Cada destino con precio desde tu aeropuerto para un fin de semana, una semana o dos.',
+    languagesLabel: 'Idiomas',
+    languagesBody:
+      'Doce, incluidos el árabe y el urdu, que se escriben de derecha a izquierda. Fechas, horas, duraciones, números y plurales siguen las reglas de cada idioma.',
     catalogLabel: 'Guías',
     catalogBody:
       'Doce destinos con guías a fondo, filtrables por región, estilo y presupuesto diario.',

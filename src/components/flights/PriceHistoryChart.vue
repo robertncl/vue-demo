@@ -13,7 +13,7 @@ const props = defineProps<{
   label: string
 }>()
 
-const { t, money, date } = useI18n()
+const { t, money, date, dir } = useI18n()
 
 const HEIGHT = 140
 const PAD = { top: 16, right: 56, bottom: 22, left: 8 }
@@ -92,14 +92,16 @@ function onKey(event: KeyboardEvent) {
 
 <template>
   <figure ref="root" class="history">
-    <p class="readout num" aria-live="polite">
+    <p class="readout num" aria-live="polite" :dir="dir">
       <template v-if="activePoint">
         <strong>{{ money(activePoint.total) }}</strong>
         <span class="muted"> · {{ date(activePoint.date, 'long') }}</span>
       </template>
       <span v-else class="muted">{{ t('tracked.historyHint') }}</span>
     </p>
+    <!-- SVG coordinates and text anchors are physical; keep the chart LTR in every language. -->
     <svg
+      dir="ltr"
       v-if="known.length > 1"
       :width="width"
       :height="HEIGHT"

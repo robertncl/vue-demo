@@ -29,9 +29,20 @@ function place() {
   const el = panel.value
   if (!trigger || !el) return
   const rect = trigger.getBoundingClientRect()
-  const maxLeft = window.innerWidth - el.offsetWidth - EDGE
-  el.style.left = `${Math.max(EDGE, Math.min(rect.left, maxLeft))}px`
+  const width = el.offsetWidth
+  // Align with the trigger's start edge: its left in LTR, its right in RTL.
+  const rtl = getComputedStyle(trigger).direction === 'rtl'
+  const preferred = rtl ? rect.right - width : rect.left
+  // clientWidth leaves out the page scrollbar, which innerWidth includes.
+  const maxLeft = document.documentElement.clientWidth - width - EDGE
+  const target = Math.max(EDGE, Math.min(preferred, maxLeft))
+  el.style.left = `${target}px`
   el.style.top = `${rect.bottom + GAP}px`
+  // A fixed element's `left: 0` isn't always the viewport's x = 0: in RTL pages
+  // Chromium puts the scrollbar on the left and shifts the origin past it.
+  // Measure where the panel landed and correct by the difference.
+  const drift = el.getBoundingClientRect().left - target
+  if (drift) el.style.left = `${target - drift}px`
 }
 
 function listen(on: boolean) {

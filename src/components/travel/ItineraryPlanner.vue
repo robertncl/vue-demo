@@ -72,7 +72,7 @@ function submit() {
       <p class="kicker">{{ t('planner.eyebrow') }}</p>
       <h2>{{ trip.destination }}</h2>
       <p class="dates num">
-        {{ trip.startDate }} → {{ trip.endDate }}
+        {{ t('common.range', { from: trip.startDate, to: trip.endDate }) }}
         <template v-if="durationDays > 0">
           · {{ t('planner.dayTrip', { count: durationDays }) }}
         </template>

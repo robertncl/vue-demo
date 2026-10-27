@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { useSettingsStore } from '@/stores/settings'
-import { useI18n } from '@/i18n'
+import { loadLocale, useI18n } from '@/i18n'
 import type { CurrencyCode, LocaleCode } from '@/types/travel'
 
 const settings = useSettingsStore()
 const { t } = useI18n()
 
-function onLocale(event: Event) {
-  settings.setLocale((event.target as HTMLSelectElement).value as LocaleCode)
+/** Switch once the language's messages have arrived, so the page never flashes English. */
+async function onLocale(event: Event) {
+  const code = (event.target as HTMLSelectElement).value as LocaleCode
+  await loadLocale(code).catch(() => {
+    /* switch anyway; English fills in for missing strings */
+  })
+  settings.setLocale(code)
 }
 
 function onCurrency(event: Event) {

@@ -464,7 +464,7 @@ h2 {
 
 .bullets {
   margin: 0;
-  padding-left: var(--acme-space-5);
+  padding-inline-start: var(--acme-space-5);
   display: flex;
   flex-direction: column;
   gap: var(--acme-space-2);
