@@ -125,6 +125,12 @@ const verdict = computed(() => {
   box-shadow: 0 0 0 2px var(--acme-color-surface-raised);
 }
 
+/* Centred on its inline-start offset, which runs from the right in RTL. */
+.marker:dir(rtl),
+.marker-label:dir(rtl) {
+  translate: 50% 0;
+}
+
 .marker-label {
   position: absolute;
   inset-block-end: calc(100% + 6px);

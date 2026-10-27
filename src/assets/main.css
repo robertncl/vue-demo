@@ -150,6 +150,13 @@ select.acme-input {
   outline-offset: 2px;
 }
 
+/* Letter-spacing pulls apart the joined letters of Arabic and Urdu and the
+   conjuncts of Devanagari and Bengali, so those languages turn it off. ACME's
+   kickers, labels and table heads set it, hence !important over their rules. */
+:root:is(:lang(ar), :lang(ur), :lang(hi), :lang(bn)) * {
+  letter-spacing: normal !important;
+}
+
 /* The popover polyfill marks open popovers with a `.:popover-open` class
    because it cannot define the pseudo-class. Pair the two inside :is() — a
    browser that doesn't know :popover-open would otherwise drop the rule. This

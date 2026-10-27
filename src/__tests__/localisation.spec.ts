@@ -81,7 +81,8 @@ describe('localisation', () => {
 
       wrapper.unmount()
     }
-  })
+    // 12 languages × 12 routes is ~150 full-page renders; allow more than the 5s default.
+  }, 30_000)
 
   it('renders prices in every currency on the destination list', async () => {
     for (const currency of currencyList) {

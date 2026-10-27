@@ -39,8 +39,8 @@ function isCurrent(depart: string, ret: string) {
       <thead>
         <tr>
           <th scope="col" class="corner">
-            <span class="axis">{{ t('dates.departAxis') }} ↓</span>
-            <span class="axis">{{ t('dates.returnAxis') }} →</span>
+            <span class="axis">{{ t('dates.departAxis') }}</span>
+            <span class="axis">{{ t('dates.returnAxis') }}</span>
           </th>
           <th v-for="ret in returns" :key="ret" scope="col">
             <span class="weekday">{{ date(ret, 'weekday') }}</span>

@@ -34,7 +34,7 @@ function spend(trip: Trip) {
       >
         <button class="info" type="button" @click="emit('select', trip.id)">
           <strong>{{ trip.destination }}</strong>
-          <span class="dates num">{{ trip.startDate }} → {{ trip.endDate }}</span>
+          <span class="dates num">{{ t('common.range', { from: trip.startDate, to: trip.endDate }) }}</span>
           <span class="meta">
             {{
               t('trips.tripMeta', {

@@ -17,6 +17,13 @@ const HOME_BY_LOCALE: Record<LocaleCode, string> = {
   fr: 'CDG',
   de: 'FRA',
   ja: 'HND',
+  zh: 'HKG',
+  hi: 'DEL',
+  ar: 'DXB',
+  bn: 'DEL',
+  pt: 'GRU',
+  ru: 'IST',
+  ur: 'DXB',
 }
 
 function readJson(key: string): unknown {

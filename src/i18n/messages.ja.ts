@@ -32,6 +32,7 @@ export const ja: Messages = {
     delete: '削除',
     actions: '操作',
     close: '閉じる',
+    range: '{from} → {to}',
   },
 
   media: {
@@ -211,8 +212,8 @@ export const ja: Messages = {
     noFlights: '便なし',
     gridTitle: '日付グリッド',
     gridCaption: '出発日と帰着日の組み合わせごとの往復最安値',
-    departAxis: '出発',
-    returnAxis: '帰着',
+    departAxis: '出発 ↓',
+    returnAxis: '帰着 →',
     gridCell: '出発 {depart}、帰着 {ret}：{price}',
   },
 
@@ -471,6 +472,9 @@ export const ja: Messages = {
     trackedBody: '検索を追跡して、過去30日間の最安運賃を確認。',
     exploreLabel: '見つける',
     exploreBody: 'すべての旅先を、出発空港からの週末・1週間・2週間の旅の価格で表示。',
+    languagesLabel: '言語',
+    languagesBody:
+      '右から左に書くアラビア語とウルドゥー語を含む12言語。日付、時刻、所要時間、数値、複数形はそれぞれの言語の規則に従います。',
     catalogLabel: 'ガイド',
     catalogBody: '12の旅先の詳しいガイド。地域、雰囲気、1日の予算で絞り込めます。',
     thisMonthLabel: '今月',

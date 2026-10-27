@@ -115,11 +115,26 @@ export interface Currency {
   decimals: number
 }
 
-export type LocaleCode = 'en' | 'es' | 'fr' | 'de' | 'ja'
+export type LocaleCode =
+  | 'en'
+  | 'es'
+  | 'fr'
+  | 'de'
+  | 'ja'
+  | 'zh'
+  | 'hi'
+  | 'ar'
+  | 'bn'
+  | 'pt'
+  | 'ru'
+  | 'ur'
 
 export interface Locale {
   code: LocaleCode
+  /** The language's name in itself, as the language picker shows it. */
   label: string
   /** BCP 47 tag used for Intl number and date formatting. */
   intl: string
+  /** Writing direction, applied to <html dir>. */
+  dir: 'ltr' | 'rtl'
 }

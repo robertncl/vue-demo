@@ -17,7 +17,20 @@ describe('Settings Store', () => {
 
   it('exposes the full list of languages and currencies', () => {
     const settings = useSettingsStore()
-    expect(settings.locales.map((l) => l.code)).toEqual(['en', 'es', 'fr', 'de', 'ja'])
+    expect(settings.locales.map((l) => l.code)).toEqual([
+      'en',
+      'es',
+      'fr',
+      'de',
+      'ja',
+      'zh',
+      'hi',
+      'ar',
+      'bn',
+      'pt',
+      'ru',
+      'ur',
+    ])
     expect(settings.currencies.map((c) => c.code)).toEqual([
       'USD',
       'EUR',
@@ -65,6 +78,17 @@ describe('Settings Store', () => {
     expect(settings.currency).toBe('CAD')
   })
 
+  it('ignores a stored value that only exists on Object.prototype', () => {
+    localStorage.setItem('wanderlog-locale', 'constructor')
+    localStorage.setItem('wanderlog-currency', 'toString')
+    setActivePinia(createPinia())
+
+    const settings = useSettingsStore()
+    expect(settings.locale).toBe('en')
+    expect(settings.currency).toBe('USD')
+    expect(settings.activeLocale.intl).toBe('en-US')
+  })
+
   it('ignores an unsupported stored value', () => {
     localStorage.setItem('wanderlog-locale', 'klingon')
     localStorage.setItem('wanderlog-currency', 'DOGE')
@@ -79,5 +103,15 @@ describe('Settings Store', () => {
     const settings = useSettingsStore()
     settings.setLocale('fr')
     expect(document.documentElement.lang).toBe('fr')
+  })
+
+  it('sets the writing direction with the language', () => {
+    const settings = useSettingsStore()
+    settings.setLocale('ar')
+    expect(document.documentElement.dir).toBe('rtl')
+    settings.setLocale('ur')
+    expect(document.documentElement.dir).toBe('rtl')
+    settings.setLocale('hi')
+    expect(document.documentElement.dir).toBe('ltr')
   })
 })

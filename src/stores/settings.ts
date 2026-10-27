@@ -10,6 +10,7 @@ import {
   locales,
   resolveBrowserLocale,
 } from '@/i18n/config'
+import { loadLocale } from '@/i18n/load'
 import type { CurrencyCode, LocaleCode } from '@/types/travel'
 
 const LOCALE_KEY = 'wanderlog-locale'
@@ -44,7 +45,12 @@ export const useSettingsStore = defineStore('settings', () => {
       }
       if (typeof document !== 'undefined') {
         document.documentElement.lang = value
+        document.documentElement.dir = locales[value].dir
       }
+      // Start fetching the language's messages; until they arrive, English fills in.
+      void loadLocale(value).catch(() => {
+        /* the language stays on its English fallback */
+      })
     },
     { flush: 'sync' },
   )

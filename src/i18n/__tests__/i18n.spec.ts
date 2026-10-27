@@ -1,17 +1,40 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
-import { useI18n, messages, monthKeyFor, monthKeys } from '../index'
+import { useI18n, bundleFor, loadLocale, monthKeyFor, monthKeys } from '../index'
 import { useSettingsStore } from '@/stores/settings'
 import { en } from '../messages.en'
-import { localeList } from '../config'
+import { isCurrencyCode, isLocaleCode, localeList, resolveBrowserLocale } from '../config'
 
-/** Collects every dotted leaf path in a message bundle. */
-function leafPaths(source: object, prefix = ''): string[] {
-  return Object.entries(source).flatMap(([key, value]) => {
+const PLURAL_CATEGORIES = new Set(['zero', 'one', 'two', 'few', 'many', 'other'])
+
+/** A plural message: an object keyed only by plural categories, with `other`. */
+function isPlural(value: unknown): value is Record<string, string> {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'other' in value &&
+    Object.keys(value).every((key) => PLURAL_CATEGORIES.has(key))
+  )
+}
+
+/**
+ * Every message in a bundle as [dotted path, strings]. A plural message is one
+ * entry holding all its forms, because languages legitimately differ in which
+ * forms they need.
+ */
+function messagesOf(source: object, prefix = ''): [string, string[]][] {
+  return Object.entries(source).flatMap(([key, value]): [string, string[]][] => {
     const path = prefix ? `${prefix}.${key}` : key
-    return typeof value === 'string' ? [path] : leafPaths(value as object, path)
+    if (typeof value === 'string') return [[path, [value]]]
+    if (isPlural(value)) return [[path, Object.values(value)]]
+    return messagesOf(value as object, path)
   })
 }
+
+const placeholders = (text: string) => new Set(text.match(/\{\w+\}/g) ?? [])
+
+/** Every bundle, keyed by language. The test setup has loaded them all. */
+const messages = Object.fromEntries(localeList.map((l) => [l.code, bundleFor(l.code)!]))
 
 describe('i18n', () => {
   beforeEach(() => {
@@ -124,11 +147,12 @@ describe('i18n', () => {
     expect(monthKeys).toHaveLength(12)
   })
 
-  it('ships every English key in all five languages', () => {
-    const expected = leafPaths(en).sort()
+  it('ships every English key in all twelve languages', () => {
+    const expected = messagesOf(en).map(([path]) => path).sort()
+    expect(localeList).toHaveLength(12)
 
     for (const locale of localeList) {
-      const actual = leafPaths(messages[locale.code]).sort()
+      const actual = messagesOf(messages[locale.code]).map(([path]) => path).sort()
       expect({ locale: locale.code, keys: actual }).toEqual({
         locale: locale.code,
         keys: expected,
@@ -138,13 +162,118 @@ describe('i18n', () => {
 
   it('leaves no translated string empty', () => {
     for (const locale of localeList) {
-      const bundle = messages[locale.code]
-      for (const path of leafPaths(bundle)) {
-        const value = path
-          .split('.')
-          .reduce<unknown>((acc, part) => (acc as Record<string, unknown>)[part], bundle)
-        expect(String(value).trim().length).toBeGreaterThan(0)
+      for (const [path, texts] of messagesOf(messages[locale.code])) {
+        for (const text of texts) {
+          expect(`${locale.code} ${path}: ${text.trim().length > 0}`).toBe(`${locale.code} ${path}: true`)
+        }
       }
     }
+  })
+
+  it('keeps every placeholder a translation needs, and invents none', () => {
+    const english = new Map(messagesOf(en))
+    for (const locale of localeList) {
+      for (const [path, texts] of messagesOf(messages[locale.code])) {
+        const source = english.get(path)!
+        // Plural forms may spell the count out ("one", "two"), so a form can drop
+        // {count} but never add a placeholder; plain strings must match exactly.
+        const sourceSet = placeholders(source[source.length - 1]!)
+        for (const text of texts) {
+          const found = [...placeholders(text)].sort()
+          const wanted = [...sourceSet].sort()
+          const plural = source.length > 1
+          const ok = plural
+            ? found.every((name) => sourceSet.has(name))
+            : found.join() === wanted.join()
+          expect(`${locale.code} ${path} ${found.join()}`).toBe(
+            ok ? `${locale.code} ${path} ${found.join()}` : `${locale.code} ${path} ${wanted.join()}`,
+          )
+        }
+      }
+    }
+  })
+
+  it('uses every plural form a language needs', () => {
+    const { plural } = useI18n()
+    const settings = useSettingsStore()
+
+    settings.setLocale('ru')
+    expect([1, 2, 5, 21, 22, 25].map((n) => plural('flights.resultCount', n))).toEqual([
+      '1 рейс',
+      '2 рейса',
+      '5 рейсов',
+      '21 рейс',
+      '22 рейса',
+      '25 рейсов',
+    ])
+
+    settings.setLocale('ar')
+    expect([0, 1, 2, 3, 11, 100].map((n) => plural('search.travellers', n))).toEqual([
+      '0 مسافر',
+      'مسافر واحد',
+      'مسافران',
+      '3 مسافرين',
+      '11 مسافرًا',
+      '100 مسافر',
+    ])
+
+    settings.setLocale('zh')
+    expect(plural('search.travellers', 1)).toBe('1 位旅客')
+  })
+
+  it('loads each language once and hands back the same bundle', async () => {
+    const first = await loadLocale('ur')
+    const again = await Promise.all([loadLocale('ur'), loadLocale('ur')])
+    expect(again.every((bundle) => bundle === first)).toBe(true)
+    expect(bundleFor('ur')).toBe(first)
+  })
+
+  it('marks Arabic and Urdu as right to left', () => {
+    expect(localeList.filter((l) => l.dir === 'rtl').map((l) => l.code)).toEqual(['ar', 'ur'])
+  })
+
+  it('formats with each language’s own digits and conventions', () => {
+    const { money, number } = useI18n()
+    const settings = useSettingsStore()
+
+    settings.setLocale('bn')
+    expect(number(1394)).toBe('১,৩৯৪')
+    settings.setLocale('ru')
+    // Russian groups thousands with a no-break space (U+00A0 or U+202F, by ICU version).
+    expect(number(1394)).toMatch(/^1[\u00a0\u202f]394$/)
+    settings.setLocale('hi')
+    expect(money(1394)).toBe('$1,394')
+  })
+
+  it('keeps prices whole inside right-to-left text', () => {
+    const { money } = useI18n()
+    const settings = useSettingsStore()
+
+    // Left-to-right languages get Intl's output untouched.
+    expect(money(1394)).toBe('$1,394')
+
+    // In Arabic the symbol is held together in a left-to-right isolate and the
+    // amount isolated from the text around it, so "US$" can't become "$US".
+    settings.setLocale('ar')
+    const price = money(1394)
+    expect(price.startsWith('\u2068')).toBe(true)
+    expect(price.endsWith('\u2069')).toBe(true)
+    expect(price).toContain('\u2066US$\u2069')
+    expect(price.replace(/[\u200e\u200f\u2066-\u2069]/g, '')).toBe('1,394\u00a0US$')
+  })
+
+  it('accepts only its own locale and currency codes', () => {
+    for (const name of ['constructor', 'toString', '__proto__', 'hasOwnProperty']) {
+      expect(isLocaleCode(name)).toBe(false)
+      expect(isCurrencyCode(name)).toBe(false)
+    }
+    expect(isLocaleCode('ur')).toBe(true)
+  })
+
+  it('picks the closest supported language for a browser tag', () => {
+    expect(resolveBrowserLocale('pt-PT')).toBe('pt')
+    expect(resolveBrowserLocale('zh-Hans-CN')).toBe('zh')
+    expect(resolveBrowserLocale('ar-EG')).toBe('ar')
+    expect(resolveBrowserLocale('sw-KE')).toBe('en')
   })
 })

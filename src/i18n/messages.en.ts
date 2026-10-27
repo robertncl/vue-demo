@@ -1,3 +1,17 @@
+/** Intl.PluralRules categories. Each language supplies the forms its grammar uses. */
+export type PluralCategory = 'zero' | 'one' | 'two' | 'few' | 'many' | 'other'
+
+/**
+ * A message with plural forms. `other` is always required; the rest are
+ * optional because languages differ — Japanese and Chinese need only `other`,
+ * English `one`, Russian `one`/`few`/`many`, Arabic all six.
+ */
+export type PluralForms = { other: string } & Partial<
+  Record<Exclude<PluralCategory, 'other'>, string>
+>
+
+const plural = (forms: PluralForms): PluralForms => forms
+
 export const en = {
   brand: { name: 'Wanderlog', tagline: 'Find a flight, plan the trip' },
 
@@ -30,6 +44,7 @@ export const en = {
     delete: 'Delete',
     actions: 'Actions',
     close: 'Close',
+    range: '{from} → {to}',
   },
 
   media: {
@@ -74,7 +89,7 @@ export const en = {
     depart: 'Departure',
     return: 'Return',
     submit: 'Search flights',
-    travellers: { one: '{count} traveller', other: '{count} travellers' },
+    travellers: plural({ one: '{count} traveller', other: '{count} travellers' }),
     travellersLabel: 'Travellers',
     adults: 'Adults',
     adultsHint: '12 and over',
@@ -106,7 +121,7 @@ export const en = {
     oneWay: 'one way',
     oneWayFare: 'this flight',
     nonstop: 'Nonstop',
-    stops: { one: '{count} stop', other: '{count} stops' },
+    stops: plural({ one: '{count} stop', other: '{count} stops' }),
     durationH: '{h} hr',
     durationM: '{m} min',
     durationHm: '{h} hr {m} min',
@@ -145,17 +160,17 @@ export const en = {
     topReturning: 'Top returning flights',
     otherReturning: 'Other returning flights',
     bestNote: 'Ranked on price and journey time, with a nudge against extra stops.',
-    resultCount: { one: '{count} flight', other: '{count} flights' },
-    priceNote: {
+    resultCount: plural({ one: '{count} flight', other: '{count} flights' }),
+    priceNote: plural({
       one: 'Prices are for {count} traveller and include taxes and fees. Bag fees may apply.',
       other: 'Prices are for {count} travellers and include taxes and fees. Bag fees may apply.',
-    },
-    showMore: { one: 'Show {count} more flight', other: 'Show {count} more flights' },
+    }),
+    showMore: plural({ one: 'Show {count} more flight', other: 'Show {count} more flights' }),
     noMatchTitle: 'No flights match your filters',
-    noMatchBody: {
+    noMatchBody: plural({
       one: 'There is {count} flight on this date. Loosen a filter to see it.',
       other: 'There are {count} flights on this date. Loosen a filter to see them.',
-    },
+    }),
     clearFilters: 'Clear filters',
     noFlightsTitle: 'No flights on this date',
     noFlightsBody: 'Try a day either side with the date strip above.',
@@ -173,7 +188,7 @@ export const en = {
     stops_1: '1 stop or fewer',
     none: 'None',
     airlines: 'Airlines',
-    airlinesCount: { one: '{count} airline', other: '{count} airlines' },
+    airlinesCount: plural({ one: '{count} airline', other: '{count} airlines' }),
     allAirlines: 'All airlines',
     price: 'Price',
     anyPrice: 'Any price',
@@ -196,8 +211,8 @@ export const en = {
     noFlights: 'No flights',
     gridTitle: 'Date grid',
     gridCaption: 'Cheapest round-trip price for each pair of departure and return dates',
-    departAxis: 'Departure',
-    returnAxis: 'Return',
+    departAxis: 'Departure ↓',
+    returnAxis: 'Return →',
     gridCell: 'Leave {depart}, return {ret}: {price}',
   },
 
@@ -233,9 +248,9 @@ export const en = {
     departing: 'Departing · {date}',
     returning: 'Returning · {date}',
     priceTitle: 'Price',
-    adults: { one: '{count} adult', other: '{count} adults' },
-    children: { one: '{count} child', other: '{count} children' },
-    infants: { one: '{count} lap infant', other: '{count} lap infants' },
+    adults: plural({ one: '{count} adult', other: '{count} adults' }),
+    children: plural({ one: '{count} child', other: '{count} children' }),
+    infants: plural({ one: '{count} lap infant', other: '{count} lap infants' }),
     total: 'Total',
     fareNote: 'Includes taxes and fees. Checked bags and seat selection may cost extra.',
     addToTrips: 'Add to my trips',
@@ -260,7 +275,7 @@ export const en = {
     length_week: '1 week',
     length_fortnight: '2 weeks',
     nonstopOnly: 'Nonstop only',
-    count: { one: '{count} destination.', other: '{count} destinations.' },
+    count: plural({ one: '{count} destination.', other: '{count} destinations.' }),
     priceNote: 'Economy, one adult, cheapest dates first.',
     emptyTitle: 'Nothing matches',
     emptyBody: 'Try another month or region, or allow flights with stops.',
@@ -447,6 +462,9 @@ export const en = {
     trackedBody: 'Follow a search and see its cheapest fare over the last 30 days.',
     exploreLabel: 'Explore',
     exploreBody: 'Every destination priced from your airport for a weekend, a week or two weeks.',
+    languagesLabel: 'Languages',
+    languagesBody:
+      'Twelve, including right-to-left Arabic and Urdu. Dates, times, durations, numbers and plurals follow each language’s own rules.',
     catalogLabel: 'Guides',
     catalogBody:
       'Twelve destinations with in-depth guides, filterable by region, vibe and daily budget.',

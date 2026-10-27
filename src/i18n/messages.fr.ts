@@ -32,6 +32,7 @@ export const fr: Messages = {
     delete: 'Supprimer',
     actions: 'Actions',
     close: 'Fermer',
+    range: '{from} → {to}',
   },
 
   media: {
@@ -217,8 +218,8 @@ export const fr: Messages = {
     noFlights: 'Aucun vol',
     gridTitle: 'Grille des dates',
     gridCaption: 'Prix aller-retour le plus bas pour chaque combinaison de dates aller et retour',
-    departAxis: 'Aller',
-    returnAxis: 'Retour',
+    departAxis: 'Aller ↓',
+    returnAxis: 'Retour →',
     gridCell: 'Aller {depart}, retour {ret} : {price}',
   },
 
@@ -488,6 +489,9 @@ export const fr: Messages = {
     exploreLabel: 'Explorer',
     exploreBody:
       'Chaque destination chiffrée depuis votre aéroport pour un week-end, une semaine ou deux.',
+    languagesLabel: 'Langues',
+    languagesBody:
+      'Douze, dont l’arabe et l’ourdou, qui s’écrivent de droite à gauche. Dates, heures, durées, nombres et pluriels suivent les règles de chaque langue.',
     catalogLabel: 'Guides',
     catalogBody:
       'Douze destinations avec des guides détaillés, filtrables par région, ambiance et budget quotidien.',

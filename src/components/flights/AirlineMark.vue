@@ -12,7 +12,7 @@ defineProps<{
 <template>
   <span class="mark" :class="{ multi: codes.length > 1 }" aria-hidden="true">
     <span class="code">{{ codes[0] }}</span>
-    <span v-if="codes.length > 1" class="more num">+{{ codes.length - 1 }}</span>
+    <span v-if="codes.length > 1" class="more num" dir="ltr">+{{ codes.length - 1 }}</span>
   </span>
 </template>
 

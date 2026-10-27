@@ -21,7 +21,7 @@ const emit = defineEmits<{
   pick: [depart: string]
 }>()
 
-const { t, money, date } = useI18n()
+const { t, money, date, dir } = useI18n()
 
 const DAYS = 60
 const firstDay = computed(() => addDays(props.observed, 1))
@@ -85,7 +85,8 @@ function labelAlign(index: number) {
 
 <template>
   <div class="price-graph">
-    <div class="toolbar">
+    <!-- Time runs left to right in every language, so the plot and its paging stay LTR. -->
+    <div class="toolbar" dir="ltr">
       <button
         class="acme-btn acme-btn--secondary acme-btn--sm"
         type="button"
@@ -94,7 +95,7 @@ function labelAlign(index: number) {
       >
         {{ t('graph.earlier') }}
       </button>
-      <p class="readout num" aria-live="polite">
+      <p class="readout num" aria-live="polite" :dir="dir">
         <template v-if="hovered">
           <strong>{{ hovered.total === null ? t('dates.noFlights') : money(hovered.total) }}</strong>
           <span class="muted"> · {{ date(hovered.date, 'long') }}</span>
@@ -111,7 +112,7 @@ function labelAlign(index: number) {
       </button>
     </div>
 
-    <div class="plot">
+    <div class="plot" dir="ltr">
       <div class="y-axis num" aria-hidden="true">
         <span v-for="tick in ticks" :key="tick">{{ money(tick) }}</span>
       </div>
@@ -142,7 +143,7 @@ function labelAlign(index: number) {
             <!-- The one direct label rides in a lane above the plot, tied to its bar by a leader. -->
             <template v-if="day.total !== null && day.total === cheapest">
               <span class="leader" :style="{ insetBlockEnd: `${(day.total / max) * 100}%` }"></span>
-              <span class="direct-label num" :class="`align-${labelAlign(index)}`">
+              <span class="direct-label num" :class="`align-${labelAlign(index)}`" :dir="dir">
                 {{ t('graph.lowestLabel', { price: money(day.total) }) }}
               </span>
             </template>
