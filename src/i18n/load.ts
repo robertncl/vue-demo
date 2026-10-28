@@ -31,17 +31,21 @@ export function bundleFor(code: LocaleCode): Messages | undefined {
   return loaded.get(code)
 }
 
-/** Loads a language's bundle once; concurrent calls share one request. */
+/**
+ * Loads a language's bundle once; concurrent calls share one request. A failed
+ * request is forgotten, so the next call retries rather than replaying the error.
+ */
 export function loadLocale(code: LocaleCode): Promise<Messages> {
   const ready = loaded.get(code)
   if (ready) return Promise.resolve(ready)
   let request = pending.get(code)
   if (!request) {
-    request = loaders[code as Exclude<LocaleCode, 'en'>]().then((bundle) => {
-      loaded.set(code, bundle)
-      pending.delete(code)
-      return bundle
-    })
+    request = loaders[code as Exclude<LocaleCode, 'en'>]()
+      .then((bundle) => {
+        loaded.set(code, bundle)
+        return bundle
+      })
+      .finally(() => pending.delete(code))
     pending.set(code, request)
   }
   return request
