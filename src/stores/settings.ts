@@ -77,12 +77,14 @@ export const useSettingsStore = defineStore('settings', () => {
     return amount / activeCurrency.value.rate
   }
 
+  // Callers pass values from the DOM (the pickers' <select>s), which can be
+  // tampered with; an unknown code would make every lookup that follows fail.
   function setLocale(value: LocaleCode) {
-    locale.value = value
+    if (isLocaleCode(value)) locale.value = value
   }
 
   function setCurrency(value: CurrencyCode) {
-    currency.value = value
+    if (isCurrencyCode(value)) currency.value = value
   }
 
   return {

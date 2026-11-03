@@ -1,6 +1,7 @@
 import { shallowReactive } from 'vue'
 import { en } from './messages.en'
 import type { Messages } from './messages.en'
+import { isLocaleCode } from './config'
 import type { LocaleCode } from '@/types/travel'
 
 /**
@@ -38,6 +39,8 @@ export function bundleFor(code: LocaleCode): Messages | undefined {
 export function loadLocale(code: LocaleCode): Promise<Messages> {
   const ready = loaded.get(code)
   if (ready) return Promise.resolve(ready)
+  // Reject rather than throw, so callers' .catch() handles an unknown code too.
+  if (!isLocaleCode(code)) return Promise.reject(new Error(`Unknown locale: ${String(code)}`))
   let request = pending.get(code)
   if (!request) {
     request = loaders[code as Exclude<LocaleCode, 'en'>]()
