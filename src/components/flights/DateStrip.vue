@@ -98,7 +98,7 @@ const lowest = computed(() => {
   outline-offset: -2px;
 }
 
-/* The searched date is orientation: the Cobalt underline and wash. */
+/* The searched date is a selection: the Blue underline and wash. */
 .day.current {
   background: var(--acme-color-selected-soft);
   border-block-end-color: var(--acme-color-selected);
@@ -119,14 +119,12 @@ const lowest = computed(() => {
 }
 
 .amount.lowest {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .tag {
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: var(--acme-text-xs);
+  font-weight: 500;
   color: var(--acme-color-text-muted);
 }
 

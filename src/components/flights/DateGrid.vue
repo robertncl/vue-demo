@@ -146,7 +146,7 @@ td {
 }
 
 .cell.cheapest {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .cell.current {

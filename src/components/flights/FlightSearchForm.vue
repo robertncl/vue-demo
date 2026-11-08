@@ -2,6 +2,7 @@
 import { computed, nextTick, reactive, ref, useId, watch } from 'vue'
 import AirportInput from './AirportInput.vue'
 import PassengerPicker from './PassengerPicker.vue'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import { useFlightsStore } from '@/stores/flights'
 import { useI18n } from '@/i18n'
 import { addDays, daysBetween, isIsoDate } from '@/lib/dates'
@@ -241,6 +242,7 @@ async function submit() {
     </div>
 
     <div v-if="problems.length" class="acme-alert acme-alert--danger problems" role="alert">
+      <span class="acme-alert__icon"><StatusIcon variant="danger" /></span>
       <ul>
         <li v-for="problem in problems" :key="problem">{{ t(`search.error_${problem}`) }}</li>
       </ul>
