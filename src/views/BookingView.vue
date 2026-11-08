@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import FlightRow from '@/components/flights/FlightRow.vue'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import { findAirport } from '@/data/airports'
 import { findDestination } from '@/data/destinations'
 import { useFlightsStore } from '@/stores/flights'
@@ -194,7 +195,10 @@ function addToTrips() {
               </label>
             </div>
 
-            <p class="acme-alert demo">{{ t('booking.demoNote') }}</p>
+            <div class="acme-alert demo" role="status">
+              <span class="acme-alert__icon"><StatusIcon variant="info" /></span>
+              <p>{{ t('booking.demoNote') }}</p>
+            </div>
             <RouterLink v-if="guide" class="guide" :to="`/destinations/${guide.slug}`">
               {{ t('topPick.readGuideNamed', { name: guide.name }) }}
             </RouterLink>
@@ -278,7 +282,7 @@ function addToTrips() {
 }
 
 .fares tfoot th {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .fares tfoot th,
@@ -290,7 +294,7 @@ function addToTrips() {
 
 .total {
   font-size: var(--acme-text-xl) !important;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .actions {

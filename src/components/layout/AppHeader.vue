@@ -55,7 +55,9 @@ function current(link: { to: string; also: string[] }) {
       </RouterLink>
     </nav>
 
-    <SettingsMenu />
+    <div class="acme-topbar__actions">
+      <SettingsMenu />
+    </div>
   </header>
 </template>
 
@@ -87,7 +89,6 @@ function current(link: { to: string; also: string[] }) {
   display: flex;
   align-items: center;
   gap: var(--acme-space-1);
-  margin-inline-start: auto;
 }
 
 .acme-topbar__link {

@@ -5,7 +5,7 @@ import type { PriceInsight } from '@/types/flights'
 
 /**
  * Where today's cheapest price sits against the typical range. A meter, not
- * a chart: a neutral track split into low / typical / high, and one Cobalt
+ * a chart: a neutral track split into low / typical / high, and one Blue
  * marker for the current price, labelled directly.
  */
 const props = defineProps<{

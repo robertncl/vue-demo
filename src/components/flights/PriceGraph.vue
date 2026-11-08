@@ -9,8 +9,8 @@ import type { FlightSearch } from '@/types/flights'
 
 /**
  * Cheapest total by departure date over a 60-day window, trip length held
- * fixed. One series, so no legend: Slate bars carry the data and only the
- * searched date takes Cobalt. The cheapest bar is the one direct label.
+ * fixed. One series, so no legend: Graphite bars carry the data and only the
+ * searched date takes Blue. The cheapest bar is the one direct label.
  */
 const props = defineProps<{
   search: FlightSearch

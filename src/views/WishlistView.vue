@@ -127,8 +127,6 @@ function planRoute(destination: Destination) {
 }
 
 .now {
-  background: var(--acme-color-selected-soft);
-  color: var(--acme-color-accent);
   margin-inline-start: var(--acme-space-2);
 }
 

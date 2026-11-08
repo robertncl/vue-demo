@@ -269,13 +269,11 @@ function monthsOf(months: MonthKey[]) {
 }
 
 .now {
-  background: var(--acme-color-selected-soft);
-  color: var(--acme-color-accent);
   margin-inline-start: var(--acme-space-2);
 }
 
 .wish.on {
-  color: var(--acme-color-accent);
+  color: var(--acme-color-text);
   font-weight: 600;
 }
 

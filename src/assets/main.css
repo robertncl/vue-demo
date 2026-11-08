@@ -34,14 +34,15 @@
   text-align: center;
 }
 
-/* The small uppercase label that opens most sections in the design. */
+/* The small label that opens most sections. ACME v5 keeps uppercase caps and
+   the Signal Red accent for decks and reports, so in the product it is a
+   quiet sentence-case UI label. */
 .kicker {
   margin: 0;
-  font-size: var(--acme-text-xs);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--acme-color-accent);
+  font-size: var(--acme-text-sm);
+  font-weight: 500;
+  letter-spacing: var(--acme-tracking-snug);
+  color: var(--acme-color-text-muted);
 }
 
 .muted {
@@ -52,17 +53,19 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* The serif numeral used for ordered steps and itinerary days. */
+/* The large numeral used for ordered steps and itinerary days: Inter 600,
+   tight tracking, in the subtle ink so the heading beside it leads. */
 .numeral {
-  font-family: var(--acme-font-display);
-  font-style: italic;
-  color: var(--acme-color-accent);
+  font-weight: 600;
+  letter-spacing: var(--acme-tracking-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--acme-color-text-subtle);
   line-height: 1;
 }
 
 .card-grid {
   display: grid;
-  gap: var(--acme-space-5);
+  gap: var(--acme-space-6);
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
@@ -104,9 +107,10 @@ a.acme-btn {
   border: 0;
 }
 
-/* Range inputs are the one native control ACME does not restyle. */
+/* Range inputs are the one native control ACME does not restyle; like every
+   checked control they take the interaction Blue. */
 input[type='range'] {
-  accent-color: var(--acme-color-primary);
+  accent-color: var(--acme-color-selected);
   width: 100%;
 }
 
@@ -124,6 +128,7 @@ select.acme-input {
   border: 1px solid var(--acme-color-border-strong);
   border-radius: var(--acme-radius-md);
   background: var(--acme-color-surface-raised);
+  box-shadow: var(--acme-shadow-sm);
 }
 
 .segmented label > span {
@@ -134,15 +139,17 @@ select.acme-input {
   border-radius: calc(var(--acme-radius-md) - 2px);
   font-size: var(--acme-text-sm);
   font-weight: 500;
+  letter-spacing: var(--acme-tracking-snug);
   color: var(--acme-color-text-muted);
   white-space: nowrap;
   cursor: pointer;
 }
 
+/* Selected: the Blue wash with a Blue edge; the label stays ink. */
 .segmented input:checked + span {
   background: var(--acme-color-selected-soft);
-  color: var(--acme-color-selected);
-  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--acme-color-selected);
+  color: var(--acme-color-text);
 }
 
 .segmented input:focus-visible + span {
