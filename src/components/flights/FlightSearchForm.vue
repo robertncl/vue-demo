@@ -4,6 +4,7 @@ import AirportInput from './AirportInput.vue'
 import PassengerPicker from './PassengerPicker.vue'
 import { useFlightsStore } from '@/stores/flights'
 import { useI18n } from '@/i18n'
+import StatusIcon from '@/components/layout/StatusIcon.vue'
 import { addDays, daysBetween, isIsoDate } from '@/lib/dates'
 import {
   BOOKING_HORIZON_DAYS,
@@ -241,9 +242,13 @@ async function submit() {
     </div>
 
     <div v-if="problems.length" class="acme-alert acme-alert--danger problems" role="alert">
-      <ul>
-        <li v-for="problem in problems" :key="problem">{{ t(`search.error_${problem}`) }}</li>
-      </ul>
+      <StatusIcon status="danger" />
+      <div>
+        <p class="acme-alert__title">{{ t('search.problemsTitle') }}</p>
+        <ul>
+          <li v-for="problem in problems" :key="problem">{{ t(`search.error_${problem}`) }}</li>
+        </ul>
+      </div>
     </div>
   </form>
 </template>

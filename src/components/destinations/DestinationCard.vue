@@ -103,8 +103,9 @@ const bestMonths = computed(() =>
 }
 
 .season {
-  background: var(--acme-color-selected-soft);
-  color: var(--acme-color-accent);
+  border-color: var(--acme-color-success-border);
+  background: var(--acme-color-success-soft);
+  color: var(--acme-color-success-soft-text);
 }
 
 .body {
@@ -142,7 +143,7 @@ const bestMonths = computed(() =>
 }
 
 .wish.on {
-  color: var(--acme-color-accent);
+  color: var(--acme-color-selected);
   font-weight: 600;
 }
 

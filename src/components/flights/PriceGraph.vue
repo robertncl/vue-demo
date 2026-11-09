@@ -9,8 +9,8 @@ import type { FlightSearch } from '@/types/flights'
 
 /**
  * Cheapest total by departure date over a 60-day window, trip length held
- * fixed. One series, so no legend: Slate bars carry the data and only the
- * searched date takes Cobalt. The cheapest bar is the one direct label.
+ * fixed. One series, so no legend: grey bars carry the data and only the
+ * searched date takes the highlight Blue. The cheapest bar is the one direct label.
  */
 const props = defineProps<{
   search: FlightSearch
@@ -281,7 +281,7 @@ function labelAlign(index: number) {
   inline-size: 100%;
   max-inline-size: 24px;
   min-block-size: 2px;
-  border-radius: 4px 4px 0 0;
+  border-radius: var(--acme-radius-sm) var(--acme-radius-sm) 0 0;
   background: var(--acme-color-data);
   transition: filter var(--acme-duration-fast) var(--acme-ease-out);
 }

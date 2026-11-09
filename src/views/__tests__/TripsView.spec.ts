@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { mount, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import TripsView from '../TripsView.vue'
@@ -68,7 +68,7 @@ describe('TripsView', () => {
     expect(wrapper.find('.day-group').text()).toContain('Tram 28')
   })
 
-  it('removes a trip and returns to the empty state', async () => {
+  it('asks before deleting a trip, then returns to the empty state', async () => {
     const wrapper = await mountView()
     const travel = useTravelStore()
     travel.addTrip({
@@ -80,8 +80,37 @@ describe('TripsView', () => {
     await wrapper.vm.$nextTick()
 
     await wrapper.find('.trip-card .remove').trigger('click')
+    await flushPromises()
+
+    // Nothing is deleted until the confirmation, which names the trip.
+    expect(travel.trips).toHaveLength(1)
+    const confirm = wrapper.find('dialog .acme-btn--danger')
+    expect(confirm.text()).toBe('Delete the trip to Oslo')
+
+    await confirm.trigger('click')
+    await flushPromises()
 
     expect(travel.trips).toHaveLength(0)
     expect(wrapper.text()).toContain('No trip selected')
+  })
+
+  it('keeps the trip when the deletion is cancelled', async () => {
+    const wrapper = await mountView()
+    const travel = useTravelStore()
+    travel.addTrip({
+      destination: 'Oslo',
+      startDate: '2026-07-01',
+      endDate: '2026-07-02',
+      budget: 100,
+    })
+    await wrapper.vm.$nextTick()
+
+    await wrapper.find('.trip-card .remove').trigger('click')
+    await flushPromises()
+    await wrapper.find('dialog .acme-btn--secondary').trigger('click')
+    await flushPromises()
+
+    expect(travel.trips).toHaveLength(1)
+    expect(wrapper.find('dialog .acme-btn--danger').exists()).toBe(false)
   })
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * Stands in for an airline logo: the carrier code on a flat Slate tile. ACME
+ * Stands in for an airline logo: the carrier code on a flat Graphite tile. ACME
  * allows no third-party colour, and the airlines are fictional anyway. The
  * airline's name is always printed beside it, so the mark is decorative.
  */
@@ -28,7 +28,7 @@ defineProps<{
   border-radius: var(--acme-radius-md);
   background: var(--acme-color-surface);
   color: var(--acme-color-text-muted);
-  font: 700 var(--acme-text-xs) / 1 var(--acme-font-sans);
+  font: 600 var(--acme-text-xs) / 1 var(--acme-font-sans);
   letter-spacing: 0.04em;
 }
 

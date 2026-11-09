@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
 import { useI18n } from '@/i18n'
+import StatusIcon from '@/components/layout/StatusIcon.vue'
 import type { ActivityDraft, Trip } from '@/types/travel'
 
 const props = defineProps<{
@@ -110,6 +111,7 @@ function submit() {
       </div>
 
       <div v-if="overBudget" class="acme-alert acme-alert--danger">
+        <StatusIcon status="danger" />
         <div>
           <p class="acme-alert__title">{{ t('planner.overTitle') }}</p>
           <p>{{ t('planner.overBody', { amount: money(Math.abs(remainingBudget)) }) }}</p>
@@ -222,9 +224,7 @@ function submit() {
 .figure-label {
   margin: 0;
   font-size: var(--acme-text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--acme-color-text-muted);
 }
 
@@ -249,7 +249,7 @@ function submit() {
 .bar span {
   display: block;
   height: 100%;
-  background: var(--acme-color-primary);
+  background: var(--acme-color-data-highlight);
 }
 
 .budget.over .bar span {

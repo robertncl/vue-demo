@@ -163,9 +163,7 @@ const cards = computed(() =>
 
 .figures dt {
   font-size: var(--acme-text-xs);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-weight: 500;
   color: var(--acme-color-text-muted);
 }
 
@@ -178,7 +176,7 @@ const cards = computed(() =>
 /* The one hero figure per card: same sans, proportional figures. */
 .figures dd.hero {
   font-size: var(--acme-text-3xl);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
 }
 </style>

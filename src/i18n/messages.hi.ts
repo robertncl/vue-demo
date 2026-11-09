@@ -33,6 +33,7 @@ export const hi: Messages = {
     delete: 'मिटाएँ',
     actions: 'कार्रवाइयाँ',
     close: 'बंद करें',
+    cancel: 'रद्द करें',
     range: '{from} → {to}',
   },
 
@@ -102,6 +103,7 @@ export const hi: Messages = {
     error_depart: 'आज से 11 महीने आगे तक की जाने की तारीख चुनें।',
     error_return: 'जाने की तारीख या उसके बाद की लौटने की तारीख चुनें।',
     error_passengers: 'यात्रियों की जाँच करें: कम से कम एक वयस्क, अधिकतम 9 लोग।',
+    problemsTitle: 'खोज जाँचें',
   },
 
   flights: {
@@ -411,6 +413,8 @@ export const hi: Messages = {
       'अभी कोई यात्रा नहीं। ऊपर एक जोड़ें, या फ़्लाइट बुक करके उसे अपनी यात्राओं में जोड़ें।',
     tripMeta: '{count} गतिविधियाँ · {budget} में से {spent}',
     removeTrip: '{name} की यात्रा मिटाएँ',
+    deleteWarning:
+      'इससे यात्रा, उसकी गतिविधियाँ और बजट हट जाएँगे। इसे पहले जैसा नहीं किया जा सकता।',
     nothingSelected: 'कोई यात्रा नहीं चुनी गई',
     selectPrompt: 'बाईं ओर से कोई यात्रा चुनें, या फ़्लाइट या गंतव्य गाइड से शुरू करें।',
     findDestination: 'गंतव्य खोजें',

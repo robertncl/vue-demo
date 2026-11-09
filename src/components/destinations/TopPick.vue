@@ -135,8 +135,9 @@ const planRoute = computed(() => ({
 }
 
 .season-flag {
-  background: var(--acme-color-selected-soft);
-  color: var(--acme-color-accent);
+  border-color: var(--acme-color-success-border);
+  background: var(--acme-color-success-soft);
+  color: var(--acme-color-success-soft-text);
 }
 
 .why {
@@ -154,10 +155,8 @@ const planRoute = computed(() => ({
 
 .figures dt {
   font-size: var(--acme-text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--acme-color-text-muted);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .figures dd {

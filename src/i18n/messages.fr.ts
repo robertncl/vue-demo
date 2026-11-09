@@ -32,6 +32,7 @@ export const fr: Messages = {
     delete: 'Supprimer',
     actions: 'Actions',
     close: 'Fermer',
+    cancel: 'Annuler',
     range: '{from} → {to}',
   },
 
@@ -107,6 +108,7 @@ export const fr: Messages = {
     error_depart: 'Choisissez une date d’aller entre aujourd’hui et dans 11 mois.',
     error_return: 'Choisissez une date de retour identique ou postérieure à l’aller.',
     error_passengers: 'Vérifiez les voyageurs : au moins un adulte, 9 personnes au maximum.',
+    problemsTitle: 'Vérifiez la recherche',
   },
 
   flights: {
@@ -446,6 +448,8 @@ export const fr: Messages = {
       'Aucun voyage pour l’instant. Ajoutez-en un ci-dessus, ou réservez un vol et ajoutez-le à vos voyages.',
     tripMeta: '{count} activités · {spent} sur {budget}',
     removeTrip: 'Supprimer le voyage à {name}',
+    deleteWarning:
+      'Le voyage, ses activités et son budget seront supprimés. Cette action est irréversible.',
     nothingSelected: 'Aucun voyage sélectionné',
     selectPrompt:
       'Choisissez un voyage à gauche, ou commencez-en un à partir d’un vol ou d’un guide.',

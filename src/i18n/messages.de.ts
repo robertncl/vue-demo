@@ -32,6 +32,7 @@ export const de: Messages = {
     delete: 'Löschen',
     actions: 'Aktionen',
     close: 'Schließen',
+    cancel: 'Abbrechen',
     range: '{from} → {to}',
   },
 
@@ -105,6 +106,7 @@ export const de: Messages = {
     error_depart: 'Wähle ein Hinflugdatum zwischen heute und 11 Monaten im Voraus.',
     error_return: 'Wähle ein Rückflugdatum am oder nach dem Hinflug.',
     error_passengers: 'Prüfe die Reisenden: mindestens ein Erwachsener, höchstens 9 Personen.',
+    problemsTitle: 'Suche prüfen',
   },
 
   flights: {
@@ -445,6 +447,8 @@ export const de: Messages = {
       'Noch keine Reisen. Lege oben eine an oder buche einen Flug und füge ihn deinen Reisen hinzu.',
     tripMeta: '{count} Aktivitäten · {spent} von {budget}',
     removeTrip: 'Reise nach {name} löschen',
+    deleteWarning:
+      'Die Reise, ihre Aktivitäten und ihr Budget werden gelöscht. Das lässt sich nicht rückgängig machen.',
     nothingSelected: 'Keine Reise ausgewählt',
     selectPrompt:
       'Wähle links eine Reise oder beginne eine über einen Flug oder einen Reiseführer.',

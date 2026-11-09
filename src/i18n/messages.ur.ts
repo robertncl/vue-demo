@@ -39,6 +39,7 @@ export const ur: Messages = {
     delete: 'حذف کریں',
     actions: 'کارروائیاں',
     close: 'بند کریں',
+    cancel: 'منسوخ کریں',
     range: '{from} ← {to}',
   },
 
@@ -109,6 +110,7 @@ export const ur: Messages = {
     error_depart: 'آج سے 11 مہینے آگے تک کی روانگی کی تاریخ منتخب کریں۔',
     error_return: 'روانگی کے دن یا اس کے بعد کی واپسی کی تاریخ منتخب کریں۔',
     error_passengers: 'مسافروں کی جانچ کریں: کم از کم ایک بالغ، زیادہ سے زیادہ 9 افراد۔',
+    problemsTitle: 'تلاش کی جانچ کریں',
   },
 
   flights: {
@@ -419,6 +421,7 @@ export const ur: Messages = {
       'ابھی کوئی سفر نہیں۔ اوپر ایک شامل کریں، یا پرواز بک کر کے اسے اپنے سفروں میں شامل کریں۔',
     tripMeta: '{count} سرگرمیاں · {budget} میں سے {spent}',
     removeTrip: '{name} کا سفر حذف کریں',
+    deleteWarning: 'اس سے سفر، اس کی سرگرمیاں اور بجٹ حذف ہو جائیں گے۔ اسے واپس نہیں کیا جا سکتا۔',
     nothingSelected: 'کوئی سفر منتخب نہیں',
     selectPrompt: 'فہرست سے کوئی سفر منتخب کریں، یا پرواز یا منزل کی گائیڈ سے شروع کریں۔',
     findDestination: 'منزل تلاش کریں',

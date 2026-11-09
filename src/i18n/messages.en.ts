@@ -44,6 +44,7 @@ export const en = {
     delete: 'Delete',
     actions: 'Actions',
     close: 'Close',
+    cancel: 'Cancel',
     range: '{from} → {to}',
   },
 
@@ -113,6 +114,7 @@ export const en = {
     error_depart: 'Pick a departure date from today up to 11 months ahead.',
     error_return: 'Pick a return date on or after the departure date.',
     error_passengers: 'Check the travellers: at least one adult, at most 9 people.',
+    problemsTitle: 'Check the search',
   },
 
   flights: {
@@ -422,6 +424,7 @@ export const en = {
     noTrips: 'No trips yet. Add one above, or book a flight and add it to your trips.',
     tripMeta: '{count} activities · {spent} of {budget}',
     removeTrip: 'Delete the trip to {name}',
+    deleteWarning: 'This deletes the trip, its activities and its budget. This can’t be undone.',
     nothingSelected: 'No trip selected',
     selectPrompt: 'Pick a trip on the left, or start one from a flight or a destination guide.',
     findDestination: 'Find a destination',

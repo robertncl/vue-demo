@@ -146,20 +146,18 @@ td {
 }
 
 .cell.cheapest {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .cell.current {
   border-color: var(--acme-color-selected);
   background: var(--acme-color-selected-soft);
-  color: var(--acme-color-selected);
+  color: var(--acme-color-text);
 }
 
 .tag {
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: var(--acme-text-xs);
+  font-weight: 500;
   color: var(--acme-color-text-muted);
 }
 

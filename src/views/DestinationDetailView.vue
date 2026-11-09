@@ -6,6 +6,7 @@ import { useTravelStore } from '@/stores/travel'
 import { useFlightsStore } from '@/stores/flights'
 import { useI18n } from '@/i18n'
 import DestinationMedia from '@/components/destinations/DestinationMedia.vue'
+import StatusIcon from '@/components/layout/StatusIcon.vue'
 import { findAirport } from '@/data/airports'
 import { addDays } from '@/lib/dates'
 import { cheapestTrip, departureWindow } from '@/lib/deals'
@@ -39,7 +40,7 @@ const weekBudget = computed(() => (destination.value ? destination.value.dailyBu
 
 /**
  * Where a day's money goes. Bars are scaled against the largest line, and only
- * that line takes the Cobalt highlight — the rest stay neutral data marks.
+ * that line takes the Blue highlight — the rest stay neutral data marks.
  */
 const breakdown = computed(() => {
   const d = destination.value
@@ -298,7 +299,10 @@ const planRoute = computed(() => ({
             >
               {{ store.isWishlisted(destination.slug) ? t('detail.saved') : t('detail.save') }}
             </button>
-            <p v-if="alreadyPlanned" class="acme-alert planned">{{ t('detail.alreadyPlanned') }}</p>
+            <div v-if="alreadyPlanned" class="acme-alert planned">
+              <StatusIcon status="info" />
+              <p class="acme-alert__title">{{ t('detail.alreadyPlanned') }}</p>
+            </div>
           </div>
         </aside>
       </div>
@@ -342,8 +346,9 @@ const planRoute = computed(() => ({
 }
 
 .season-flag {
-  background: var(--acme-color-selected-soft);
-  color: var(--acme-color-accent);
+  border-color: var(--acme-color-success-border);
+  background: var(--acme-color-success-soft);
+  color: var(--acme-color-success-soft-text);
 }
 
 .guide-head h1 {
@@ -414,7 +419,7 @@ h2 {
 .best-for {
   margin: 0 0 var(--acme-space-2);
   font-size: var(--acme-text-sm);
-  color: var(--acme-color-accent);
+  color: var(--acme-color-text);
   font-weight: 600;
 }
 
@@ -517,9 +522,7 @@ h2 {
 .panel-label {
   margin: 0;
   font-size: var(--acme-text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--acme-color-text-muted);
 }
 

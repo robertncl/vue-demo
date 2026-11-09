@@ -32,6 +32,7 @@ export const es: Messages = {
     delete: 'Eliminar',
     actions: 'Acciones',
     close: 'Cerrar',
+    cancel: 'Cancelar',
     range: '{from} → {to}',
   },
 
@@ -105,6 +106,7 @@ export const es: Messages = {
     error_depart: 'Elige una fecha de ida entre hoy y dentro de 11 meses.',
     error_return: 'Elige una fecha de vuelta igual o posterior a la de ida.',
     error_passengers: 'Revisa los viajeros: al menos un adulto y como máximo 9 personas.',
+    problemsTitle: 'Revisa la búsqueda',
   },
 
   flights: {
@@ -440,6 +442,8 @@ export const es: Messages = {
     noTrips: 'Aún no hay viajes. Añade uno arriba, o reserva un vuelo y añádelo a tus viajes.',
     tripMeta: '{count} actividades · {spent} de {budget}',
     removeTrip: 'Eliminar el viaje a {name}',
+    deleteWarning:
+      'Se eliminarán el viaje, sus actividades y su presupuesto. No se puede deshacer.',
     nothingSelected: 'Ningún viaje seleccionado',
     selectPrompt:
       'Elige un viaje a la izquierda o empieza uno desde un vuelo o una guía de destino.',

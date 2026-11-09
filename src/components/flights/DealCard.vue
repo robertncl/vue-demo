@@ -87,7 +87,7 @@ const flightsRoute = computed(() => ({ path: '/flights', query: toQuery(props.de
 
 .amount {
   font-size: var(--acme-text-2xl);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .note {
