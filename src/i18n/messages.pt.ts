@@ -104,7 +104,6 @@ export const pt: Messages = {
     error_depart: 'Escolha uma data de ida entre hoje e daqui a 11 meses.',
     error_return: 'Escolha uma data de volta igual ou posterior à de ida.',
     error_passengers: 'Confira os viajantes: pelo menos um adulto e no máximo 9 pessoas.',
-    problemsTitle: 'Verifique a pesquisa',
   },
 
   flights: {

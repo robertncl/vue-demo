@@ -106,7 +106,6 @@ export const de: Messages = {
     error_depart: 'Wähle ein Hinflugdatum zwischen heute und 11 Monaten im Voraus.',
     error_return: 'Wähle ein Rückflugdatum am oder nach dem Hinflug.',
     error_passengers: 'Prüfe die Reisenden: mindestens ein Erwachsener, höchstens 9 Personen.',
-    problemsTitle: 'Suche prüfen',
   },
 
   flights: {

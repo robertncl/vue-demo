@@ -28,8 +28,8 @@ const { t } = useI18n()
 <style scoped>
 .site-footer {
   border-top: 1px solid var(--acme-color-border);
-  background: var(--acme-color-surface-raised);
-  padding: var(--acme-space-6);
+  background: var(--acme-color-surface);
+  padding: var(--acme-space-8) var(--acme-space-6);
 }
 
 .inner {

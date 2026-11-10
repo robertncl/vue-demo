@@ -101,7 +101,6 @@ export const zh: Messages = {
     error_depart: '请选择从今天起 11 个月内的出发日期。',
     error_return: '返程日期不能早于出发日期。',
     error_passengers: '请检查旅客：至少一位成人，最多 9 人。',
-    problemsTitle: '请检查搜索条件',
   },
 
   flights: {

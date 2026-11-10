@@ -114,7 +114,6 @@ export const en = {
     error_depart: 'Pick a departure date from today up to 11 months ahead.',
     error_return: 'Pick a return date on or after the departure date.',
     error_passengers: 'Check the travellers: at least one adult, at most 9 people.',
-    problemsTitle: 'Check the search',
   },
 
   flights: {

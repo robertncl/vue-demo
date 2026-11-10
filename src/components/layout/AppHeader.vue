@@ -89,6 +89,7 @@ function current(link: { to: string; also: string[] }) {
 
 .nav {
   align-items: center;
+  gap: var(--acme-space-1);
 }
 
 .acme-topbar__link {

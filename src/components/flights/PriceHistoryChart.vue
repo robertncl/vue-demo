@@ -5,7 +5,7 @@ import { useI18n } from '@/i18n'
 
 /**
  * A tracked search's cheapest price over the last month. One series, so no
- * legend: a 2px grey line, the latest value as a Blue end dot with its
+ * legend: a 2px Graphite line, the latest value as a Blue end dot with its
  * label, and a crosshair readout on hover or arrow keys.
  */
 const props = defineProps<{

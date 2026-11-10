@@ -123,7 +123,7 @@ h2 {
   background: var(--acme-color-surface-raised);
 }
 
-/* Selection is orientation, so it takes the interaction blue. */
+/* Selection takes the interaction Blue rather than a second fill. */
 .trip-card.active {
   border-color: var(--acme-color-selected);
   background: var(--acme-color-selected-soft);

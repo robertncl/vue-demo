@@ -98,7 +98,7 @@ const lowest = computed(() => {
   outline-offset: -2px;
 }
 
-/* The searched date is orientation: the Blue underline and wash. */
+/* The searched date is a selection: the Blue underline and wash. */
 .day.current {
   background: var(--acme-color-selected-soft);
   border-block-end-color: var(--acme-color-selected);

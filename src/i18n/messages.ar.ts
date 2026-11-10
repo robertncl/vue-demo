@@ -118,7 +118,6 @@ export const ar: Messages = {
     error_depart: 'اختر تاريخ مغادرة من اليوم حتى 11 شهرًا مقبلة.',
     error_return: 'اختر تاريخ عودة في يوم المغادرة أو بعده.',
     error_passengers: 'تحقّق من المسافرين: بالغ واحد على الأقل، و9 أشخاص على الأكثر.',
-    problemsTitle: 'راجع البحث',
   },
 
   flights: {

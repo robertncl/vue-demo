@@ -34,16 +34,14 @@
   text-align: center;
 }
 
-/* The small uppercase label that opens most sections — ACME's label-caps
-   style. Muted ink, not --acme-color-accent: in v5 that is Signal Red, which
-   stays in decks and reports. */
+/* The small label that opens most sections. ACME v5 keeps uppercase caps and
+   the Signal Red accent for decks and reports, so in the product it is a
+   quiet sentence-case UI label. */
 .kicker {
   margin: 0;
-  font-size: var(--acme-text-xs);
-  font-weight: 600;
-  line-height: var(--acme-leading-tight);
-  letter-spacing: var(--acme-tracking-caps);
-  text-transform: uppercase;
+  font-size: var(--acme-text-sm);
+  font-weight: 500;
+  letter-spacing: var(--acme-tracking-snug);
   color: var(--acme-color-text-muted);
 }
 
@@ -55,19 +53,19 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* The numeral used for ordered steps and itinerary days: Inter 600 in subtle
-   ink, tabular, with tight tracking — no serif, no italics in UI. */
+/* The large numeral used for ordered steps and itinerary days: Inter 600,
+   tight tracking, in the subtle ink so the heading beside it leads. */
 .numeral {
   font-weight: 600;
-  font-variant-numeric: tabular-nums;
   letter-spacing: var(--acme-tracking-tight);
+  font-variant-numeric: tabular-nums;
   color: var(--acme-color-text-subtle);
   line-height: 1;
 }
 
 .card-grid {
   display: grid;
-  gap: var(--acme-space-5);
+  gap: var(--acme-space-6);
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
@@ -109,8 +107,8 @@ a.acme-btn {
   border: 0;
 }
 
-/* Range inputs are the one native control ACME does not restyle. Checked
-   and filled controls take the interaction blue. */
+/* Range inputs are the one native control ACME does not restyle; like every
+   checked control they take the interaction Blue. */
 input[type='range'] {
   accent-color: var(--acme-color-selected);
   width: 100%;
@@ -155,15 +153,11 @@ select.acme-input {
   color: var(--acme-color-text);
 }
 
-/* The checked option takes the selection tint and a Blue hairline (the
-   boundary, not the tint, carries 1.4.11 contrast); its text stays ink, as on
-   selected rows, and it outranks hover. */
-.segmented input:checked + span,
-.segmented label:hover > input:checked + span {
+/* Selected: the Blue wash with a Blue edge; the label stays ink. */
+.segmented input:checked + span {
   background: var(--acme-color-selected-soft);
   box-shadow: inset 0 0 0 1px var(--acme-color-selected);
   color: var(--acme-color-text);
-  font-weight: 600;
 }
 
 .segmented input:focus-visible + span {

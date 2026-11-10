@@ -108,7 +108,6 @@ export const fr: Messages = {
     error_depart: 'Choisissez une date d’aller entre aujourd’hui et dans 11 mois.',
     error_return: 'Choisissez une date de retour identique ou postérieure à l’aller.',
     error_passengers: 'Vérifiez les voyageurs : au moins un adulte, 9 personnes au maximum.',
-    problemsTitle: 'Vérifiez la recherche',
   },
 
   flights: {

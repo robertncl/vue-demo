@@ -56,10 +56,10 @@ const planRoute = computed(() => ({
       </div>
 
       <div class="acme-card__footer actions">
-        <RouterLink class="acme-btn acme-btn--primary" :to="`/destinations/${pick.slug}`">
+        <RouterLink class="acme-btn acme-btn--secondary" :to="`/destinations/${pick.slug}`">
           {{ t('topPick.readGuideNamed', { name: pick.name }) }}
         </RouterLink>
-        <RouterLink class="acme-btn acme-btn--secondary" :to="planRoute">
+        <RouterLink class="acme-btn acme-btn--ghost" :to="planRoute">
           {{ t('topPick.startTrip') }}
         </RouterLink>
       </div>
@@ -132,12 +132,6 @@ const planRoute = computed(() => ({
   margin: 0;
   color: var(--acme-color-text-muted);
   font-size: var(--acme-text-sm);
-}
-
-.season-flag {
-  border-color: var(--acme-color-success-border);
-  background: var(--acme-color-success-soft);
-  color: var(--acme-color-success-soft-text);
 }
 
 .why {

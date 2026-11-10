@@ -103,7 +103,6 @@ export const hi: Messages = {
     error_depart: 'आज से 11 महीने आगे तक की जाने की तारीख चुनें।',
     error_return: 'जाने की तारीख या उसके बाद की लौटने की तारीख चुनें।',
     error_passengers: 'यात्रियों की जाँच करें: कम से कम एक वयस्क, अधिकतम 9 लोग।',
-    problemsTitle: 'खोज जाँचें',
   },
 
   flights: {

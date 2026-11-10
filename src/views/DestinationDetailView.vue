@@ -6,7 +6,7 @@ import { useTravelStore } from '@/stores/travel'
 import { useFlightsStore } from '@/stores/flights'
 import { useI18n } from '@/i18n'
 import DestinationMedia from '@/components/destinations/DestinationMedia.vue'
-import StatusIcon from '@/components/layout/StatusIcon.vue'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import { findAirport } from '@/data/airports'
 import { addDays } from '@/lib/dates'
 import { cheapestTrip, departureWindow } from '@/lib/deals'
@@ -299,9 +299,9 @@ const planRoute = computed(() => ({
             >
               {{ store.isWishlisted(destination.slug) ? t('detail.saved') : t('detail.save') }}
             </button>
-            <div v-if="alreadyPlanned" class="acme-alert planned">
-              <StatusIcon status="info" />
-              <p class="acme-alert__title">{{ t('detail.alreadyPlanned') }}</p>
+            <div v-if="alreadyPlanned" class="acme-alert planned" role="status">
+              <span class="acme-alert__icon"><StatusIcon variant="info" /></span>
+              <p>{{ t('detail.alreadyPlanned') }}</p>
             </div>
           </div>
         </aside>
@@ -343,12 +343,6 @@ const planRoute = computed(() => ({
   align-items: center;
   gap: var(--acme-space-3);
   flex-wrap: wrap;
-}
-
-.season-flag {
-  border-color: var(--acme-color-success-border);
-  background: var(--acme-color-success-soft);
-  color: var(--acme-color-success-soft-text);
 }
 
 .guide-head h1 {
@@ -419,7 +413,7 @@ h2 {
 .best-for {
   margin: 0 0 var(--acme-space-2);
   font-size: var(--acme-text-sm);
-  color: var(--acme-color-text);
+  color: var(--acme-color-text-muted);
   font-weight: 600;
 }
 

@@ -2,7 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
 import { useI18n } from '@/i18n'
-import StatusIcon from '@/components/layout/StatusIcon.vue'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import type { ActivityDraft, Trip } from '@/types/travel'
 
 const props = defineProps<{
@@ -110,8 +110,8 @@ function submit() {
         <span :style="{ width: `${budgetUsedPercent}%` }"></span>
       </div>
 
-      <div v-if="overBudget" class="acme-alert acme-alert--danger">
-        <StatusIcon status="danger" />
+      <div v-if="overBudget" class="acme-alert acme-alert--danger" role="alert">
+        <span class="acme-alert__icon"><StatusIcon variant="danger" /></span>
         <div>
           <p class="acme-alert__title">{{ t('planner.overTitle') }}</p>
           <p>{{ t('planner.overBody', { amount: money(Math.abs(remainingBudget)) }) }}</p>

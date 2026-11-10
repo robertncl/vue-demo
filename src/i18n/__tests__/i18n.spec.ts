@@ -228,6 +228,12 @@ describe('i18n', () => {
     expect(bundleFor('ur')).toBe(first)
   })
 
+  it('rejects, rather than throws, for a language it does not have', async () => {
+    const attempt = () => loadLocale('xx' as never)
+    expect(attempt).not.toThrow()
+    await expect(attempt()).rejects.toThrow('Unknown locale: xx')
+  })
+
   it('marks Arabic and Urdu as right to left', () => {
     expect(localeList.filter((l) => l.dir === 'rtl').map((l) => l.code)).toEqual(['ar', 'ur'])
   })

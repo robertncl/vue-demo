@@ -30,25 +30,30 @@ serves, starting at `/`.
 
 ## Design system
 
-The UI is built on the ACME design system (v3). `src/assets/acme.css` is a port of that system's
-stylesheet — every token plus the `.acme-*` classes for buttons, forms, cards,
-badges, alerts, tables, tabs, the top bar and breadcrumbs. Sections the app has no use for
+The UI is built on the ACME design system (v5). `src/assets/acme.css` is a port of that system:
+its tokens (from `tokens.css`), its self-hosted fonts (`src/assets/fonts/`, Inter and JetBrains
+Mono under the SIL OFL) and the `.acme-*` classes from its component stylesheet for buttons, forms,
+cards, badges, alerts, tables, tabs, the top bar and breadcrumbs. Sections the app has no use for
 (modal, presentation slides, report documents) are left out. `src/assets/main.css` is the thin
 app layer on top: the page well, the section kicker, the card grid; it introduces no new colour,
 type or spacing values, only compositions of the tokens.
 
-ACME v3 is a cool Slate base with a single Cobalt highlight, and it is **light theme only**: there
-is no `prefers-color-scheme` override and no theme switch, so the app looks the same whatever the
-system preference.
+ACME v5 is Graphite + ink + Blue, set in one typeface (Inter), and it is **light theme only**:
+there is no `prefers-color-scheme` override and no theme switch, so the app looks the same whatever
+the system preference.
 
-Two of ACME's rules shape the content directly:
+Three of ACME's rules shape the content directly:
 
 - **No emoji, no gradients.** Destination art is a flat `surface` panel naming the photograph
   that would sit there (`DestinationMedia`), which is what the design's own image slot renders
   when unfilled. The app ships no photography.
-- **Cobalt is rationed.** The one accent carries both action (the single primary button per view)
-  and orientation (current nav link, selected tab and trip, the leading bar in the budget
-  breakdown). Everything else is neutral Slate.
+- **Every colour has one job.** The one primary button per view is ink (Graphite 900). Blue marks
+  what you can interact with and what is selected: links, the focus ring, checked controls, the
+  searched date, the selected trip, the chart takeaway. Green, Amber, Red and Blue report status,
+  always with an icon. Signal Red signs the brand in the wordmark and, on a control, means
+  destructive — nothing else.
+- **Quiet product type.** Headings are Inter 600 with tight tracking; uppercase kickers and the
+  Signal Red editorial accent belong to decks and reports, so section labels here are sentence case.
 
 ## How the flights work
 

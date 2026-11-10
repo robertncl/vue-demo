@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
 import { useSettingsStore } from '../settings'
+import type { CurrencyCode, LocaleCode } from '@/types/travel'
 
 describe('Settings Store', () => {
   beforeEach(() => {
@@ -103,6 +104,20 @@ describe('Settings Store', () => {
     const settings = useSettingsStore()
     settings.setLocale('fr')
     expect(document.documentElement.lang).toBe('fr')
+  })
+
+  it('ignores codes it does not know, such as a tampered picker option', () => {
+    const settings = useSettingsStore()
+    settings.setLocale('fr')
+    settings.setCurrency('EUR')
+
+    settings.setLocale('xx' as LocaleCode)
+    settings.setLocale('constructor' as LocaleCode)
+    settings.setCurrency('DOGE' as CurrencyCode)
+
+    expect(settings.locale).toBe('fr')
+    expect(settings.currency).toBe('EUR')
+    expect(settings.activeLocale.intl).toBe('fr-FR')
   })
 
   it('sets the writing direction with the language', () => {

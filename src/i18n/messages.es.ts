@@ -106,7 +106,6 @@ export const es: Messages = {
     error_depart: 'Elige una fecha de ida entre hoy y dentro de 11 meses.',
     error_return: 'Elige una fecha de vuelta igual o posterior a la de ida.',
     error_passengers: 'Revisa los viajeros: al menos un adulto y como máximo 9 personas.',
-    problemsTitle: 'Revisa la búsqueda',
   },
 
   flights: {
