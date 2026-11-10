@@ -27,8 +27,6 @@ defineProps<{
 
 .hint {
   font-size: var(--acme-text-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
   color: var(--acme-color-text-subtle);
 }
 </style>

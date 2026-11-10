@@ -33,6 +33,7 @@ export const zh: Messages = {
     delete: '删除',
     actions: '操作',
     close: '关闭',
+    cancel: '取消',
     range: '{from} → {to}',
   },
 
@@ -398,6 +399,7 @@ export const zh: Messages = {
     noTrips: '还没有行程。在上方添加，或预订航班后加入行程。',
     tripMeta: '{count} 项活动 · 已花 {spent}，预算 {budget}',
     removeTrip: '删除前往{name}的行程',
+    deleteWarning: '这会删除该行程及其活动和预算。此操作无法撤销。',
     nothingSelected: '未选择行程',
     selectPrompt: '在左侧选择一个行程，或从航班或目的地指南开始。',
     findDestination: '寻找目的地',

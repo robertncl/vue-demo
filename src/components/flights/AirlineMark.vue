@@ -28,7 +28,7 @@ defineProps<{
   border-radius: var(--acme-radius-md);
   background: var(--acme-color-surface);
   color: var(--acme-color-text-muted);
-  font: 700 var(--acme-text-xs) / 1 var(--acme-font-sans);
+  font: 600 var(--acme-text-xs) / 1 var(--acme-font-sans);
   letter-spacing: 0.04em;
 }
 

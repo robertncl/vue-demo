@@ -32,6 +32,7 @@ export const es: Messages = {
     delete: 'Eliminar',
     actions: 'Acciones',
     close: 'Cerrar',
+    cancel: 'Cancelar',
     range: '{from} → {to}',
   },
 
@@ -440,6 +441,8 @@ export const es: Messages = {
     noTrips: 'Aún no hay viajes. Añade uno arriba, o reserva un vuelo y añádelo a tus viajes.',
     tripMeta: '{count} actividades · {spent} de {budget}',
     removeTrip: 'Eliminar el viaje a {name}',
+    deleteWarning:
+      'Se eliminarán el viaje, sus actividades y su presupuesto. No se puede deshacer.',
     nothingSelected: 'Ningún viaje seleccionado',
     selectPrompt:
       'Elige un viaje a la izquierda o empieza uno desde un vuelo o una guía de destino.',

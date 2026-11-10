@@ -184,7 +184,7 @@ const summaryLabel = computed(() =>
       </ol>
 
       <div v-if="actionLabel" class="actions">
-        <button class="acme-btn acme-btn--primary select" type="button" @click="emit('select', option)">
+        <button class="acme-btn acme-btn--secondary select" type="button" @click="emit('select', option)">
           {{ actionLabel }}
         </button>
       </div>

@@ -32,6 +32,7 @@ export const ja: Messages = {
     delete: '削除',
     actions: '操作',
     close: '閉じる',
+    cancel: 'キャンセル',
     range: '{from} → {to}',
   },
 
@@ -432,6 +433,7 @@ export const ja: Messages = {
     noTrips: 'まだ旅程はありません。上で追加するか、フライトを予約して旅程に追加してください。',
     tripMeta: '{count}件の予定 · {budget}のうち{spent}',
     removeTrip: '{name}への旅程を削除',
+    deleteWarning: '旅程とそのアクティビティ、予算が削除されます。この操作は元に戻せません。',
     nothingSelected: '旅程が選ばれていません',
     selectPrompt: '左で旅程を選ぶか、フライトや旅先ガイドから始めましょう。',
     findDestination: '旅先を探す',

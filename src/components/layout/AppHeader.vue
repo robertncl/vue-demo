@@ -40,7 +40,7 @@ function current(link: { to: string; also: string[] }) {
       <span class="product">{{ t('brand.name') }}</span>
     </RouterLink>
 
-    <nav class="nav" :aria-label="t('nav.primary')">
+    <nav class="acme-topbar__nav nav" :aria-label="t('nav.primary')">
       <RouterLink
         v-for="link in links"
         :key="link.to"
@@ -62,11 +62,13 @@ function current(link: { to: string; also: string[] }) {
 </template>
 
 <style scoped>
+/* ACME app bar: 56px, opaque, capped by a hairline — wordmark, then the
+   destinations beside it, then the actions slot pushed to the end. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  padding: var(--acme-space-3) var(--acme-space-6);
+  padding-inline: var(--acme-space-6);
   flex-wrap: wrap;
 }
 
@@ -86,7 +88,6 @@ function current(link: { to: string; also: string[] }) {
 }
 
 .nav {
-  display: flex;
   align-items: center;
   gap: var(--acme-space-1);
 }
@@ -110,7 +111,6 @@ function current(link: { to: string; also: string[] }) {
   .nav {
     order: 3;
     width: 100%;
-    margin-inline-start: 0;
     overflow-x: auto;
   }
 }

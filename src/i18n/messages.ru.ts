@@ -37,6 +37,7 @@ export const ru: Messages = {
     delete: 'Удалить',
     actions: 'Действия',
     close: 'Закрыть',
+    cancel: 'Отмена',
     range: '{from} → {to}',
   },
 
@@ -468,6 +469,7 @@ export const ru: Messages = {
     noTrips: 'Поездок пока нет. Добавьте её выше или забронируйте рейс и добавьте его в поездки.',
     tripMeta: 'Занятий: {count} · {spent} из {budget}',
     removeTrip: 'Удалить поездку: {name}',
+    deleteWarning: 'Поездка, её занятия и бюджет будут удалены. Это действие нельзя отменить.',
     nothingSelected: 'Поездка не выбрана',
     selectPrompt: 'Выберите поездку слева или начните новую с рейса или путеводителя.',
     findDestination: 'Найти направление',

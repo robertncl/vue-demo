@@ -7,9 +7,14 @@ import { useI18n } from '@/i18n'
  * focus back to the opener. Content renders only while open, so expensive
  * slots (the date grid, the price graph) cost nothing until asked for.
  */
-defineProps<{
-  title: string
-}>()
+withDefaults(
+  defineProps<{
+    title: string
+    /** `sm` (28rem) for confirmations; `md` (820px) for pickers and charts. */
+    size?: 'sm' | 'md'
+  }>(),
+  { size: 'md' },
+)
 
 const emit = defineEmits<{
   close: []
@@ -50,7 +55,14 @@ defineExpose({ open, close })
 </script>
 
 <template>
-  <dialog ref="dialog" class="modal" :aria-labelledby="titleId" @close="onClosed" @click="onClick">
+  <dialog
+    ref="dialog"
+    class="modal"
+    :class="size"
+    :aria-labelledby="titleId"
+    @close="onClosed"
+    @click="onClick"
+  >
     <div v-if="isOpen" class="frame">
       <header class="head">
         <h2 :id="titleId">{{ title }}</h2>
@@ -82,8 +94,16 @@ defineExpose({ open, close })
   box-shadow: var(--acme-shadow-lg);
 }
 
+.modal.sm {
+  inline-size: min(28rem, calc(100vw - 32px));
+}
+
+.modal.sm .head h2 {
+  font-size: var(--acme-text-lg);
+}
+
 .modal::backdrop {
-  background: rgb(17 26 43 / 0.4);
+  background: var(--acme-color-scrim);
 }
 
 .frame {

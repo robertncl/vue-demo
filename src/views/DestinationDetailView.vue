@@ -516,9 +516,7 @@ h2 {
 .panel-label {
   margin: 0;
   font-size: var(--acme-text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--acme-color-text-muted);
 }
 

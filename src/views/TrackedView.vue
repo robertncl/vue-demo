@@ -163,9 +163,7 @@ const cards = computed(() =>
 
 .figures dt {
   font-size: var(--acme-text-xs);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-weight: 500;
   color: var(--acme-color-text-muted);
 }
 

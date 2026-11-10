@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useI18n } from '@/i18n'
+import ModalDialog from '@/components/flights/ModalDialog.vue'
 import type { Trip } from '@/types/travel'
 
 defineProps<{
@@ -13,6 +15,20 @@ const emit = defineEmits<{
 }>()
 
 const { t, money } = useI18n()
+
+/** Deleting is permanent, so it asks first (ACME: destructive actions confirm). */
+const confirmDialog = ref<InstanceType<typeof ModalDialog> | null>(null)
+const pending = ref<Trip | null>(null)
+
+function askToDelete(trip: Trip) {
+  pending.value = trip
+  confirmDialog.value?.open()
+}
+
+function confirmDelete(close: () => void) {
+  if (pending.value) emit('remove', pending.value.id)
+  close()
+}
 
 function spend(trip: Trip) {
   return trip.activities.reduce((sum, activity) => sum + activity.cost, 0)
@@ -49,12 +65,31 @@ function spend(trip: Trip) {
           class="acme-btn acme-btn--ghost acme-btn--sm remove"
           type="button"
           :aria-label="t('trips.removeTrip', { name: trip.destination })"
-          @click="emit('remove', trip.id)"
+          @click="askToDelete(trip)"
         >
           {{ t('common.delete') }}
         </button>
       </li>
     </ul>
+
+    <ModalDialog
+      ref="confirmDialog"
+      size="sm"
+      :title="t('trips.removeTrip', { name: pending?.destination ?? '' })"
+      @close="pending = null"
+    >
+      <template #default="{ close }">
+        <p class="warning">{{ t('trips.deleteWarning') }}</p>
+        <div class="confirm-actions">
+          <button class="acme-btn acme-btn--secondary" type="button" @click="close">
+            {{ t('common.cancel') }}
+          </button>
+          <button class="acme-btn acme-btn--danger" type="button" @click="confirmDelete(close)">
+            {{ t('trips.removeTrip', { name: pending?.destination ?? '' }) }}
+          </button>
+        </div>
+      </template>
+    </ModalDialog>
   </section>
 </template>
 
@@ -116,5 +151,18 @@ h2 {
   display: block;
   font-size: var(--acme-text-xs);
   color: var(--acme-color-text-muted);
+}
+
+.warning {
+  margin: 0;
+  font-size: var(--acme-text-sm);
+  color: var(--acme-color-text-muted);
+}
+
+.confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--acme-space-2);
 }
 </style>

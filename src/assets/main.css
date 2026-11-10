@@ -143,6 +143,14 @@ select.acme-input {
   color: var(--acme-color-text-muted);
   white-space: nowrap;
   cursor: pointer;
+  transition:
+    background-color var(--acme-duration-base) var(--acme-ease-out),
+    color var(--acme-duration-base) var(--acme-ease-out);
+}
+
+.segmented label:hover > span {
+  background: var(--acme-color-surface-hover);
+  color: var(--acme-color-text);
 }
 
 /* Selected: the Blue wash with a Blue edge; the label stays ink. */

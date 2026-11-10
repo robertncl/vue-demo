@@ -33,6 +33,7 @@ export const pt: Messages = {
     delete: 'Excluir',
     actions: 'Ações',
     close: 'Fechar',
+    cancel: 'Cancelar',
     range: '{from} → {to}',
   },
 
@@ -415,6 +416,7 @@ export const pt: Messages = {
       'Nenhuma viagem ainda. Adicione uma acima ou reserve um voo e adicione-o às suas viagens.',
     tripMeta: '{count} atividades · {spent} de {budget}',
     removeTrip: 'Excluir a viagem para {name}',
+    deleteWarning: 'Isso exclui a viagem, as atividades e o orçamento. Não é possível desfazer.',
     nothingSelected: 'Nenhuma viagem selecionada',
     selectPrompt: 'Escolha uma viagem à esquerda ou comece uma a partir de um voo ou de um guia.',
     findDestination: 'Encontrar um destino',

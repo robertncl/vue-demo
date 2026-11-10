@@ -281,7 +281,7 @@ function labelAlign(index: number) {
   inline-size: 100%;
   max-inline-size: 24px;
   min-block-size: 2px;
-  border-radius: 4px 4px 0 0;
+  border-radius: var(--acme-radius-sm) var(--acme-radius-sm) 0 0;
   background: var(--acme-color-data);
   transition: filter var(--acme-duration-fast) var(--acme-ease-out);
 }

@@ -37,6 +37,7 @@ export const bn: Messages = {
     delete: 'মুছুন',
     actions: 'কাজ',
     close: 'বন্ধ করুন',
+    cancel: 'বাতিল করুন',
     range: '{from} → {to}',
   },
 
@@ -410,6 +411,7 @@ export const bn: Messages = {
     noTrips: 'এখনও কোনো ভ্রমণ নেই। উপরে একটি যোগ করুন, বা ফ্লাইট বুক করে আপনার ভ্রমণে যোগ করুন।',
     tripMeta: '{count}টি কার্যকলাপ · {budget}-এর মধ্যে {spent}',
     removeTrip: '{name}-এর ভ্রমণ মুছুন',
+    deleteWarning: 'এতে ভ্রমণ, এর কার্যকলাপ ও বাজেট মুছে যাবে। এটি আর ফেরানো যাবে না।',
     nothingSelected: 'কোনো ভ্রমণ বাছাই করা হয়নি',
     selectPrompt: 'বাঁ দিক থেকে একটি ভ্রমণ বেছে নিন, বা ফ্লাইট কিংবা গন্তব্য গাইড থেকে শুরু করুন।',
     findDestination: 'গন্তব্য খুঁজুন',

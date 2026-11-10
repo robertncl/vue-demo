@@ -140,7 +140,23 @@ function monthsOf(months: MonthKey[]) {
                   <th scope="col">{{ t('destinations.colVibes') }}</th>
                   <th scope="col">{{ t('destinations.colMonths') }}</th>
                   <th scope="col" class="acme-table__num" aria-sort="ascending">
-                    {{ t('destinations.colDay') }} ↑
+                    <span class="sorted">
+                      {{ t('destinations.colDay') }}
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path d="m18 15-6-6-6 6" />
+                      </svg>
+                    </span>
                   </th>
                   <th scope="col" class="acme-table__num">{{ t('destinations.colSaved') }}</th>
                 </tr>
@@ -266,6 +282,12 @@ function monthsOf(months: MonthKey[]) {
 
 .compare .price {
   font-weight: 600;
+}
+
+.sorted {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--acme-space-1);
 }
 
 .now {

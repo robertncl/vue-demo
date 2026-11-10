@@ -42,6 +42,7 @@ export const ar: Messages = {
     delete: 'حذف',
     actions: 'إجراءات',
     close: 'إغلاق',
+    cancel: 'إلغاء',
     range: '{from} ← {to}',
   },
 
@@ -486,6 +487,7 @@ export const ar: Messages = {
     noTrips: 'لا توجد رحلات بعد. أضِف واحدة أعلاه، أو احجز رحلة جوية وأضِفها إلى رحلاتك.',
     tripMeta: '{count} نشاط · {spent} من {budget}',
     removeTrip: 'احذف الرحلة إلى {name}',
+    deleteWarning: 'سيؤدي هذا إلى حذف الرحلة وأنشطتها وميزانيتها. لا يمكن التراجع عن ذلك.',
     nothingSelected: 'لم تُختر رحلة',
     selectPrompt: 'اختر رحلة من القائمة، أو ابدأ واحدة من رحلة جوية أو دليل وجهة.',
     findDestination: 'ابحث عن وجهة',

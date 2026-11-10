@@ -149,10 +149,8 @@ const planRoute = computed(() => ({
 
 .figures dt {
   font-size: var(--acme-text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--acme-color-text-muted);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .figures dd {
