@@ -141,7 +141,14 @@ describe('Wanderlog', () => {
     cy.contains('.budget', '$1,000')
 
     cy.contains('.day-group tr', 'Fushimi Inari hike').find('.remove').click()
+    // Deleting a trip asks first; cancelling keeps it, confirming removes it.
     cy.contains('.trip-card', 'Kyoto, Japan').find('.remove').click()
+    cy.get('dialog[open]').contains('button', 'Cancel').click()
+    cy.get('dialog[open]').should('not.exist')
+    cy.contains('.trip-card', 'Kyoto, Japan')
+
+    cy.contains('.trip-card', 'Kyoto, Japan').find('.remove').click()
+    cy.get('dialog[open] .acme-btn--danger').click()
     cy.contains('No trip selected')
   })
 
