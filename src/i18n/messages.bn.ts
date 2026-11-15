@@ -415,6 +415,20 @@ export const bn: Messages = {
     nothingSelected: 'কোনো ভ্রমণ বাছাই করা হয়নি',
     selectPrompt: 'বাঁ দিক থেকে একটি ভ্রমণ বেছে নিন, বা ফ্লাইট কিংবা গন্তব্য গাইড থেকে শুরু করুন।',
     findDestination: 'গন্তব্য খুঁজুন',
+    status_over: 'বাজেটের বেশি',
+    status_onBudget: 'বাজেটের মধ্যে',
+    status_planning: 'পরিকল্পনায়',
+    status_underway: 'যাত্রা চলছে',
+    status_finished: 'শেষ',
+    overOneTitle: '{name} বাজেট ছাড়িয়েছে',
+    overOneBody:
+      'কার্যক্রমের মোট খরচ {spent}, যা {budget} বাজেটের চেয়ে {over} বেশি। একটি কার্যক্রম বাদ দিন বা বাজেট বাড়ান।',
+    overManyTitle: {
+      one: '{count}টি ভ্রমণ বাজেট ছাড়িয়েছে',
+      other: '{count}টি ভ্রমণ বাজেট ছাড়িয়েছে',
+    },
+    overManyBody: '{names}-এ কার্যক্রমের খরচ বাজেটের বেশি। একটি কার্যক্রম বাদ দিন বা বাজেট বাড়ান।',
+    openTrip: '{name} খুলুন',
   },
 
   planner: {

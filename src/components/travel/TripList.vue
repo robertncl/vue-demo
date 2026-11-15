@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from '@/i18n'
 import ModalDialog from '@/components/flights/ModalDialog.vue'
-import type { Trip } from '@/types/travel'
+import StatusIcon from '@/components/common/StatusIcon.vue'
+import { useTravelStore } from '@/stores/travel'
+import type { Trip, TripStatus } from '@/types/travel'
 
-defineProps<{
+const props = defineProps<{
   trips: Trip[]
   selectedTripId: string | null
 }>()
@@ -15,6 +17,25 @@ const emit = defineEmits<{
 }>()
 
 const { t, money } = useI18n()
+const travel = useTravelStore()
+
+/** Badge variant per status: the word carries the meaning, the hue speeds scanning. */
+const BADGE: Record<TripStatus, 'success' | 'warning' | 'info' | null> = {
+  over: 'warning',
+  underway: 'info',
+  onBudget: 'success',
+  planning: null,
+  finished: null,
+}
+
+const statuses = computed(
+  () => new Map(props.trips.map((trip) => [trip.id, travel.statusOf(trip)] as const)),
+)
+
+function badge(trip: Trip) {
+  const status = statuses.value.get(trip.id) ?? travel.statusOf(trip)
+  return { variant: BADGE[status], label: t(`trips.status_${status}`) }
+}
 
 /** Deleting is permanent, so it asks first (ACME: destructive actions confirm). */
 const confirmDialog = ref<InstanceType<typeof ModalDialog> | null>(null)
@@ -49,8 +70,19 @@ function spend(trip: Trip) {
         :class="{ active: trip.id === selectedTripId }"
       >
         <button class="info" type="button" @click="emit('select', trip.id)">
-          <strong>{{ trip.destination }}</strong>
-          <span class="dates num">{{ t('common.range', { from: trip.startDate, to: trip.endDate }) }}</span>
+          <span class="title-row">
+            <strong>{{ trip.destination }}</strong>
+            <span
+              class="acme-badge"
+              :class="badge(trip).variant && `acme-badge--${badge(trip).variant}`"
+            >
+              <StatusIcon v-if="badge(trip).variant" :variant="badge(trip).variant!" :size="12" />
+              {{ badge(trip).label }}
+            </span>
+          </span>
+          <span class="dates num">{{
+            t('common.range', { from: trip.startDate, to: trip.endDate })
+          }}</span>
           <span class="meta">
             {{
               t('trips.tripMeta', {
@@ -141,8 +173,15 @@ h2 {
   font: inherit;
 }
 
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--acme-space-1) var(--acme-space-2);
+  margin-bottom: var(--acme-space-1);
+}
+
 .info strong {
-  display: block;
   font-weight: 600;
 }
 

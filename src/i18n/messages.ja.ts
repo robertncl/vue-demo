@@ -437,6 +437,18 @@ export const ja: Messages = {
     nothingSelected: '旅程が選ばれていません',
     selectPrompt: '左で旅程を選ぶか、フライトや旅先ガイドから始めましょう。',
     findDestination: '旅先を探す',
+    status_over: '予算超過',
+    status_onBudget: '予算内',
+    status_planning: '計画中',
+    status_underway: '旅行中',
+    status_finished: '終了',
+    overOneTitle: '{name}は予算を超えています',
+    overOneBody:
+      'アクティビティの合計は{spent}で、予算{budget}を{over}超えています。アクティビティを減らすか予算を増やしてください。',
+    overManyTitle: { other: '{count}件の旅行が予算を超えています' },
+    overManyBody:
+      '{names}でアクティビティが予算を超えています。アクティビティを減らすか予算を増やしてください。',
+    openTrip: '{name}を開く',
   },
 
   planner: {

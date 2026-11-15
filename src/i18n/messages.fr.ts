@@ -453,6 +453,21 @@ export const fr: Messages = {
     selectPrompt:
       'Choisissez un voyage à gauche, ou commencez-en un à partir d’un vol ou d’un guide.',
     findDestination: 'Trouver une destination',
+    status_over: 'Budget dépassé',
+    status_onBudget: 'Dans le budget',
+    status_planning: 'En préparation',
+    status_underway: 'En cours',
+    status_finished: 'Terminé',
+    overOneTitle: '{name} dépasse le budget',
+    overOneBody:
+      'Les activités coûtent {spent}, soit {over} de plus que le budget de {budget}. Retirez une activité ou augmentez le budget.',
+    overManyTitle: {
+      one: '{count} voyage dépasse le budget',
+      other: '{count} voyages dépassent le budget',
+    },
+    overManyBody:
+      'Les activités coûtent plus que le budget pour {names}. Retirez une activité ou augmentez un budget.',
+    openTrip: 'Ouvrir {name}',
   },
 
   planner: {

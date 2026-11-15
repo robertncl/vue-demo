@@ -417,6 +417,21 @@ export const hi: Messages = {
     nothingSelected: 'कोई यात्रा नहीं चुनी गई',
     selectPrompt: 'बाईं ओर से कोई यात्रा चुनें, या फ़्लाइट या गंतव्य गाइड से शुरू करें।',
     findDestination: 'गंतव्य खोजें',
+    status_over: 'बजट से ऊपर',
+    status_onBudget: 'बजट में',
+    status_planning: 'योजना में',
+    status_underway: 'यात्रा जारी',
+    status_finished: 'पूरी हुई',
+    overOneTitle: '{name} बजट से ऊपर है',
+    overOneBody:
+      'गतिविधियों का कुल {spent} है, जो {budget} के बजट से {over} ज़्यादा है। कोई गतिविधि हटाएँ या बजट बढ़ाएँ।',
+    overManyTitle: {
+      one: '{count} यात्रा बजट से ऊपर है',
+      other: '{count} यात्राएँ बजट से ऊपर हैं',
+    },
+    overManyBody:
+      '{names} में गतिविधियाँ बजट से ज़्यादा महँगी हैं। कोई गतिविधि हटाएँ या बजट बढ़ाएँ।',
+    openTrip: '{name} खोलें',
   },
 
   planner: {

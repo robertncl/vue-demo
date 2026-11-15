@@ -424,6 +424,17 @@ export const ur: Messages = {
     nothingSelected: 'کوئی سفر منتخب نہیں',
     selectPrompt: 'فہرست سے کوئی سفر منتخب کریں، یا پرواز یا منزل کی گائیڈ سے شروع کریں۔',
     findDestination: 'منزل تلاش کریں',
+    status_over: 'بجٹ سے زیادہ',
+    status_onBudget: 'بجٹ کے اندر',
+    status_planning: 'منصوبہ بندی میں',
+    status_underway: 'سفر جاری',
+    status_finished: 'مکمل',
+    overOneTitle: '{name} بجٹ سے زیادہ ہے',
+    overOneBody:
+      'سرگرمیوں کا کل {spent} ہے، جو {budget} کے بجٹ سے {over} زیادہ ہے۔ کوئی سرگرمی ہٹائیں یا بجٹ بڑھائیں۔',
+    overManyTitle: { one: '{count} سفر بجٹ سے زیادہ ہے', other: '{count} سفر بجٹ سے زیادہ ہیں' },
+    overManyBody: '{names} میں سرگرمیاں بجٹ سے مہنگی ہیں۔ کوئی سرگرمی ہٹائیں یا بجٹ بڑھائیں۔',
+    openTrip: '{name} کھولیں',
   },
 
   planner: {

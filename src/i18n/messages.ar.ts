@@ -491,6 +491,24 @@ export const ar: Messages = {
     nothingSelected: 'لم تُختر رحلة',
     selectPrompt: 'اختر رحلة من القائمة، أو ابدأ واحدة من رحلة جوية أو دليل وجهة.',
     findDestination: 'ابحث عن وجهة',
+    status_over: 'تجاوز الميزانية',
+    status_onBudget: 'ضمن الميزانية',
+    status_planning: 'قيد التخطيط',
+    status_underway: 'جارية',
+    status_finished: 'انتهت',
+    overOneTitle: '{name} تجاوزت الميزانية',
+    overOneBody:
+      'تبلغ تكلفة الأنشطة {spent}، أي {over} فوق ميزانية {budget}. احذف نشاطًا أو ارفع الميزانية.',
+    overManyTitle: {
+      zero: 'لا رحلات تتجاوز الميزانية',
+      one: 'رحلة واحدة تتجاوز الميزانية',
+      two: 'رحلتان تتجاوزان الميزانية',
+      few: '{count} رحلات تتجاوز الميزانية',
+      many: '{count} رحلة تتجاوز الميزانية',
+      other: '{count} رحلة تتجاوز الميزانية',
+    },
+    overManyBody: 'تكلفة الأنشطة أعلى من الميزانية في {names}. احذف نشاطًا أو ارفع الميزانية.',
+    openTrip: 'فتح {name}',
   },
 
   planner: {

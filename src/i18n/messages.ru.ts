@@ -473,6 +473,22 @@ export const ru: Messages = {
     nothingSelected: 'Поездка не выбрана',
     selectPrompt: 'Выберите поездку слева или начните новую с рейса или путеводителя.',
     findDestination: 'Найти направление',
+    status_over: 'Сверх бюджета',
+    status_onBudget: 'В рамках бюджета',
+    status_planning: 'Планируется',
+    status_underway: 'В пути',
+    status_finished: 'Завершена',
+    overOneTitle: '{name}: бюджет превышен',
+    overOneBody:
+      'Занятия стоят {spent} — на {over} больше бюджета {budget}. Уберите занятие или увеличьте бюджет.',
+    overManyTitle: {
+      one: '{count} поездка сверх бюджета',
+      few: '{count} поездки сверх бюджета',
+      many: '{count} поездок сверх бюджета',
+      other: '{count} поездки сверх бюджета',
+    },
+    overManyBody: 'Занятия стоят больше бюджета: {names}. Уберите занятие или увеличьте бюджет.',
+    openTrip: 'Открыть {name}',
   },
 
   planner: {
