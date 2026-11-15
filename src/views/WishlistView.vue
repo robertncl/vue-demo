@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useDestinationsStore } from '@/stores/destinations'
 import { useI18n } from '@/i18n'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import type { Destination, MonthKey } from '@/types/travel'
 
 const store = useDestinationsStore()
@@ -47,7 +48,7 @@ function planRoute(destination: Destination) {
               <th scope="col" class="acme-table__num">{{ t('destinations.colDay') }}</th>
               <th scope="col" class="acme-table__num">{{ t('destinations.colWeek') }}</th>
               <th scope="col">
-                <span class="sr-only">{{ t('common.actions') }}</span>
+                <span class="acme-visually-hidden">{{ t('common.actions') }}</span>
               </th>
             </tr>
           </thead>
@@ -62,7 +63,10 @@ function planRoute(destination: Destination) {
               <td>{{ d.tags.map(tag).join(', ') }}</td>
               <td>
                 {{ monthsOf(d.bestMonths) }}
-                <span v-if="store.inSeason(d)" class="acme-badge now">{{ t('common.now') }}</span>
+                <span v-if="store.inSeason(d)" class="acme-badge acme-badge--success now">
+                  <StatusIcon variant="success" :size="12" />
+                  {{ t('common.now') }}
+                </span>
               </td>
               <td class="acme-table__num price">{{ money(d.dailyBudget) }}</td>
               <td class="acme-table__num">{{ money(d.dailyBudget * 7) }}</td>

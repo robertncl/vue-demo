@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useI18n } from '@/i18n'
 import DestinationMedia from './DestinationMedia.vue'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import type { Destination } from '@/types/travel'
 
 const props = defineProps<{
@@ -29,7 +30,10 @@ const bestMonths = computed(() =>
       <DestinationMedia :label="t('media.photoOf', { name: destination.name })" />
       <div class="flags">
         <span class="acme-badge flag region">{{ region(destination.region) }}</span>
-        <span v-if="inSeason" class="acme-badge flag season">{{ t('common.inSeasonNow') }}</span>
+        <span v-if="inSeason" class="acme-badge acme-badge--success season">
+          <StatusIcon variant="success" :size="12" />
+          {{ t('common.inSeasonNow') }}
+        </span>
       </div>
     </div>
 

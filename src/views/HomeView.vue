@@ -61,7 +61,7 @@ const tools = ['grid', 'graph', 'track'] as const
       <h2>{{ t('home.toolsTitle') }}</h2>
       <ol class="steps">
         <li v-for="(tool, index) in tools" :key="tool">
-          <p class="numeral" aria-hidden="true">{{ index + 1 }}</p>
+          <p class="numeral num" aria-hidden="true">{{ String(index + 1).padStart(2, '0') }}</p>
           <h3>{{ t(`home.tool_${tool}Title`) }}</h3>
           <p class="muted">{{ t(`home.tool_${tool}Body`) }}</p>
         </li>
@@ -140,7 +140,10 @@ const tools = ['grid', 'graph', 'track'] as const
 
 .steps .numeral {
   margin: 0;
-  font-size: var(--acme-text-4xl);
+  font-family: var(--acme-font-mono);
+  font-size: var(--acme-text-sm);
+  font-weight: 600;
+  color: var(--acme-color-text-subtle);
 }
 
 .steps h3 {

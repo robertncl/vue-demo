@@ -255,16 +255,16 @@ const listHeading = (kind: 'top' | 'other') =>
       <div class="controls">
         <FilterBar v-model="filters" :options="options" :price-of="priceOf" />
         <fieldset class="segmented sort">
-          <legend class="sr-only">{{ t('flights.sortLabel') }}</legend>
+          <legend class="acme-visually-hidden">{{ t('flights.sortLabel') }}</legend>
           <label v-for="mode in sortModes" :key="mode">
-            <input v-model="sort" class="sr-only" type="radio" name="sort" :value="mode" />
+            <input v-model="sort" class="acme-visually-hidden" type="radio" name="sort" :value="mode" />
             <span>{{ t(`flights.sort_${mode}`) }}</span>
           </label>
         </fieldset>
       </div>
 
       <p class="price-note">
-        <span class="sr-only" aria-live="polite">{{ plural('flights.resultCount', filtered.length) }}. </span>
+        <span class="acme-visually-hidden" aria-live="polite">{{ plural('flights.resultCount', filtered.length) }}. </span>
         {{ plural('flights.priceNote', travellerCount(search)) }}
       </p>
 

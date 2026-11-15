@@ -196,7 +196,7 @@ const durationLabel = computed(() =>
         {{ t('filters.allAirlines') }}
       </label>
       <fieldset class="group">
-        <legend class="sr-only">{{ t('filters.airlines') }}</legend>
+        <legend class="acme-visually-hidden">{{ t('filters.airlines') }}</legend>
         <label v-for="choice in airlineChoices" :key="choice.code" class="acme-choice option">
           <input
             type="checkbox"

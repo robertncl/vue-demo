@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 import { useDestinationsStore } from '@/stores/destinations'
 import { useI18n } from '@/i18n'
 import DestinationCard from '@/components/destinations/DestinationCard.vue'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import type { MonthKey } from '@/types/travel'
 
 const store = useDestinationsStore()
@@ -173,7 +174,8 @@ function monthsOf(months: MonthKey[]) {
                   <td>{{ d.tags.map(tag).join(', ') }}</td>
                   <td>
                     {{ monthsOf(d.bestMonths) }}
-                    <span v-if="store.inSeason(d)" class="acme-badge now">
+                    <span v-if="store.inSeason(d)" class="acme-badge acme-badge--success now">
+                      <StatusIcon variant="success" :size="12" />
                       {{ t('common.now') }}
                     </span>
                   </td>
