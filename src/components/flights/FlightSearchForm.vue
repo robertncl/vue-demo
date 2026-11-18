@@ -149,16 +149,16 @@ async function submit() {
   >
     <div class="options">
       <fieldset class="segmented">
-        <legend class="sr-only">{{ t('search.tripType') }}</legend>
+        <legend class="acme-visually-hidden">{{ t('search.tripType') }}</legend>
         <label v-for="type in ['round', 'oneway'] as const" :key="type">
-          <input v-model="form.trip" class="sr-only" type="radio" :name="ids.trip" :value="type" />
+          <input v-model="form.trip" class="acme-visually-hidden" type="radio" :name="ids.trip" :value="type" />
           <span>{{ t(`search.trip_${type}`) }}</span>
         </label>
       </fieldset>
 
       <PassengerPicker v-model="passengers" @update:model-value="clear('passengers')" />
 
-      <label class="sr-only" :for="ids.cabin">{{ t('search.cabin') }}</label>
+      <label class="acme-visually-hidden" :for="ids.cabin">{{ t('search.cabin') }}</label>
       <select :id="ids.cabin" v-model="form.cabin" class="acme-input cabin" name="cabin">
         <option v-for="cabin in cabins" :key="cabin" :value="cabin">
           {{ t(`search.cabin_${cabin}`) }}

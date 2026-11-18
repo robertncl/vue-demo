@@ -6,11 +6,12 @@ import { useI18n } from '@/i18n'
 import TripForm from '@/components/travel/TripForm.vue'
 import TripList from '@/components/travel/TripList.vue'
 import ItineraryPlanner from '@/components/travel/ItineraryPlanner.vue'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import type { TripDraft } from '@/types/travel'
 
 const route = useRoute()
 const travel = useTravelStore()
-const { t } = useI18n()
+const { t, plural, money } = useI18n()
 
 /** Destination pages link here with the trip details pre-filled. Budget is in USD. */
 const prefill = computed<Partial<TripDraft> | null>(() => {
@@ -18,6 +19,33 @@ const prefill = computed<Partial<TripDraft> | null>(() => {
   if (typeof destination !== 'string') return null
   const budget = Number(route.query.budget)
   return { destination, budget: Number.isFinite(budget) && budget > 0 ? budget : undefined }
+})
+
+/**
+ * Warns about every unfinished trip whose activities cost more than its
+ * budget. One trip gets the figures and a way to open it; several get a list.
+ */
+const overBudget = computed(() => {
+  const trips = travel.overBudgetTrips
+  const only = trips.length === 1 ? trips[0]! : null
+  if (!trips.length) return null
+  if (!only) {
+    return {
+      trip: null,
+      title: plural('trips.overManyTitle', trips.length),
+      body: t('trips.overManyBody', { names: trips.map((trip) => trip.destination).join(', ') }),
+    }
+  }
+  const spent = travel.spentOn(only)
+  return {
+    trip: only,
+    title: t('trips.overOneTitle', { name: only.destination }),
+    body: t('trips.overOneBody', {
+      spent: money(spent),
+      over: money(spent - only.budget),
+      budget: money(only.budget),
+    }),
+  }
 })
 </script>
 
@@ -28,6 +56,22 @@ const prefill = computed<Partial<TripDraft> | null>(() => {
       <h1>{{ t('trips.title') }}</h1>
       <p class="sub">{{ t('trips.subtitle') }}</p>
     </header>
+
+    <div v-if="overBudget" class="acme-alert acme-alert--warning over-alert" role="status">
+      <span class="acme-alert__icon"><StatusIcon variant="warning" /></span>
+      <div class="over-text">
+        <p class="acme-alert__title">{{ overBudget.title }}</p>
+        <p>{{ overBudget.body }}</p>
+      </div>
+      <button
+        v-if="overBudget.trip && overBudget.trip.id !== travel.selectedTripId"
+        class="acme-btn acme-btn--secondary acme-btn--sm over-open"
+        type="button"
+        @click="travel.selectTrip(overBudget.trip.id)"
+      >
+        {{ t('trips.openTrip', { name: overBudget.trip.destination }) }}
+      </button>
+    </div>
 
     <div class="layout">
       <aside>
@@ -75,6 +119,21 @@ const prefill = computed<Partial<TripDraft> | null>(() => {
   margin: var(--acme-space-2) 0 0;
   color: var(--acme-color-text-muted);
   max-width: 60ch;
+}
+
+.over-alert {
+  align-items: flex-start;
+  margin-bottom: var(--acme-space-6);
+}
+
+.over-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.over-open {
+  flex: none;
+  align-self: center;
 }
 
 .layout {

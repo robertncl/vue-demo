@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 import { useDestinationsStore } from '@/stores/destinations'
 import { toQuery } from '@/lib/flightSearch'
 import { useI18n } from '@/i18n'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 import type { Deal } from '@/lib/deals'
 
 /** A catalog destination with its cheapest round trip from the chosen airport. */
@@ -30,7 +31,8 @@ const flightsRoute = computed(() => ({ path: '/flights', query: toQuery(props.de
           <h3 class="acme-card__title">{{ deal.destination.name }}</h3>
           <p class="where">{{ deal.destination.country }} · {{ region(deal.destination.region) }}</p>
         </div>
-        <span v-if="store.inSeason(deal.destination)" class="acme-badge">
+        <span v-if="store.inSeason(deal.destination)" class="acme-badge acme-badge--success">
+          <StatusIcon variant="success" :size="12" />
           {{ t('common.inSeasonNow') }}
         </span>
       </div>
@@ -48,11 +50,11 @@ const flightsRoute = computed(() => ({ path: '/flights', query: toQuery(props.de
     <div class="acme-card__footer actions">
       <RouterLink class="acme-btn acme-btn--secondary acme-btn--sm" :to="flightsRoute">
         {{ t('deals.viewFlights') }}
-        <span class="sr-only">{{ t('deals.toPlace', { name: deal.destination.name }) }}</span>
+        <span class="acme-visually-hidden">{{ t('deals.toPlace', { name: deal.destination.name }) }}</span>
       </RouterLink>
       <RouterLink class="guide-link" :to="`/destinations/${deal.destination.slug}`">
         {{ t('deals.guide') }}
-        <span class="sr-only">{{ t('deals.toPlace', { name: deal.destination.name }) }}</span>
+        <span class="acme-visually-hidden">{{ t('deals.toPlace', { name: deal.destination.name }) }}</span>
       </RouterLink>
     </div>
   </article>

@@ -230,4 +230,56 @@ describe('Travel Store', () => {
       expect(useTravelStore().trips).toEqual([])
     }
   })
+
+  describe('trip status', () => {
+    const today = '2026-11-15'
+    const draft = (startDate: string, endDate: string, budget = 100) => ({
+      destination: 'Porto',
+      startDate,
+      endDate,
+      budget,
+    })
+    const activity = (cost: number) => ({ day: 1, time: '10:00', title: 'Tour', cost })
+
+    it('names a trip with nothing planned yet as planning', () => {
+      const travel = useTravelStore()
+      const trip = travel.addTrip(draft('2026-12-01', '2026-12-05'))
+      expect(travel.statusOf(trip, today)).toBe('planning')
+    })
+
+    it('is on budget once activities fit the budget, including exactly at it', () => {
+      const travel = useTravelStore()
+      const trip = travel.addTrip(draft('2026-12-01', '2026-12-05'))
+      travel.addActivity(activity(100))
+      expect(travel.statusOf(trip, today)).toBe('onBudget')
+    })
+
+    it('is over budget when activities cost more, even while under way', () => {
+      const travel = useTravelStore()
+      const trip = travel.addTrip(draft('2026-11-10', '2026-11-20'))
+      expect(travel.statusOf(trip, today)).toBe('underway')
+      travel.addActivity(activity(101))
+      expect(travel.statusOf(trip, today)).toBe('over')
+    })
+
+    it('calls a past trip finished whatever it cost', () => {
+      const travel = useTravelStore()
+      const trip = travel.addTrip(draft('2026-10-01', '2026-10-05'))
+      travel.addActivity(activity(500))
+      expect(travel.statusOf(trip, today)).toBe('finished')
+    })
+
+    it('lists only unfinished over-budget trips', () => {
+      const travel = useTravelStore()
+      travel.addTrip(draft('2000-01-01', '2000-01-05'))
+      travel.addActivity(activity(500))
+      const future = travel.addTrip({ ...draft('2099-01-01', '2099-01-05'), destination: 'Oslo' })
+      travel.addActivity(activity(500))
+      travel.addTrip(draft('2099-02-01', '2099-02-05'))
+      travel.addActivity(activity(50))
+
+      expect(travel.overBudgetTrips.map((trip) => trip.id)).toEqual([future.id])
+      expect(travel.spentOn(future)).toBe(500)
+    })
+  })
 })

@@ -3,6 +3,7 @@
  * ACME's four status glyphs, drawn on a 24px grid with a 2px round stroke in
  * currentColor — the same paths the design system's Badge and Alert render.
  * An alert always carries one, so its status reads without colour (WCAG 1.4.1).
+ * At badge size (12px) the stroke thickens to 2.25, as the system's Badge draws it.
  */
 export type Status = 'success' | 'warning' | 'danger' | 'info'
 
@@ -24,7 +25,7 @@ const PATHS: Record<Status, string[]> = {
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    stroke-width="2"
+    :stroke-width="props.size <= 12 ? 2.25 : 2"
     stroke-linecap="round"
     stroke-linejoin="round"
     aria-hidden="true"

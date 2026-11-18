@@ -63,7 +63,7 @@ const fromCity = computed(() => findAirport(from.value)?.city ?? from.value)
         <legend class="acme-label">{{ t('explore.length') }}</legend>
         <div class="segmented">
           <label v-for="option in tripLengths" :key="option">
-            <input v-model="length" class="sr-only" type="radio" :name="`${uid}-length`" :value="option" />
+            <input v-model="length" class="acme-visually-hidden" type="radio" :name="`${uid}-length`" :value="option" />
             <span>{{ t(`explore.length_${option}`) }}</span>
           </label>
         </div>

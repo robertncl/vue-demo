@@ -447,6 +447,21 @@ export const es: Messages = {
     selectPrompt:
       'Elige un viaje a la izquierda o empieza uno desde un vuelo o una guía de destino.',
     findDestination: 'Buscar un destino',
+    status_over: 'Fuera de presupuesto',
+    status_onBudget: 'Dentro del presupuesto',
+    status_planning: 'En preparación',
+    status_underway: 'En curso',
+    status_finished: 'Terminado',
+    overOneTitle: '{name} supera el presupuesto',
+    overOneBody:
+      'Las actividades suman {spent}, {over} más que el presupuesto de {budget}. Quita una actividad o sube el presupuesto.',
+    overManyTitle: {
+      one: '{count} viaje supera el presupuesto',
+      other: '{count} viajes superan el presupuesto',
+    },
+    overManyBody:
+      'Las actividades cuestan más que el presupuesto en {names}. Quita una actividad o sube un presupuesto.',
+    openTrip: 'Abrir {name}',
   },
 
   planner: {

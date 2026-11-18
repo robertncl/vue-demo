@@ -77,6 +77,9 @@ export interface Activity {
   cost: number
 }
 
+/** Derived from a trip's dates and costs; never stored. */
+export type TripStatus = 'planning' | 'onBudget' | 'over' | 'underway' | 'finished'
+
 export interface Trip {
   id: string
   destination: string

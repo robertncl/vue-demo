@@ -1,8 +1,8 @@
 /* ==========================================================================
-   ACME Corp Design Language — acme.css (v5.0.0)
+   ACME Corp Design Language — acme.css (v5.1.0)
 
-   Ported from the ACME Design System (robertncl/DLS master@d1665db, synced
-   2026-11-06): the tokens from tokens.css, the self-hosted fonts, then
+   Ported from the ACME Design System (robertncl/DLS master@b56be90, v5.1.0,
+   synced 2026-11-10): the tokens from tokens.css, the self-hosted fonts, then
    sections 1-11 of components/bundle.css (tokens tokens.json can't hold,
    base, wordmark, buttons, forms, card, badge, alert, table, tabs, top bar).
    The modal, presentation-slide and report-document sections are left out
@@ -288,6 +288,19 @@ pre {
 :is(a, button, input, select, textarea, [tabindex]):focus-visible {
   outline: 2px solid var(--acme-color-focus);
   outline-offset: 2px;
+}
+
+/* Hidden visually, still read by screen readers (v5.1.0). */
+.acme-visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

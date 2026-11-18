@@ -114,7 +114,8 @@ const planRoute = computed(() => ({
           <header class="guide-head">
             <div class="guide-kicker">
               <p class="kicker">{{ region(destination.region) }} · {{ destination.country }}</p>
-              <span v-if="store.inSeason(destination)" class="acme-badge season-flag">
+              <span v-if="store.inSeason(destination)" class="acme-badge acme-badge--success season-flag">
+                <StatusIcon variant="success" :size="12" />
                 {{ t('common.inSeasonNow') }}
               </span>
             </div>

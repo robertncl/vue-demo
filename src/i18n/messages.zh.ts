@@ -403,6 +403,16 @@ export const zh: Messages = {
     nothingSelected: '未选择行程',
     selectPrompt: '在左侧选择一个行程，或从航班或目的地指南开始。',
     findDestination: '寻找目的地',
+    status_over: '超出预算',
+    status_onBudget: '预算之内',
+    status_planning: '规划中',
+    status_underway: '旅行中',
+    status_finished: '已结束',
+    overOneTitle: '{name}超出预算',
+    overOneBody: '活动合计{spent}，比预算{budget}多出{over}。请删减活动或提高预算。',
+    overManyTitle: { other: '{count}个行程超出预算' },
+    overManyBody: '{names}的活动花费超过了预算。请删减活动或提高预算。',
+    openTrip: '打开{name}',
   },
 
   planner: {

@@ -113,4 +113,64 @@ describe('TripsView', () => {
     expect(travel.trips).toHaveLength(1)
     expect(wrapper.find('dialog .acme-btn--danger').exists()).toBe(false)
   })
+
+  describe('over-budget warning and status badges', () => {
+    const draft = (destination: string, budget: number) => ({
+      destination,
+      startDate: '2099-03-01',
+      endDate: '2099-03-05',
+      budget,
+    })
+    const activity = (cost: number) => ({ day: 1, time: '10:00', title: 'Dinner', cost })
+
+    it('shows no warning while every trip fits its budget', async () => {
+      const wrapper = await mountView()
+      const travel = useTravelStore()
+      travel.addTrip(draft('Lisbon', 300))
+      travel.addActivity(activity(120))
+      await flushPromises()
+
+      expect(wrapper.find('.over-alert').exists()).toBe(false)
+      expect(wrapper.find('.trip-card .acme-badge--success').text()).toBe('On budget')
+    })
+
+    it('warns about one over-budget trip with its figures and a way to open it', async () => {
+      const wrapper = await mountView()
+      const travel = useTravelStore()
+      const kyoto = travel.addTrip(draft('Kyoto', 200))
+      travel.addActivity(activity(250))
+      travel.addTrip(draft('Lisbon', 300))
+      await flushPromises()
+
+      const alert = wrapper.find('.over-alert')
+      expect(alert.classes()).toContain('acme-alert--warning')
+      expect(alert.attributes('role')).toBe('status')
+      expect(alert.text()).toContain('Kyoto is over budget')
+      expect(alert.text()).toContain('$250')
+      expect(alert.text()).toContain('$50')
+
+      await alert.find('.over-open').trigger('click')
+      expect(travel.selectedTripId).toBe(kyoto.id)
+      expect(wrapper.find('.over-open').exists()).toBe(false)
+
+      const badges = wrapper.findAll('.trip-card .acme-badge').map((b) => b.text())
+      expect(badges).toEqual(['Over budget', 'Planning'])
+      expect(wrapper.find('.trip-card .acme-badge--warning svg').exists()).toBe(true)
+    })
+
+    it('names every trip when several are over budget', async () => {
+      const wrapper = await mountView()
+      const travel = useTravelStore()
+      travel.addTrip(draft('Kyoto', 100))
+      travel.addActivity(activity(150))
+      travel.addTrip(draft('Oslo', 100))
+      travel.addActivity(activity(150))
+      await flushPromises()
+
+      const alert = wrapper.find('.over-alert')
+      expect(alert.text()).toContain('2 trips are over budget')
+      expect(alert.text()).toContain('Kyoto, Oslo')
+      expect(alert.find('.over-open').exists()).toBe(false)
+    })
+  })
 })

@@ -35,7 +35,7 @@ function isCurrent(depart: string, ret: string) {
 <template>
   <div class="table-wrap">
     <table class="date-grid">
-      <caption class="sr-only">{{ t('dates.gridCaption') }}</caption>
+      <caption class="acme-visually-hidden">{{ t('dates.gridCaption') }}</caption>
       <thead>
         <tr>
           <th scope="col" class="corner">

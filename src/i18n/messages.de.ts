@@ -452,6 +452,21 @@ export const de: Messages = {
     selectPrompt:
       'Wähle links eine Reise oder beginne eine über einen Flug oder einen Reiseführer.',
     findDestination: 'Reiseziel finden',
+    status_over: 'Über Budget',
+    status_onBudget: 'Im Budget',
+    status_planning: 'In Planung',
+    status_underway: 'Unterwegs',
+    status_finished: 'Abgeschlossen',
+    overOneTitle: '{name} liegt über dem Budget',
+    overOneBody:
+      'Die Aktivitäten kosten {spent}, {over} mehr als das Budget von {budget}. Streiche eine Aktivität oder erhöhe das Budget.',
+    overManyTitle: {
+      one: '{count} Reise liegt über dem Budget',
+      other: '{count} Reisen liegen über dem Budget',
+    },
+    overManyBody:
+      'Die Aktivitäten kosten mehr als das Budget für {names}. Streiche eine Aktivität oder erhöhe ein Budget.',
+    openTrip: '{name} öffnen',
   },
 
   planner: {

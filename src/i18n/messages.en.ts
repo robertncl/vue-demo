@@ -427,6 +427,21 @@ export const en = {
     nothingSelected: 'No trip selected',
     selectPrompt: 'Pick a trip on the left, or start one from a flight or a destination guide.',
     findDestination: 'Find a destination',
+    status_over: 'Over budget',
+    status_onBudget: 'On budget',
+    status_planning: 'Planning',
+    status_underway: 'Under way',
+    status_finished: 'Finished',
+    overOneTitle: '{name} is over budget',
+    overOneBody:
+      'Activities add up to {spent}, {over} over the {budget} budget. Cut an activity or raise the budget.',
+    overManyTitle: plural({
+      one: '{count} trip is over budget',
+      other: '{count} trips are over budget',
+    }),
+    overManyBody:
+      'Activities cost more than the budget for {names}. Cut an activity or raise a budget.',
+    openTrip: 'Open {name}',
   },
 
   planner: {

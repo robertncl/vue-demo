@@ -149,7 +149,7 @@ function onKey(event: KeyboardEvent) {
         <circle v-if="last" :cx="x(last.index)" :cy="y(last.total)" r="5" class="dot end" />
       </g>
     </svg>
-    <figcaption class="sr-only">{{ label }}</figcaption>
+    <figcaption class="acme-visually-hidden">{{ label }}</figcaption>
     <details class="table-view">
       <summary>{{ t('graph.showTable') }}</summary>
       <div class="table-wrap">

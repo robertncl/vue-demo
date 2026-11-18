@@ -1,7 +1,7 @@
 import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { isIsoDate } from '@/lib/dates'
-import type { Activity, ActivityDraft, Trip, TripDraft } from '@/types/travel'
+import type { Activity, ActivityDraft, Trip, TripDraft, TripStatus } from '@/types/travel'
 
 const STORAGE_KEY = 'vue-demo-travel-trips'
 
@@ -52,6 +52,10 @@ function loadTrips(): Trip[] {
   }
 }
 
+const todayIso = () => new Date().toISOString().slice(0, 10)
+
+const spendOf = (trip: Trip) => trip.activities.reduce((sum, activity) => sum + activity.cost, 0)
+
 function createId(): string {
   return Math.random().toString(36).slice(2, 10)
 }
@@ -80,13 +84,18 @@ export const useTravelStore = defineStore('travel', () => {
 
   /** Trips that have not finished yet, soonest departure first. */
   const upcomingTrips = computed(() => {
-    const today = new Date().toISOString().slice(0, 10)
+    const today = todayIso()
     return [...trips.value]
       .filter((trip) => trip.endDate >= today)
       .sort((a, b) => a.startDate.localeCompare(b.startDate))
   })
 
   const nextTrip = computed(() => upcomingTrips.value[0] ?? null)
+
+  /** Unfinished trips whose planned activities cost more than their budget. */
+  const overBudgetTrips = computed(() =>
+    upcomingTrips.value.filter((trip) => statusOf(trip) === 'over'),
+  )
 
   const totalPlannedSpend = computed(() =>
     trips.value.reduce(
@@ -111,6 +120,23 @@ export const useTravelStore = defineStore('travel', () => {
     if (!trip || !trip.startDate || !trip.endDate) return 0
     const diff = new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()
     return diff > 0 ? Math.round(diff / (1000 * 60 * 60 * 24)) + 1 : 0
+  }
+
+  /**
+   * One status per trip, derived from its dates and costs: a finished trip
+   * stays finished whatever it cost; otherwise going over budget outranks
+   * being under way, so the problem is what the badge names.
+   */
+  function statusOf(trip: Trip, today = todayIso()): TripStatus {
+    if (trip.endDate < today) return 'finished'
+    const spent = spendOf(trip)
+    if (spent > trip.budget) return 'over'
+    if (trip.startDate <= today) return 'underway'
+    return trip.activities.length ? 'onBudget' : 'planning'
+  }
+
+  function spentOn(trip: Trip): number {
+    return spendOf(trip)
   }
 
   function addTrip(payload: TripDraft) {
@@ -162,8 +188,11 @@ export const useTravelStore = defineStore('travel', () => {
     budgetUsedPercent,
     upcomingTrips,
     nextTrip,
+    overBudgetTrips,
     totalPlannedSpend,
     durationOf,
+    statusOf,
+    spentOn,
     addTrip,
     removeTrip,
     selectTrip,

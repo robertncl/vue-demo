@@ -5,6 +5,7 @@ import { useDestinationsStore } from '@/stores/destinations'
 import { useTravelStore } from '@/stores/travel'
 import { useI18n } from '@/i18n'
 import DestinationMedia from './DestinationMedia.vue'
+import StatusIcon from '@/components/common/StatusIcon.vue'
 
 const store = useDestinationsStore()
 const travel = useTravelStore()
@@ -36,7 +37,8 @@ const planRoute = computed(() => ({
             <h2>{{ pick.name }}</h2>
             <p class="where">{{ pick.country }} · {{ region(pick.region) }}</p>
           </div>
-          <span v-if="store.inSeason(pick)" class="acme-badge season-flag">
+          <span v-if="store.inSeason(pick)" class="acme-badge acme-badge--success season-flag">
+            <StatusIcon variant="success" :size="12" />
             {{ t('common.inSeasonNow') }}
           </span>
         </div>
