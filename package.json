@@ -36,12 +36,12 @@
     "@oddbird/popover-polyfill": "0.7.3",
     "pinia": "4.1.0",
     "vue": "3.5.46",
-    "vue-router": "5.5.1"
+    "vue-router": "5.5.3"
   },
   "devDependencies": {
     "@tsconfig/node22": "22.0.7",
     "@types/jsdom": "30.0.0",
-    "@types/node": "26.6.10",
+    "@types/node": "26.6.11",
     "@vitejs/plugin-vue": "6.0.11",
     "@vitejs/plugin-vue-jsx": "5.1.6",
     "@vitest/coverage-v8": "5.1.2",
@@ -50,7 +50,7 @@
     "@vue/eslint-config-typescript": "14.9.0",
     "@vue/test-utils": "2.6.0",
     "@vue/tsconfig": "0.9.1",
-    "cypress": "16.3.0",
+    "cypress": "16.4.0",
     "eslint": "10.15.0",
     "eslint-plugin-cypress": "7.2.0",
     "eslint-plugin-oxlint": "1.95.0",
@@ -61,7 +61,7 @@
     "prettier": "3.10.1",
     "start-server-and-test": "3.0.13",
     "typescript": "6.0.3",
-    "vite": "8.3.8",
+    "vite": "8.4.0",
     "vite-plugin-vue-devtools": "8.2.1",
     "vitest": "5.1.2",
     "vue-tsc": "3.3.14"
