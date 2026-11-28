@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * ACME's four status glyphs, drawn on a 24px grid with a 2px round stroke in
+ * Four status glyphs, drawn on a 24px grid with a 2px round stroke in
  * currentColor — the same paths the design system's Badge and Alert render.
  * An alert always carries one, so its status reads without colour (WCAG 1.4.1).
  * At badge size (12px) the stroke thickens to 2.25, as the system's Badge draws it.
@@ -19,7 +19,7 @@ const PATHS: Record<Status, string[]> = {
 
 <template>
   <svg
-    class="acme-status-icon"
+    class="mod-status-icon"
     :width="props.size"
     :height="props.size"
     viewBox="0 0 24 24"

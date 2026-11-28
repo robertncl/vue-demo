@@ -48,8 +48,8 @@ const cards = computed(() =>
     </header>
 
     <ul v-if="cards.length" class="list">
-      <li v-for="card in cards" :key="card.entry.id" class="acme-card tracked-card">
-        <div class="acme-card__body body">
+      <li v-for="card in cards" :key="card.entry.id" class="mod-card tracked-card">
+        <div class="mod-card__body body">
           <div class="summary">
             <div>
               <h2>{{ card.title }}</h2>
@@ -75,7 +75,7 @@ const cards = computed(() =>
                 <dd class="num">{{ money(card.lowest) }}</dd>
               </div>
             </dl>
-            <p v-else class="acme-badge">{{ card.departed ? t('tracked.departed') : t('tracked.soldOut') }}</p>
+            <p v-else class="mod-badge">{{ card.departed ? t('tracked.departed') : t('tracked.soldOut') }}</p>
           </div>
 
           <PriceHistoryChart
@@ -85,12 +85,12 @@ const cards = computed(() =>
           />
         </div>
 
-        <div class="acme-card__footer">
-          <RouterLink v-if="!card.departed" class="acme-btn acme-btn--secondary acme-btn--sm" :to="card.route">
+        <div class="mod-card__footer">
+          <RouterLink v-if="!card.departed" class="mod-btn mod-btn--secondary mod-btn--sm" :to="card.route">
             {{ t('deals.viewFlights') }}
           </RouterLink>
           <button
-            class="acme-btn acme-btn--ghost acme-btn--sm"
+            class="mod-btn mod-btn--ghost mod-btn--sm"
             type="button"
             :aria-label="t('tracked.stopNamed', { route: card.title })"
             @click="flights.untrack(card.entry.id)"
@@ -101,32 +101,32 @@ const cards = computed(() =>
       </li>
     </ul>
 
-    <div v-else class="acme-card empty-state">
+    <div v-else class="mod-card empty-state">
       <h2>{{ t('tracked.emptyTitle') }}</h2>
       <p class="muted">{{ t('tracked.emptyBody') }}</p>
-      <RouterLink class="acme-btn acme-btn--primary" to="/">{{ t('tracked.emptyCta') }}</RouterLink>
+      <RouterLink class="mod-btn mod-btn--primary" to="/">{{ t('tracked.emptyCta') }}</RouterLink>
     </div>
   </main>
 </template>
 
 <style scoped>
 .head {
-  margin-bottom: var(--acme-space-6);
+  margin-bottom: var(--mod-space-4);
 }
 
 .head h1 {
-  margin: var(--acme-space-2) 0 0;
+  margin: var(--mod-space-2) 0 0;
 }
 
 .sub {
-  margin: var(--acme-space-2) 0 0;
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-2) 0 0;
+  color: var(--mod-ink-2);
   max-width: 60ch;
 }
 
 .list {
   display: grid;
-  gap: var(--acme-space-5);
+  gap: var(--mod-space-4);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -134,48 +134,48 @@ const cards = computed(() =>
 
 .body {
   display: grid;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
 }
 
 .summary {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: var(--acme-space-6);
+  gap: var(--mod-space-4);
   flex-wrap: wrap;
 }
 
 .summary h2 {
-  margin: 0 0 var(--acme-space-1);
-  font-size: var(--acme-text-xl);
+  margin: 0 0 var(--mod-space-1);
+  font-size: var(--mod-size-heading-3);
 }
 
 .summary p {
   margin: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 
 .figures {
   display: flex;
-  gap: var(--acme-space-8);
+  gap: var(--mod-space-5);
   margin: 0;
 }
 
 .figures dt {
-  font-size: var(--acme-text-xs);
-  font-weight: 500;
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  font-weight: 600;
+  color: var(--mod-ink-2);
 }
 
 .figures dd {
-  margin: var(--acme-space-1) 0 0;
-  font-size: var(--acme-text-lg);
+  margin: var(--mod-space-1) 0 0;
+  font-size: var(--mod-size-heading-3);
   font-weight: 600;
 }
 
 /* The one hero figure per card: same sans, proportional figures. */
 .figures dd.hero {
-  font-size: var(--acme-text-3xl);
+  font-size: var(--mod-size-heading-2);
   font-weight: 600;
   line-height: 1;
 }

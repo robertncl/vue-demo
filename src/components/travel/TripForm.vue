@@ -73,15 +73,15 @@ function submit() {
 </script>
 
 <template>
-  <form class="acme-card trip-form" @submit.prevent="submit">
+  <form class="mod-card trip-form" @submit.prevent="submit">
     <h2>{{ t('trips.formTitle') }}</h2>
 
-    <div class="acme-field">
-      <label class="acme-label" for="destination">{{ t('trips.destination') }}</label>
+    <div class="mod-field">
+      <label class="mod-label" for="destination">{{ t('trips.destination') }}</label>
       <input
         id="destination"
         v-model="form.destination"
-        class="acme-input"
+        class="mod-input"
         type="text"
         :placeholder="t('trips.destinationPlaceholder')"
         required
@@ -89,32 +89,32 @@ function submit() {
     </div>
 
     <div class="field-row">
-      <div class="acme-field">
-        <label class="acme-label" for="startDate">{{ t('trips.startDate') }}</label>
-        <input id="startDate" v-model="form.startDate" class="acme-input" type="date" required />
+      <div class="mod-field">
+        <label class="mod-label" for="startDate">{{ t('trips.startDate') }}</label>
+        <input id="startDate" v-model="form.startDate" class="mod-input" type="date" required />
       </div>
-      <div class="acme-field">
-        <label class="acme-label" for="endDate">{{ t('trips.endDate') }}</label>
-        <input id="endDate" v-model="form.endDate" class="acme-input" type="date" required />
+      <div class="mod-field">
+        <label class="mod-label" for="endDate">{{ t('trips.endDate') }}</label>
+        <input id="endDate" v-model="form.endDate" class="mod-input" type="date" required />
       </div>
     </div>
 
-    <div class="acme-field">
-      <label class="acme-label" for="budget">
+    <div class="mod-field">
+      <label class="mod-label" for="budget">
         {{ t('trips.budget', { currency: settings.currency }) }}
       </label>
       <input
         id="budget"
         v-model.number="budget"
-        class="acme-input"
+        class="mod-input"
         type="number"
         min="0"
         step="1"
       />
-      <p class="acme-help">{{ t('settings.rateNote') }}</p>
+      <p class="mod-help">{{ t('settings.rateNote') }}</p>
     </div>
 
-    <button class="acme-btn acme-btn--primary submit" type="submit">
+    <button class="mod-btn mod-btn--primary submit" type="submit">
       {{ t('trips.addTrip') }}
     </button>
   </form>
@@ -124,22 +124,22 @@ function submit() {
 .trip-form {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-4);
-  padding: var(--acme-space-5);
+  gap: var(--mod-space-3);
+  padding: var(--mod-space-4);
 }
 
 .trip-form h2 {
   margin: 0;
-  font-size: var(--acme-text-lg);
+  font-size: var(--mod-size-heading-3);
 }
 
 .field-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
 }
 
-.field-row .acme-input {
+.field-row .mod-input {
   min-width: 0;
   width: 100%;
 }

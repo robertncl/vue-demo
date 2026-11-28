@@ -25,26 +25,26 @@ const bestMonths = computed(() =>
 </script>
 
 <template>
-  <article class="acme-card acme-card--interactive destination-card">
+  <article class="mod-card mod-card--interactive destination-card">
     <div class="media-wrap">
       <DestinationMedia :label="t('media.photoOf', { name: destination.name })" />
       <div class="flags">
-        <span class="acme-badge flag region">{{ region(destination.region) }}</span>
-        <span v-if="inSeason" class="acme-badge acme-badge--success season">
+        <span class="mod-badge flag region">{{ region(destination.region) }}</span>
+        <span v-if="inSeason" class="mod-badge mod-badge--success season">
           <StatusIcon variant="success" :size="12" />
           {{ t('common.inSeasonNow') }}
         </span>
       </div>
     </div>
 
-    <div class="acme-card__body body">
+    <div class="mod-card__body body">
       <div class="head">
         <div>
-          <h3 class="acme-card__title">{{ destination.name }}</h3>
+          <h3 class="mod-card__title">{{ destination.name }}</h3>
           <p class="country">{{ destination.country }}</p>
         </div>
         <button
-          class="acme-btn acme-btn--ghost acme-btn--sm wish"
+          class="mod-btn mod-btn--ghost mod-btn--sm wish"
           type="button"
           :class="{ on: wishlisted }"
           :aria-pressed="Boolean(wishlisted)"
@@ -62,11 +62,11 @@ const bestMonths = computed(() =>
       <p class="tagline">{{ destination.tagline }}</p>
 
       <ul class="tags">
-        <li v-for="item in destination.tags" :key="item" class="acme-badge">{{ tag(item) }}</li>
+        <li v-for="item in destination.tags" :key="item" class="mod-badge">{{ tag(item) }}</li>
       </ul>
     </div>
 
-    <div class="acme-card__footer footer">
+    <div class="mod-card__footer footer">
       <div>
         <p class="price num">
           {{ money(destination.dailyBudget) }}<span class="per">{{ t('common.aDay') }}</span>
@@ -74,7 +74,7 @@ const bestMonths = computed(() =>
         <p class="months">{{ t('common.best') }} {{ bestMonths }}</p>
       </div>
       <RouterLink
-        class="acme-btn acme-btn--secondary acme-btn--sm"
+        class="mod-btn mod-btn--secondary mod-btn--sm"
         :to="`/destinations/${destination.slug}`"
       >
         {{ t('card.readGuide') }}
@@ -94,32 +94,32 @@ const bestMonths = computed(() =>
 
 .flags {
   position: absolute;
-  inset-block-start: var(--acme-space-3);
-  inset-inline-start: var(--acme-space-3);
+  inset-block-start: var(--mod-space-3);
+  inset-inline-start: var(--mod-space-3);
   display: flex;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
   pointer-events: none;
 }
 
 .flag {
-  background: var(--acme-color-surface-raised);
-  border: 1px solid var(--acme-color-border);
+  background: var(--mod-paper);
+  border: 1px solid var(--mod-rule);
 }
 
 .body {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
 }
 
-.acme-card__title {
+.mod-card__title {
   margin: 0;
 }
 
@@ -131,25 +131,25 @@ const bestMonths = computed(() =>
 }
 
 .country {
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .tagline {
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   text-wrap: pretty;
 }
 
 .wish.on {
-  color: var(--acme-color-text);
+  color: var(--mod-ink);
   font-weight: 600;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--acme-space-2);
-  margin-top: var(--acme-space-1);
+  gap: var(--mod-space-2);
+  margin-top: var(--mod-space-1);
   list-style: none;
   padding: 0;
 }
@@ -159,18 +159,18 @@ const bestMonths = computed(() =>
 }
 
 .price {
-  font-size: var(--acme-text-lg);
+  font-size: var(--mod-size-heading-3);
   font-weight: 600;
 }
 
 .per {
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 400;
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .months {
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 </style>

@@ -31,21 +31,15 @@ function current(link: { to: string; also: string[] }) {
 </script>
 
 <template>
-  <header class="acme-topbar site-header">
-    <RouterLink to="/" class="brand">
-      <span class="acme-wordmark">
-        <span class="acme-wordmark__mark" aria-hidden="true">A</span>
-        ACME
-      </span>
-      <span class="product">{{ t('brand.name') }}</span>
-    </RouterLink>
+  <header class="mod-topbar site-header">
+    <RouterLink to="/" class="mod-wordmark brand">{{ t('brand.name') }}</RouterLink>
 
-    <nav class="acme-topbar__nav nav" :aria-label="t('nav.primary')">
+    <nav class="mod-topbar__nav nav" :aria-label="t('nav.primary')">
       <RouterLink
         v-for="link in links"
         :key="link.to"
         :to="link.to"
-        class="acme-topbar__link"
+        class="mod-topbar__link"
         active-class=""
         exact-active-class=""
         :aria-current="current(link)"
@@ -55,63 +49,39 @@ function current(link: { to: string; also: string[] }) {
       </RouterLink>
     </nav>
 
-    <div class="acme-topbar__actions">
+    <div class="mod-topbar__actions">
       <SettingsMenu />
     </div>
   </header>
 </template>
 
 <style scoped>
-/* ACME app bar: 56px, opaque, capped by a hairline — wordmark, then the
-   destinations beside it, then the actions slot pushed to the end. */
+/* Modernist top bar: an 8px ink bar, the product name in Archivo 800, the
+   pages beside it, then the actions slot pushed to the end. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  padding-inline: var(--acme-space-6);
-  flex-wrap: wrap;
 }
 
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--acme-space-3);
-  text-decoration: none;
-  color: var(--acme-color-text);
-}
-
-.product {
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
-  border-inline-start: 1px solid var(--acme-color-border);
-  padding-inline-start: var(--acme-space-3);
-}
-
-.nav {
-  align-items: center;
-  gap: var(--acme-space-1);
-}
-
-.acme-topbar__link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--acme-space-2);
+.mod-topbar__link {
   white-space: nowrap;
 }
 
 .count {
-  color: var(--acme-color-text-subtle);
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  font-size: var(--mod-size-label);
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 @media (max-width: 900px) {
-  .site-header {
-    gap: var(--acme-space-3);
-  }
-
   .nav {
     order: 3;
     width: 100%;
     overflow-x: auto;
+    flex-wrap: nowrap;
   }
 }
 </style>

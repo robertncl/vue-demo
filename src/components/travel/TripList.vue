@@ -37,7 +37,7 @@ function badge(trip: Trip) {
   return { variant: BADGE[status], label: t(`trips.status_${status}`) }
 }
 
-/** Deleting is permanent, so it asks first (ACME: destructive actions confirm). */
+/** Deleting is permanent, so it asks first (destructive actions confirm). */
 const confirmDialog = ref<InstanceType<typeof ModalDialog> | null>(null)
 const pending = ref<Trip | null>(null)
 
@@ -73,8 +73,8 @@ function spend(trip: Trip) {
           <span class="title-row">
             <strong>{{ trip.destination }}</strong>
             <span
-              class="acme-badge"
-              :class="badge(trip).variant && `acme-badge--${badge(trip).variant}`"
+              class="mod-badge"
+              :class="badge(trip).variant && `mod-badge--${badge(trip).variant}`"
             >
               <StatusIcon v-if="badge(trip).variant" :variant="badge(trip).variant!" :size="12" />
               {{ badge(trip).label }}
@@ -94,7 +94,7 @@ function spend(trip: Trip) {
           </span>
         </button>
         <button
-          class="acme-btn acme-btn--ghost acme-btn--sm remove"
+          class="mod-btn mod-btn--ghost mod-btn--sm remove"
           type="button"
           :aria-label="t('trips.removeTrip', { name: trip.destination })"
           @click="askToDelete(trip)"
@@ -113,10 +113,10 @@ function spend(trip: Trip) {
       <template #default="{ close }">
         <p class="warning">{{ t('trips.deleteWarning') }}</p>
         <div class="confirm-actions">
-          <button class="acme-btn acme-btn--secondary" type="button" @click="close">
+          <button class="mod-btn mod-btn--secondary" type="button" @click="close">
             {{ t('common.cancel') }}
           </button>
-          <button class="acme-btn acme-btn--danger" type="button" @click="confirmDelete(close)">
+          <button class="mod-btn mod-btn--danger" type="button" @click="confirmDelete(close)">
             {{ t('trips.removeTrip', { name: pending?.destination ?? '' }) }}
           </button>
         </div>
@@ -127,13 +127,13 @@ function spend(trip: Trip) {
 
 <style scoped>
 h2 {
-  margin: 0 0 var(--acme-space-3);
-  font-size: var(--acme-text-lg);
+  margin: 0 0 var(--mod-space-3);
+  font-size: var(--mod-size-heading-3);
 }
 
 .empty {
   margin: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 
 .trip-list {
@@ -142,23 +142,23 @@ h2 {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .trip-card {
   display: flex;
   align-items: center;
-  gap: var(--acme-space-3);
-  padding: var(--acme-space-3) var(--acme-space-4);
-  border: 1px solid var(--acme-color-border);
-  border-radius: var(--acme-radius-lg);
-  background: var(--acme-color-surface-raised);
+  gap: var(--mod-space-3);
+  padding: var(--mod-space-3) var(--mod-space-3);
+  border: 1px solid var(--mod-rule);
+  border-radius: var(--mod-radius-none);
+  background: var(--mod-paper);
 }
 
 /* Selection takes the interaction Blue rather than a second fill. */
 .trip-card.active {
-  border-color: var(--acme-color-selected);
-  background: var(--acme-color-selected-soft);
+  border-color: var(--mod-blue);
+  background: var(--mod-blue-soft);
 }
 
 .info {
@@ -177,8 +177,8 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--acme-space-1) var(--acme-space-2);
-  margin-bottom: var(--acme-space-1);
+  gap: var(--mod-space-1) var(--mod-space-2);
+  margin-bottom: var(--mod-space-1);
 }
 
 .info strong {
@@ -188,20 +188,20 @@ h2 {
 .dates,
 .meta {
   display: block;
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 
 .warning {
   margin: 0;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .confirm-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 </style>

@@ -24,14 +24,14 @@ const flightsRoute = computed(() => ({ path: '/flights', query: toQuery(props.de
 </script>
 
 <template>
-  <article class="acme-card acme-card--interactive deal-card">
-    <div class="acme-card__body body">
+  <article class="mod-card mod-card--interactive deal-card">
+    <div class="mod-card__body body">
       <div class="head">
         <div>
-          <h3 class="acme-card__title">{{ deal.destination.name }}</h3>
+          <h3 class="mod-card__title">{{ deal.destination.name }}</h3>
           <p class="where">{{ deal.destination.country }} · {{ region(deal.destination.region) }}</p>
         </div>
-        <span v-if="store.inSeason(deal.destination)" class="acme-badge acme-badge--success">
+        <span v-if="store.inSeason(deal.destination)" class="mod-badge mod-badge--success">
           <StatusIcon variant="success" :size="12" />
           {{ t('common.inSeasonNow') }}
         </span>
@@ -47,14 +47,14 @@ const flightsRoute = computed(() => ({ path: '/flights', query: toQuery(props.de
       <p class="facts">{{ stops }} · {{ duration(deal.outbound.durationMin) }}</p>
     </div>
 
-    <div class="acme-card__footer actions">
-      <RouterLink class="acme-btn acme-btn--secondary acme-btn--sm" :to="flightsRoute">
+    <div class="mod-card__footer actions">
+      <RouterLink class="mod-btn mod-btn--secondary mod-btn--sm" :to="flightsRoute">
         {{ t('deals.viewFlights') }}
-        <span class="acme-visually-hidden">{{ t('deals.toPlace', { name: deal.destination.name }) }}</span>
+        <span class="mod-visually-hidden">{{ t('deals.toPlace', { name: deal.destination.name }) }}</span>
       </RouterLink>
       <RouterLink class="guide-link" :to="`/destinations/${deal.destination.slug}`">
         {{ t('deals.guide') }}
-        <span class="acme-visually-hidden">{{ t('deals.toPlace', { name: deal.destination.name }) }}</span>
+        <span class="mod-visually-hidden">{{ t('deals.toPlace', { name: deal.destination.name }) }}</span>
       </RouterLink>
     </div>
   </article>
@@ -63,44 +63,45 @@ const flightsRoute = computed(() => ({ path: '/flights', query: toQuery(props.de
 <style scoped>
 .body {
   display: grid;
-  gap: var(--acme-space-1);
+  gap: var(--mod-space-1);
 }
 
 .head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: var(--acme-space-3);
-  margin-bottom: var(--acme-space-2);
+  gap: var(--mod-space-3);
+  margin-bottom: var(--mod-space-2);
 }
 
 .where {
   margin: 0;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .price {
   display: flex;
   align-items: baseline;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
   margin: 0;
 }
 
 .amount {
-  font-size: var(--acme-text-2xl);
-  font-weight: 600;
+  font-size: var(--mod-size-heading-2);
+  font-weight: 700;
+  letter-spacing: var(--mod-tracking-heading-2);
 }
 
 .note {
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 
 .facts {
   margin: 0;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .actions {
@@ -108,7 +109,7 @@ const flightsRoute = computed(() => ({ path: '/flights', query: toQuery(props.de
 }
 
 .guide-link {
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 600;
 }
 </style>

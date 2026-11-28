@@ -64,7 +64,7 @@ describe('BookingView', () => {
 
   it('turns the booking into a trip with the flights on the itinerary', async () => {
     const wrapper = await mountView(query)
-    await wrapper.find('.actions .acme-btn--primary').trigger('click')
+    await wrapper.find('.actions .mod-btn--primary').trigger('click')
     await flushPromises()
 
     const travel = useTravelStore()

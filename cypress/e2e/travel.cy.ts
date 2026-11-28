@@ -14,7 +14,7 @@ describe('Wanderlog', () => {
     cy.get('.top-pick').within(() => {
       cy.contains('.kicker', 'Top pick for')
       cy.get('.runner').should('have.length', 3)
-      cy.contains('.acme-btn', 'Read the').click()
+      cy.contains('.mod-btn', 'Read the').click()
     })
     cy.location('pathname').should('match', /^\/destinations\/[a-z-]+$/)
   })
@@ -45,7 +45,7 @@ describe('Wanderlog', () => {
     cy.get('#f-query').type('japan')
     cy.get('.destination-card').should('have.length', 1).contains('Kyoto')
 
-    cy.contains('.acme-btn', 'Clear all').click()
+    cy.contains('.mod-btn', 'Clear all').click()
     cy.get('.destination-card').should('have.length', 12)
 
     cy.get('#f-region').select('Europe')
@@ -59,12 +59,12 @@ describe('Wanderlog', () => {
   it('compares the catalog as a table and filters to what is in season', () => {
     cy.contains('.nav a', 'Guides').click()
 
-    cy.contains('.acme-tab', 'Compare table').click()
+    cy.contains('.mod-tab', 'Compare table').click()
     cy.get('.compare tbody tr').should('have.length', 12)
     // the table is sorted by daily budget, cheapest first
     cy.get('.compare tbody tr').first().should('contain', 'Hanoi')
 
-    cy.get('.acme-switch input').check()
+    cy.get('.mod-switch input').check()
     cy.get('.compare tbody tr').should('have.length.lessThan', 12)
     cy.get('.compare tbody tr').each(($row) => cy.wrap($row).should('contain', 'now'))
   })
@@ -72,7 +72,7 @@ describe('Wanderlog', () => {
   it('reads a full destination guide', () => {
     cy.visit('/destinations/kyoto')
 
-    cy.get('.acme-breadcrumbs').should('contain', 'Guides').and('contain', 'Kyoto')
+    cy.get('.mod-breadcrumbs').should('contain', 'Guides').and('contain', 'Kyoto')
 
     cy.contains('h2', 'Where to base yourself')
     cy.get('.area').should('have.length.at.least', 3)
@@ -148,14 +148,14 @@ describe('Wanderlog', () => {
     cy.contains('.trip-card', 'Kyoto, Japan')
 
     cy.contains('.trip-card', 'Kyoto, Japan').find('.remove').click()
-    cy.get('dialog[open] .acme-btn--danger').click()
+    cy.get('dialog[open] .mod-btn--danger').click()
     cy.contains('No trip selected')
   })
 
   it('shows a not-found page for unknown routes', () => {
     cy.visit('/nowhere', { failOnStatusCode: false })
     cy.contains('h1', 'Off the map')
-    cy.contains('.acme-btn', 'Back to flights').click()
+    cy.contains('.mod-btn', 'Back to flights').click()
     cy.location('pathname').should('eq', '/')
   })
 })

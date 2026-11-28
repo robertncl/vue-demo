@@ -26,8 +26,8 @@ const built = ['built1', 'built2', 'built3', 'built4', 'built5', 'built6']
 
     <section>
       <h2>{{ t('about.whatTitle') }}</h2>
-      <div class="acme-card table-card">
-        <table class="acme-table">
+      <div class="mod-card table-card">
+        <table class="mod-table">
           <tbody>
             <tr v-for="key in features" :key="key">
               <th scope="row">{{ t(`about.${key}Label`) }}</th>
@@ -40,8 +40,8 @@ const built = ['built1', 'built2', 'built3', 'built4', 'built5', 'built6']
 
     <section>
       <h2>{{ t('about.builtTitle') }}</h2>
-      <div class="acme-card table-card">
-        <table class="acme-table">
+      <div class="mod-card table-card">
+        <table class="mod-table">
           <tbody>
             <tr v-for="key in built" :key="key">
               <td>{{ t(`about.${key}`) }}</td>
@@ -70,23 +70,23 @@ const built = ['built1', 'built2', 'built3', 'built4', 'built5', 'built6']
 
 <style scoped>
 h1 {
-  margin: var(--acme-space-2) 0 0;
+  margin: var(--mod-space-2) 0 0;
 }
 
 .lede {
-  margin: var(--acme-space-4) 0 0;
-  font-size: var(--acme-text-lg);
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-3) 0 0;
+  font-size: var(--mod-size-heading-3);
+  color: var(--mod-ink-2);
   text-wrap: pretty;
 }
 
 section {
-  margin-top: var(--acme-space-10);
+  margin-top: var(--mod-space-6);
 }
 
 section h2 {
-  margin: 0 0 var(--acme-space-4);
-  font-size: var(--acme-text-2xl);
+  margin: 0 0 var(--mod-space-3);
+  font-size: var(--mod-size-heading-2);
 }
 
 section p {
@@ -98,9 +98,9 @@ th {
   width: 12rem;
   text-transform: none;
   letter-spacing: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 400;
-  color: var(--acme-color-text-muted);
-  border-block-end: 1px solid var(--acme-color-border);
+  color: var(--mod-ink-2);
+  border-block-end: 1px solid var(--mod-rule);
 }
 </style>

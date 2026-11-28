@@ -27,21 +27,21 @@ const { t } = useI18n()
 
 <style scoped>
 .site-footer {
-  border-top: 1px solid var(--acme-color-border);
-  background: var(--acme-color-surface);
-  padding: var(--acme-space-8) var(--acme-space-6);
+  border-top: var(--mod-stroke-rule) solid var(--mod-ink);
+  background: var(--mod-paper);
+  padding: var(--mod-space-4) var(--mod-space-5) var(--mod-space-6);
 }
 
 .inner {
   width: 100%;
-  max-width: 1200px;
+  max-width: calc(var(--mod-grid-max) - 2 * var(--mod-space-5));
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
   flex-wrap: wrap;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .inner p {
@@ -49,16 +49,15 @@ const { t } = useI18n()
 }
 
 .inner p + p {
-  margin-top: var(--acme-space-1);
+  margin-top: var(--mod-space-1);
 }
 
 .links {
   display: flex;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
 }
 
 .links a {
-  color: var(--acme-color-text-muted);
-  font-weight: 500;
+  font-weight: 600;
 }
 </style>

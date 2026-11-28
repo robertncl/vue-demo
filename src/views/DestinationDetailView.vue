@@ -103,7 +103,7 @@ const planRoute = computed(() => ({
 <template>
   <main class="page page--tight">
     <template v-if="destination">
-      <nav class="acme-breadcrumbs" :aria-label="t('detail.breadcrumbs')">
+      <nav class="mod-breadcrumbs" :aria-label="t('detail.breadcrumbs')">
         <RouterLink to="/destinations">{{ t('nav.guides') }}</RouterLink>
         <span aria-hidden="true">/</span>
         <span aria-current="page">{{ destination.name }}</span>
@@ -114,7 +114,7 @@ const planRoute = computed(() => ({
           <header class="guide-head">
             <div class="guide-kicker">
               <p class="kicker">{{ region(destination.region) }} · {{ destination.country }}</p>
-              <span v-if="store.inSeason(destination)" class="acme-badge acme-badge--success season-flag">
+              <span v-if="store.inSeason(destination)" class="mod-badge mod-badge--success season-flag">
                 <StatusIcon variant="success" :size="12" />
                 {{ t('common.inSeasonNow') }}
               </span>
@@ -135,7 +135,7 @@ const planRoute = computed(() => ({
           <section class="block">
             <h2>{{ t('detail.dontMiss') }}</h2>
             <ul class="highlights">
-              <li v-for="item in destination.highlights" :key="item" class="acme-badge highlight">
+              <li v-for="item in destination.highlights" :key="item" class="mod-badge highlight">
                 {{ item }}
               </li>
             </ul>
@@ -144,8 +144,8 @@ const planRoute = computed(() => ({
           <section class="block">
             <h2>{{ t('detail.neighbourhoods') }}</h2>
             <div class="areas">
-              <div v-for="area in destination.neighbourhoods" :key="area.name" class="acme-card">
-                <div class="acme-card__body area">
+              <div v-for="area in destination.neighbourhoods" :key="area.name" class="mod-card">
+                <div class="mod-card__body area">
                   <h3>{{ area.name }}</h3>
                   <p class="best-for">{{ t('detail.bestFor', { what: area.bestFor }) }}</p>
                   <p class="area-body">{{ area.description }}</p>
@@ -157,13 +157,13 @@ const planRoute = computed(() => ({
           <section class="block">
             <h2>{{ t('detail.itinerary') }}</h2>
             <div class="plans">
-              <div v-for="plan in destination.sampleItinerary" :key="plan.day" class="acme-card">
-                <div class="acme-card__body plan">
+              <div v-for="plan in destination.sampleItinerary" :key="plan.day" class="mod-card">
+                <div class="mod-card__body plan">
                   <div class="plan-head">
                     <span class="numeral" aria-hidden="true">{{ plan.day }}</span>
                     <h3>{{ plan.title }}</h3>
                   </div>
-                  <table class="acme-table">
+                  <table class="mod-table">
                     <tbody>
                       <tr>
                         <th scope="row">{{ t('detail.morning') }}</th>
@@ -201,8 +201,8 @@ const planRoute = computed(() => ({
 
           <section class="block">
             <h2>{{ t('detail.seasons') }}</h2>
-            <div class="acme-card table-card">
-              <table class="acme-table">
+            <div class="mod-card table-card">
+              <table class="mod-table">
                 <tbody>
                   <tr v-for="item in destination.seasons" :key="item.label" class="season">
                     <td class="season-months num">
@@ -218,8 +218,8 @@ const planRoute = computed(() => ({
 
           <section class="block">
             <h2>{{ t('detail.practical') }}</h2>
-            <div class="acme-card table-card practical">
-              <table class="acme-table">
+            <div class="mod-card table-card practical">
+              <table class="mod-table">
                 <tbody>
                   <tr v-for="row in practical" :key="row.label">
                     <th scope="row" class="practical-label">{{ row.label }}</th>
@@ -236,7 +236,7 @@ const planRoute = computed(() => ({
               <RouterLink
                 v-for="item in related"
                 :key="item.slug"
-                class="acme-card acme-card--interactive related-item"
+                class="mod-card mod-card--interactive related-item"
                 :to="`/destinations/${item.slug}`"
               >
                 <strong>{{ item.name }}</strong>
@@ -246,7 +246,7 @@ const planRoute = computed(() => ({
           </section>
         </article>
 
-        <aside class="acme-card panel">
+        <aside class="mod-card panel">
           <div class="figures">
             <p class="panel-label">{{ t('detail.dailyBudget') }}</p>
             <p class="panel-price num">{{ money(destination.dailyBudget) }}</p>
@@ -281,7 +281,7 @@ const planRoute = computed(() => ({
               }}
             </p>
             <RouterLink
-              class="acme-btn acme-btn--secondary"
+              class="mod-btn mod-btn--secondary"
               :to="{ path: '/flights', query: toQuery(flightDeal.search) }"
             >
               {{ t('deals.viewFlights') }}
@@ -289,19 +289,19 @@ const planRoute = computed(() => ({
           </div>
 
           <div class="panel-section actions">
-            <RouterLink class="acme-btn acme-btn--primary" :to="planRoute">
+            <RouterLink class="mod-btn mod-btn--primary" :to="planRoute">
               {{ t('detail.planTrip') }}
             </RouterLink>
             <button
-              class="acme-btn acme-btn--secondary"
+              class="mod-btn mod-btn--secondary"
               type="button"
               :aria-pressed="store.isWishlisted(destination.slug)"
               @click="store.toggleWishlist(destination.slug)"
             >
               {{ store.isWishlisted(destination.slug) ? t('detail.saved') : t('detail.save') }}
             </button>
-            <div v-if="alreadyPlanned" class="acme-alert planned" role="status">
-              <span class="acme-alert__icon"><StatusIcon variant="info" /></span>
+            <div v-if="alreadyPlanned" class="mod-alert planned" role="status">
+              <span class="mod-alert__icon"><StatusIcon variant="info" /></span>
               <p>{{ t('detail.alreadyPlanned') }}</p>
             </div>
           </div>
@@ -309,10 +309,10 @@ const planRoute = computed(() => ({
       </div>
     </template>
 
-    <div v-else class="acme-card empty-state">
+    <div v-else class="mod-card empty-state">
       <h1>{{ t('detail.notFoundTitle') }}</h1>
       <p class="muted">{{ t('detail.notFoundBody', { slug: String(route.params.slug) }) }}</p>
-      <RouterLink class="acme-btn acme-btn--primary" to="/destinations">
+      <RouterLink class="mod-btn mod-btn--primary" to="/destinations">
         {{ t('detail.notFoundCta') }}
       </RouterLink>
     </div>
@@ -321,52 +321,52 @@ const planRoute = computed(() => ({
 
 <style scoped>
 .page--tight {
-  padding-top: var(--acme-space-6);
+  padding-top: var(--mod-space-4);
 }
 
-.acme-breadcrumbs {
-  margin-bottom: var(--acme-space-5);
+.mod-breadcrumbs {
+  margin-bottom: var(--mod-space-4);
 }
 
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
-  gap: var(--acme-space-10);
+  gap: var(--mod-space-6);
   align-items: start;
 }
 
 .guide-head {
-  margin-bottom: var(--acme-space-6);
+  margin-bottom: var(--mod-space-4);
 }
 
 .guide-kicker {
   display: flex;
   align-items: center;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   flex-wrap: wrap;
 }
 
 .guide-head h1 {
-  margin: var(--acme-space-2) 0 0;
-  font-size: var(--acme-text-5xl);
+  margin: var(--mod-space-2) 0 0;
+  font-size: var(--mod-size-display);
 }
 
 .tagline {
-  margin: var(--acme-space-2) 0 0;
-  font-size: var(--acme-text-lg);
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-2) 0 0;
+  font-size: var(--mod-size-heading-3);
+  color: var(--mod-ink-2);
 }
 
 .hero {
-  border: 1px solid var(--acme-color-border);
-  border-radius: var(--acme-radius-lg);
+  border: 1px solid var(--mod-rule);
+  border-radius: var(--mod-radius-none);
   overflow: hidden;
-  margin: var(--acme-space-8) 0;
+  margin: var(--mod-space-5) 0;
 }
 
 .prose {
   max-width: 68ch;
-  margin-bottom: var(--acme-space-10);
+  margin-bottom: var(--mod-space-6);
 }
 
 .prose p {
@@ -374,16 +374,16 @@ const planRoute = computed(() => ({
 }
 
 .summary {
-  font-size: var(--acme-text-lg);
+  font-size: var(--mod-size-heading-3);
 }
 
 .block {
-  margin-bottom: var(--acme-space-10);
+  margin-bottom: var(--mod-space-6);
 }
 
 h2 {
-  margin: 0 0 var(--acme-space-4);
-  font-size: var(--acme-text-2xl);
+  margin: 0 0 var(--mod-space-3);
+  font-size: var(--mod-size-heading-2);
 }
 
 .highlights {
@@ -392,88 +392,88 @@ h2 {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .highlight {
-  font-size: var(--acme-text-sm);
-  padding: var(--acme-space-2) var(--acme-space-3);
+  font-size: var(--mod-size-small);
+  padding: var(--mod-space-2) var(--mod-space-3);
 }
 
 .areas {
   display: grid;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .area h3 {
-  margin: 0 0 var(--acme-space-1);
-  font-size: var(--acme-text-lg);
+  margin: 0 0 var(--mod-space-1);
+  font-size: var(--mod-size-heading-3);
 }
 
 .best-for {
-  margin: 0 0 var(--acme-space-2);
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  margin: 0 0 var(--mod-space-2);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
   font-weight: 600;
 }
 
 .area-body {
   margin: 0;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
   text-wrap: pretty;
 }
 
 .plans {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
 }
 
 .plan-head {
   display: flex;
   align-items: baseline;
-  gap: var(--acme-space-3);
-  margin-bottom: var(--acme-space-3);
+  gap: var(--mod-space-3);
+  margin-bottom: var(--mod-space-3);
 }
 
 .plan-head .numeral {
-  font-size: var(--acme-text-2xl);
+  font-size: var(--mod-size-heading-2);
 }
 
 .plan-head h3 {
   margin: 0;
-  font-size: var(--acme-text-lg);
+  font-size: var(--mod-size-heading-3);
 }
 
-.plan .acme-table th {
+.plan .mod-table th {
   width: 7rem;
   text-transform: none;
   letter-spacing: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 400;
-  border-block-end: 1px solid var(--acme-color-border);
+  border-block-end: 1px solid var(--mod-rule);
 }
 
 .lists {
   display: grid;
-  gap: var(--acme-space-8);
+  gap: var(--mod-space-5);
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 .bullets {
   margin: 0;
-  padding-inline-start: var(--acme-space-5);
+  padding-inline-start: var(--mod-space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-2);
-  font-size: var(--acme-text-sm);
+  gap: var(--mod-space-2);
+  font-size: var(--mod-size-small);
 }
 
 .season-months {
   width: 9rem;
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .season-label {
@@ -485,67 +485,67 @@ h2 {
   width: 11rem;
   text-transform: none;
   letter-spacing: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 400;
-  color: var(--acme-color-text-muted);
-  border-block-end: 1px solid var(--acme-color-border);
+  color: var(--mod-ink-2);
+  border-block-end: 1px solid var(--mod-rule);
 }
 
 .related {
   display: grid;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .related-item {
   flex-direction: row;
   justify-content: space-between;
-  gap: var(--acme-space-3);
-  padding: var(--acme-space-4);
+  gap: var(--mod-space-3);
+  padding: var(--mod-space-3);
   text-decoration: none;
-  color: var(--acme-color-text);
+  color: var(--mod-ink);
 }
 
 .panel {
-  padding: var(--acme-space-5);
-  gap: var(--acme-space-4);
+  padding: var(--mod-space-4);
+  gap: var(--mod-space-3);
   position: sticky;
   /* Clears the sticky top bar. */
-  top: var(--acme-space-20);
+  top: var(--mod-space-8);
 }
 
 .panel-label {
   margin: 0;
-  font-size: var(--acme-text-xs);
-  font-weight: 500;
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  font-weight: 600;
+  color: var(--mod-ink-2);
 }
 
 .panel-price {
   margin: 0;
-  font-size: var(--acme-text-3xl);
+  font-size: var(--mod-size-heading-2);
   font-weight: 600;
 }
 
 .panel-note {
   margin: 0;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .panel-section {
-  border-top: 1px solid var(--acme-color-border);
-  padding-top: var(--acme-space-4);
+  border-top: 1px solid var(--mod-rule);
+  padding-top: var(--mod-space-3);
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
 }
 
 .legend-row {
   display: flex;
   justify-content: space-between;
-  font-size: var(--acme-text-sm);
-  margin-bottom: var(--acme-space-1);
+  font-size: var(--mod-size-small);
+  margin-bottom: var(--mod-space-1);
 }
 
 .legend-amount {
@@ -554,32 +554,32 @@ h2 {
 
 .bar {
   height: 6px;
-  background: var(--acme-color-surface);
-  border: 1px solid var(--acme-color-border);
-  border-radius: var(--acme-radius-sm);
+  background: var(--mod-paper-2);
+  border: 1px solid var(--mod-rule);
+  border-radius: var(--mod-radius-none);
   overflow: hidden;
 }
 
 .seg {
   display: block;
   height: 100%;
-  background: var(--acme-color-data);
+  background: var(--mod-data-line);
 }
 
 .seg.leads {
-  background: var(--acme-color-data-highlight);
+  background: var(--mod-data-highlight);
 }
 
 .actions {
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .planned {
-  margin: var(--acme-space-2) 0 0;
+  margin: var(--mod-space-2) 0 0;
 }
 
 .empty-state h1 {
-  font-size: var(--acme-text-2xl);
+  font-size: var(--mod-size-heading-2);
 }
 
 @media (max-width: 960px) {

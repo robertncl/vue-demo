@@ -35,7 +35,7 @@ function isCurrent(depart: string, ret: string) {
 <template>
   <div class="table-wrap">
     <table class="date-grid">
-      <caption class="acme-visually-hidden">{{ t('dates.gridCaption') }}</caption>
+      <caption class="mod-visually-hidden">{{ t('dates.gridCaption') }}</caption>
       <thead>
         <tr>
           <th scope="col" class="corner">
@@ -86,14 +86,14 @@ function isCurrent(depart: string, ret: string) {
   inline-size: 100%;
   border-collapse: separate;
   border-spacing: 2px;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 
 th {
-  padding: var(--acme-space-2);
-  font-size: var(--acme-text-xs);
+  padding: var(--mod-space-2);
+  font-size: var(--mod-size-label);
   font-weight: 600;
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
   text-align: center;
   white-space: nowrap;
 }
@@ -113,7 +113,7 @@ tbody th,
   position: sticky;
   inset-inline-start: 0;
   z-index: 1;
-  background: var(--acme-color-surface-raised);
+  background: var(--mod-paper);
 }
 
 .corner .axis {
@@ -132,17 +132,17 @@ td {
   justify-content: center;
   inline-size: 100%;
   min-block-size: 3rem;
-  padding: var(--acme-space-1);
-  border: 1px solid var(--acme-color-border);
-  border-radius: var(--acme-radius-sm);
-  background: var(--acme-color-surface-raised);
+  padding: var(--mod-space-1);
+  border: 1px solid var(--mod-rule);
+  border-radius: var(--mod-radius-none);
+  background: var(--mod-paper);
   font: inherit;
   color: inherit;
   cursor: pointer;
 }
 
 .cell:hover {
-  background: var(--acme-color-surface);
+  background: var(--mod-paper-2);
 }
 
 .cell.cheapest {
@@ -150,21 +150,21 @@ td {
 }
 
 .cell.current {
-  border-color: var(--acme-color-selected);
-  background: var(--acme-color-selected-soft);
-  color: var(--acme-color-text);
+  border-color: var(--mod-blue);
+  background: var(--mod-blue-soft);
+  color: var(--mod-ink);
 }
 
 .tag {
-  font-size: var(--acme-text-xs);
-  font-weight: 500;
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  font-weight: 600;
+  color: var(--mod-ink-2);
 }
 
 .empty {
   display: grid;
   place-items: center;
   min-block-size: 3rem;
-  color: var(--acme-color-text-subtle);
+  color: var(--mod-ink-3);
 }
 </style>

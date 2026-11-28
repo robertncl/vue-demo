@@ -57,15 +57,15 @@ const overBudget = computed(() => {
       <p class="sub">{{ t('trips.subtitle') }}</p>
     </header>
 
-    <div v-if="overBudget" class="acme-alert acme-alert--warning over-alert" role="status">
-      <span class="acme-alert__icon"><StatusIcon variant="warning" /></span>
+    <div v-if="overBudget" class="mod-alert mod-alert--warning over-alert" role="status">
+      <span class="mod-alert__icon"><StatusIcon variant="warning" /></span>
       <div class="over-text">
-        <p class="acme-alert__title">{{ overBudget.title }}</p>
+        <p class="mod-alert__title">{{ overBudget.title }}</p>
         <p>{{ overBudget.body }}</p>
       </div>
       <button
         v-if="overBudget.trip && overBudget.trip.id !== travel.selectedTripId"
-        class="acme-btn acme-btn--secondary acme-btn--sm over-open"
+        class="mod-btn mod-btn--secondary mod-btn--sm over-open"
         type="button"
         @click="travel.selectTrip(overBudget.trip.id)"
       >
@@ -95,10 +95,10 @@ const overBudget = computed(() => {
         @remove-activity="travel.removeActivity"
       />
 
-      <div v-else class="acme-card empty-state">
+      <div v-else class="mod-card empty-state">
         <h2>{{ t('trips.nothingSelected') }}</h2>
         <p class="muted">{{ t('trips.selectPrompt') }}</p>
-        <RouterLink class="acme-btn acme-btn--secondary" to="/destinations">
+        <RouterLink class="mod-btn mod-btn--secondary" to="/destinations">
           {{ t('trips.findDestination') }}
         </RouterLink>
       </div>
@@ -108,22 +108,22 @@ const overBudget = computed(() => {
 
 <style scoped>
 .head {
-  margin-bottom: var(--acme-space-6);
+  margin-bottom: var(--mod-space-4);
 }
 
 .head h1 {
-  margin: var(--acme-space-2) 0 0;
+  margin: var(--mod-space-2) 0 0;
 }
 
 .sub {
-  margin: var(--acme-space-2) 0 0;
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-2) 0 0;
+  color: var(--mod-ink-2);
   max-width: 60ch;
 }
 
 .over-alert {
   align-items: flex-start;
-  margin-bottom: var(--acme-space-6);
+  margin-bottom: var(--mod-space-4);
 }
 
 .over-text {
@@ -139,23 +139,23 @@ const overBudget = computed(() => {
 .layout {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
-  gap: var(--acme-space-8);
+  gap: var(--mod-space-5);
   align-items: start;
 }
 
 aside {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-5);
+  gap: var(--mod-space-4);
 }
 
 .empty-state h2 {
-  margin: 0 0 var(--acme-space-2);
-  font-size: var(--acme-text-xl);
+  margin: 0 0 var(--mod-space-2);
+  font-size: var(--mod-size-heading-3);
 }
 
 .empty-state p {
-  margin: 0 0 var(--acme-space-5);
+  margin: 0 0 var(--mod-space-4);
 }
 
 @media (max-width: 900px) {

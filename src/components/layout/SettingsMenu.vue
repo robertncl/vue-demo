@@ -23,7 +23,7 @@ function onCurrency(event: Event) {
 <template>
   <div class="settings">
     <select
-      class="acme-input picker"
+      class="mod-input picker"
       :value="settings.locale"
       :aria-label="t('settings.language')"
       @change="onLocale"
@@ -34,7 +34,7 @@ function onCurrency(event: Event) {
     </select>
 
     <select
-      class="acme-input picker"
+      class="mod-input picker"
       :value="settings.currency"
       :aria-label="t('settings.currency')"
       @change="onCurrency"
@@ -50,12 +50,12 @@ function onCurrency(event: Event) {
 .settings {
   display: flex;
   align-items: center;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .picker {
   min-height: 2rem;
   width: auto;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 </style>
