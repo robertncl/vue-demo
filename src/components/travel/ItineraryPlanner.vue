@@ -80,7 +80,7 @@ function submit() {
       </p>
     </header>
 
-    <div class="acme-card budget" :class="{ over: overBudget }">
+    <div class="mod-card budget" :class="{ over: overBudget }">
       <div class="figures">
         <div>
           <p class="figure-label">{{ t('planner.budget') }}</p>
@@ -110,53 +110,53 @@ function submit() {
         <span :style="{ width: `${budgetUsedPercent}%` }"></span>
       </div>
 
-      <div v-if="overBudget" class="acme-alert acme-alert--danger" role="alert">
-        <span class="acme-alert__icon"><StatusIcon variant="danger" /></span>
+      <div v-if="overBudget" class="mod-alert mod-alert--danger" role="alert">
+        <span class="mod-alert__icon"><StatusIcon variant="danger" /></span>
         <div>
-          <p class="acme-alert__title">{{ t('planner.overTitle') }}</p>
+          <p class="mod-alert__title">{{ t('planner.overTitle') }}</p>
           <p>{{ t('planner.overBody', { amount: money(Math.abs(remainingBudget)) }) }}</p>
         </div>
       </div>
     </div>
 
-    <form class="acme-card activity-form" @submit.prevent="submit">
-      <div class="acme-field grow">
-        <label class="acme-label" for="a-title">{{ t('planner.activityTitle') }}</label>
+    <form class="mod-card activity-form" @submit.prevent="submit">
+      <div class="mod-field grow">
+        <label class="mod-label" for="a-title">{{ t('planner.activityTitle') }}</label>
         <input
           id="a-title"
           v-model="newActivity.title"
-          class="acme-input"
+          class="mod-input"
           type="text"
           :placeholder="t('planner.activityPlaceholder')"
           required
         />
       </div>
-      <div class="acme-field narrow">
-        <label class="acme-label" for="a-day">{{ t('planner.day') }}</label>
+      <div class="mod-field narrow">
+        <label class="mod-label" for="a-day">{{ t('planner.day') }}</label>
         <input
           id="a-day"
           v-model.number="newActivity.day"
-          class="acme-input"
+          class="mod-input"
           type="number"
           min="1"
         />
       </div>
-      <div class="acme-field narrow">
-        <label class="acme-label" for="a-time">{{ t('planner.time') }}</label>
-        <input id="a-time" v-model="newActivity.time" class="acme-input" type="time" />
+      <div class="mod-field narrow">
+        <label class="mod-label" for="a-time">{{ t('planner.time') }}</label>
+        <input id="a-time" v-model="newActivity.time" class="mod-input" type="time" />
       </div>
-      <div class="acme-field narrow">
-        <label class="acme-label" for="a-cost">{{ t('planner.cost') }}</label>
+      <div class="mod-field narrow">
+        <label class="mod-label" for="a-cost">{{ t('planner.cost') }}</label>
         <input
           id="a-cost"
           v-model.number="cost"
-          class="acme-input"
+          class="mod-input"
           type="number"
           min="0"
           step="1"
         />
       </div>
-      <button class="acme-btn acme-btn--primary" type="submit">{{ t('planner.add') }}</button>
+      <button class="mod-btn mod-btn--primary" type="submit">{{ t('planner.add') }}</button>
     </form>
 
     <p v-if="trip.activities.length === 0" class="empty muted">{{ t('planner.empty') }}</p>
@@ -164,21 +164,21 @@ function submit() {
     <div
       v-for="[day, activities] in activitiesByDay"
       :key="day"
-      class="acme-card table-card day-group"
+      class="mod-card table-card day-group"
     >
       <div class="day-head">
         <h3>{{ t('planner.dayLabel', { n: day }) }}</h3>
         <span class="num muted">{{ money(dayTotal(activities)) }}</span>
       </div>
-      <table class="acme-table">
+      <table class="mod-table">
         <tbody>
           <tr v-for="activity in activities" :key="activity.id">
             <td class="time num">{{ activity.time }}</td>
             <td>{{ activity.title }}</td>
-            <td class="acme-table__num cost">{{ money(activity.cost) }}</td>
+            <td class="mod-table__num cost">{{ money(activity.cost) }}</td>
             <td class="row-action">
               <button
-                class="acme-btn acme-btn--ghost acme-btn--sm remove"
+                class="mod-btn mod-btn--ghost mod-btn--sm remove"
                 type="button"
                 :aria-label="t('planner.removeActivity', { name: activity.title })"
                 @click="emit('removeActivity', activity.id)"
@@ -197,70 +197,70 @@ function submit() {
 .itinerary {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-5);
+  gap: var(--mod-space-4);
 }
 
 .head h2 {
-  margin: var(--acme-space-1) 0 0;
-  font-size: var(--acme-text-3xl);
+  margin: var(--mod-space-1) 0 0;
+  font-size: var(--mod-size-heading-2);
 }
 
 .dates {
   margin: 0;
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .budget {
-  padding: var(--acme-space-5);
-  gap: var(--acme-space-3);
+  padding: var(--mod-space-4);
+  gap: var(--mod-space-3);
 }
 
 .figures {
   display: flex;
-  gap: var(--acme-space-8);
+  gap: var(--mod-space-5);
   flex-wrap: wrap;
 }
 
 .figure-label {
   margin: 0;
-  font-size: var(--acme-text-xs);
-  font-weight: 500;
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  font-weight: 600;
+  color: var(--mod-ink-2);
 }
 
 .figure {
   margin: 0;
-  font-size: var(--acme-text-xl);
+  font-size: var(--mod-size-heading-3);
   font-weight: 600;
 }
 
 .figure.danger {
-  color: var(--acme-color-danger);
+  color: var(--mod-status-danger);
 }
 
 .bar {
   height: 8px;
-  background: var(--acme-color-surface);
-  border: 1px solid var(--acme-color-border);
-  border-radius: var(--acme-radius-sm);
+  background: var(--mod-paper-2);
+  border: 1px solid var(--mod-rule);
+  border-radius: var(--mod-radius-none);
   overflow: hidden;
 }
 
 .bar span {
   display: block;
   height: 100%;
-  background: var(--acme-color-data-highlight);
+  background: var(--mod-data-highlight);
 }
 
 .budget.over .bar span {
-  background: var(--acme-color-danger);
+  background: var(--mod-status-danger);
 }
 
 .activity-form {
-  padding: var(--acme-space-4);
+  padding: var(--mod-space-3);
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   align-items: flex-end;
 }
 
@@ -274,7 +274,7 @@ function submit() {
   min-width: 0;
 }
 
-.activity-form .acme-input {
+.activity-form .mod-input {
   min-width: 0;
   width: 100%;
 }
@@ -287,17 +287,17 @@ function submit() {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding: var(--acme-space-3) 0;
+  padding: var(--mod-space-3) 0;
 }
 
 .day-head h3 {
   margin: 0;
-  font-size: var(--acme-text-lg);
+  font-size: var(--mod-size-heading-3);
 }
 
 .time {
   width: 5rem;
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .cost {

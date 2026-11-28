@@ -37,18 +37,18 @@ function planRoute(destination: Destination) {
       <p class="sub">{{ t('wishlist.subtitle') }}</p>
     </header>
 
-    <div v-if="store.wishlistDestinations.length" class="acme-card table-card">
+    <div v-if="store.wishlistDestinations.length" class="mod-card table-card">
       <div class="table-wrap">
-        <table class="acme-table">
+        <table class="mod-table">
           <thead>
             <tr>
               <th scope="col">{{ t('destinations.colDestination') }}</th>
               <th scope="col">{{ t('destinations.colVibes') }}</th>
               <th scope="col">{{ t('destinations.colMonths') }}</th>
-              <th scope="col" class="acme-table__num">{{ t('destinations.colDay') }}</th>
-              <th scope="col" class="acme-table__num">{{ t('destinations.colWeek') }}</th>
+              <th scope="col" class="mod-table__num">{{ t('destinations.colDay') }}</th>
+              <th scope="col" class="mod-table__num">{{ t('destinations.colWeek') }}</th>
               <th scope="col">
-                <span class="acme-visually-hidden">{{ t('common.actions') }}</span>
+                <span class="mod-visually-hidden">{{ t('common.actions') }}</span>
               </th>
             </tr>
           </thead>
@@ -63,19 +63,19 @@ function planRoute(destination: Destination) {
               <td>{{ d.tags.map(tag).join(', ') }}</td>
               <td>
                 {{ monthsOf(d.bestMonths) }}
-                <span v-if="store.inSeason(d)" class="acme-badge acme-badge--success now">
+                <span v-if="store.inSeason(d)" class="mod-badge mod-badge--success now">
                   <StatusIcon variant="success" :size="12" />
                   {{ t('common.now') }}
                 </span>
               </td>
-              <td class="acme-table__num price">{{ money(d.dailyBudget) }}</td>
-              <td class="acme-table__num">{{ money(d.dailyBudget * 7) }}</td>
+              <td class="mod-table__num price">{{ money(d.dailyBudget) }}</td>
+              <td class="mod-table__num">{{ money(d.dailyBudget * 7) }}</td>
               <td class="row-actions">
-                <RouterLink class="acme-btn acme-btn--secondary acme-btn--sm" :to="planRoute(d)">
+                <RouterLink class="mod-btn mod-btn--secondary mod-btn--sm" :to="planRoute(d)">
                   {{ t('wishlist.startTrip') }}
                 </RouterLink>
                 <button
-                  class="acme-btn acme-btn--ghost acme-btn--sm wish"
+                  class="mod-btn mod-btn--ghost mod-btn--sm wish"
                   type="button"
                   :aria-label="t('card.removeAria', { name: d.name })"
                   @click="store.toggleWishlist(d.slug)"
@@ -89,12 +89,12 @@ function planRoute(destination: Destination) {
       </div>
     </div>
 
-    <div v-else class="acme-card empty-state">
+    <div v-else class="mod-card empty-state">
       <h2>{{ t('wishlist.emptyTitle') }}</h2>
       <p class="muted">
         {{ t('wishlist.emptyBody', { count: store.catalog.length, inSeason: inSeasonCount }) }}
       </p>
-      <RouterLink class="acme-btn acme-btn--primary" to="/destinations">
+      <RouterLink class="mod-btn mod-btn--primary" to="/destinations">
         {{ t('wishlist.cta') }}
       </RouterLink>
     </div>
@@ -103,16 +103,16 @@ function planRoute(destination: Destination) {
 
 <style scoped>
 .head {
-  margin-bottom: var(--acme-space-6);
+  margin-bottom: var(--mod-space-4);
 }
 
 .head h1 {
-  margin: var(--acme-space-2) 0 0;
+  margin: var(--mod-space-2) 0 0;
 }
 
 .sub {
-  margin: var(--acme-space-2) 0 0;
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-2) 0 0;
+  color: var(--mod-ink-2);
   max-width: 60ch;
 }
 
@@ -122,8 +122,8 @@ function planRoute(destination: Destination) {
 
 .row-sub {
   display: block;
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 
 .price {
@@ -131,7 +131,7 @@ function planRoute(destination: Destination) {
 }
 
 .now {
-  margin-inline-start: var(--acme-space-2);
+  margin-inline-start: var(--mod-space-2);
 }
 
 .row-actions {
@@ -140,15 +140,15 @@ function planRoute(destination: Destination) {
 }
 
 .row-actions .wish {
-  margin-inline-start: var(--acme-space-2);
+  margin-inline-start: var(--mod-space-2);
 }
 
 .empty-state h2 {
-  margin: 0 0 var(--acme-space-2);
-  font-size: var(--acme-text-xl);
+  margin: 0 0 var(--mod-space-2);
+  font-size: var(--mod-size-heading-3);
 }
 
 .empty-state p {
-  margin: 0 0 var(--acme-space-5);
+  margin: 0 0 var(--mod-space-4);
 }
 </style>

@@ -1,160 +1,163 @@
-@import './acme.css';
+@import './modernist.css';
 
-/* App-level layer. Everything below composes ACME tokens and component
-   classes — no new colour, type or spacing values are introduced here. */
+/* App-level layer. Everything below composes Modernist tokens and component
+   classes: no new colour, type or spacing values are introduced here. */
 
 #app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--acme-color-canvas);
+  background: var(--mod-paper);
 }
 
-/* The page well. Every route renders one <main class="page">. */
+/* The page well, on the 1280px grid with 32px margins. Every route renders
+   one <main class="page">. */
 .page {
   flex: 1;
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--mod-grid-max);
   margin: 0 auto;
-  padding: var(--acme-space-10) var(--acme-space-6) var(--acme-space-20);
+  padding: var(--mod-space-6) var(--mod-space-5) var(--mod-space-7);
 }
 
 .page--roomy {
-  padding-top: var(--acme-space-12);
+  padding-top: var(--mod-space-8);
 }
 
 .page--narrow {
-  max-width: 768px;
-  padding-top: var(--acme-space-12);
+  max-width: 880px;
+  padding-top: var(--mod-space-7);
 }
 
+/* Short pages (not found) stay flush left like everything else. */
 .page--slim {
-  max-width: 640px;
-  padding: var(--acme-space-24) var(--acme-space-6);
-  text-align: center;
+  max-width: 880px;
+  padding: var(--mod-space-8) var(--mod-space-5);
 }
 
-/* The small label that opens most sections. ACME v5 keeps uppercase caps and
-   the Signal Red accent for decks and reports, so in the product it is a
-   quiet sentence-case UI label. */
+/* The label that opens most sections: uppercase via CSS, written in
+   sentence case. */
 .kicker {
   margin: 0;
-  font-size: var(--acme-text-sm);
-  font-weight: 500;
-  letter-spacing: var(--acme-tracking-snug);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: var(--mod-tracking-label);
+  text-transform: uppercase;
+  color: var(--mod-ink-2);
 }
 
 .muted {
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .num {
   font-variant-numeric: tabular-nums;
 }
 
-/* The large numeral used for ordered steps and itinerary days: Inter 600,
-   tight tracking, in the subtle ink so the heading beside it leads. */
+/* The large numeral used for ordered steps and itinerary days: heading-1
+   size, ink, so it reads as part of the type, not decoration. */
 .numeral {
-  font-weight: 600;
-  letter-spacing: var(--acme-tracking-tight);
+  font-size: var(--mod-size-heading-1);
+  font-weight: 700;
+  letter-spacing: var(--mod-tracking-heading-1);
   font-variant-numeric: tabular-nums;
-  color: var(--acme-color-text-subtle);
+  color: var(--mod-ink);
   line-height: 1;
+}
+
+/* Section openers: a 2px ink rule over a heading-2. */
+.section-rule {
+  border-top: var(--mod-stroke-rule) solid var(--mod-ink);
+  padding-top: var(--mod-space-3);
 }
 
 .card-grid {
   display: grid;
-  gap: var(--acme-space-6);
+  gap: var(--mod-space-4);
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
-/* Tables are laid inside a card with a little breathing room, as in the
-   design: the header rule reaches the card's inner edge. */
+/* Tables sit straight on the page; the column-label rule does the framing. */
 .table-card {
-  padding: var(--acme-space-2) var(--acme-space-4) var(--acme-space-4);
+  padding: 0;
 }
 
 .table-wrap {
   overflow-x: auto;
 }
 
-/* ACME styles .acme-btn for <button>; links used as buttons need the anchor
-   underline and the stretch of a flex column taken off. */
-a.acme-btn {
+a.mod-btn {
   text-decoration: none;
 }
 
 .empty-state {
-  padding: var(--acme-space-16) var(--acme-space-6);
-  text-align: center;
-  align-items: center;
+  padding: var(--mod-space-7) 0;
+  align-items: flex-start;
 }
 
 .empty-state > :last-child {
   margin-bottom: 0;
 }
 
-/* Range inputs are the one native control ACME does not restyle; like every
-   checked control they take the interaction Blue. */
+/* Range inputs take the interaction blue, like every checked control. */
 input[type='range'] {
-  accent-color: var(--acme-color-selected);
+  accent-color: var(--mod-blue);
   width: 100%;
 }
 
-select.acme-input {
+select.mod-input {
   cursor: pointer;
 }
 
 /* A row of mutually exclusive choices: visually hidden radios inside labels,
-   so the browser keeps arrow-key navigation and form semantics. The checked
-   option takes the selection treatment. */
+   so the browser keeps arrow-key navigation and form semantics. Joined square
+   44px buttons; the checked one fills ink. */
 .segmented {
   display: inline-flex;
   margin: 0;
-  padding: 2px;
-  border: 1px solid var(--acme-color-border-strong);
-  border-radius: var(--acme-radius-md);
-  background: var(--acme-color-surface-raised);
-  box-shadow: var(--acme-shadow-sm);
+  padding: 0;
+  border: 0;
+}
+
+.segmented label + label > span {
+  border-inline-start-width: 0;
 }
 
 .segmented label > span {
   display: inline-flex;
   align-items: center;
-  min-height: calc(2.25rem - 6px);
-  padding: 0 var(--acme-space-3);
-  border-radius: calc(var(--acme-radius-md) - 2px);
-  font-size: var(--acme-text-sm);
-  font-weight: 500;
-  letter-spacing: var(--acme-tracking-snug);
-  color: var(--acme-color-text-muted);
+  min-height: var(--mod-control-height);
+  padding: 0 var(--mod-space-3);
+  border: var(--mod-stroke-rule) solid var(--mod-ink);
+  font-size: var(--mod-size-small);
+  font-weight: 600;
+  color: var(--mod-ink);
+  background: var(--mod-paper);
   white-space: nowrap;
   cursor: pointer;
   transition:
-    background-color var(--acme-duration-base) var(--acme-ease-out),
-    color var(--acme-duration-base) var(--acme-ease-out);
+    background-color var(--mod-duration-base) var(--mod-ease-out),
+    color var(--mod-duration-base) var(--mod-ease-out);
 }
 
 .segmented label:hover > span {
-  background: var(--acme-color-surface-hover);
-  color: var(--acme-color-text);
+  background: var(--mod-paper-2);
 }
 
-/* Selected: the Blue wash with a Blue edge; the label stays ink. */
-.segmented input:checked + span {
-  background: var(--acme-color-selected-soft);
-  box-shadow: inset 0 0 0 1px var(--acme-color-selected);
-  color: var(--acme-color-text);
+.segmented input:checked + span,
+.segmented label:hover input:checked + span {
+  background: var(--mod-ink);
+  color: var(--mod-paper);
 }
 
 .segmented input:focus-visible + span {
-  outline: 2px solid var(--acme-color-focus);
+  outline: 2px solid var(--mod-blue);
   outline-offset: 2px;
 }
 
 /* Letter-spacing pulls apart the joined letters of Arabic and Urdu and the
-   conjuncts of Devanagari and Bengali, so those languages turn it off. ACME's
+   conjuncts of Devanagari and Bengali, so those languages turn it off. Modernist's
    kickers, labels and table heads set it, hence !important over their rules. */
 :root:is(:lang(ar), :lang(ur), :lang(hi), :lang(bn)) * {
   letter-spacing: normal !important;

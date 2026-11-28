@@ -1,0 +1,746 @@
+/* ==========================================================================
+   Modernist — modernist.css
+
+   Ported from the Modernist design system (tokens.json v1): a Swiss-style
+   system with a flush-left 12-column grid, one grotesque face (Archivo),
+   black rules instead of shadows, square corners, and colour held back for
+   two jobs. Blue means act or "you are here". Red means danger. The warm
+   data ramp means severity. Everything else is black on white.
+
+   Section order: tokens, aliases this app needs, base, then the component
+   classes (button, field, card, badge, alert, table, tabs, top bar).
+   Light theme only.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. Tokens (tokens.json)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Colour */
+  --mod-paper: #ffffff;
+  --mod-paper-2: #f1f1ef;
+  --mod-rule: #cfcfcb;
+  --mod-rule-strong: var(--mod-ink);
+  --mod-ink: #111111;
+  --mod-ink-2: #454542;
+  --mod-ink-3: #6a6a66;
+  --mod-blue: #1e40d8;
+  --mod-blue-hover: #1631a8;
+  --mod-blue-soft: #e6ebfc;
+  --mod-on-blue: var(--mod-paper);
+  --mod-red: #b3170d;
+  --mod-data-1: var(--mod-paper);
+  --mod-data-1-ink: var(--mod-ink);
+  --mod-data-2: #f6d21c;
+  --mod-data-2-ink: var(--mod-ink);
+  --mod-data-3: #f08c1e;
+  --mod-data-3-ink: var(--mod-ink);
+  --mod-data-4: #dc2a1e;
+  --mod-data-4-ink: var(--mod-paper);
+  --mod-data-5: #8a1410;
+  --mod-data-5-ink: var(--mod-paper);
+  --mod-data-6: var(--mod-ink);
+  --mod-data-6-ink: var(--mod-paper);
+  --mod-data-line: var(--mod-ink);
+  --mod-data-highlight: var(--mod-blue);
+
+  /* Type */
+  --mod-font-sans: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --mod-font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --mod-size-display: 4.5rem; /* 72 / 0.95 / 800 / -0.03em */
+  --mod-size-figure: 6rem; /* 96 / 0.9 / 700 / -0.04em */
+  --mod-size-heading-1: 2.75rem; /* 44 / 1 / 700 / -0.02em */
+  --mod-size-heading-2: 1.75rem; /* 28 / 1.1 / 700 / -0.01em */
+  --mod-size-heading-3: 1.125rem; /* 18 / 1.25 / 700 */
+  --mod-size-body: 1rem; /* 16 / 1.5 */
+  --mod-size-small: 0.875rem; /* 14 / 1.45 */
+  --mod-size-label: 0.75rem; /* 12 / 1.2 / 600 / +0.08em, uppercase */
+  --mod-size-mono: 0.8125rem; /* 13 / 1.4 */
+  --mod-tracking-display: -0.03em;
+  --mod-tracking-figure: -0.04em;
+  --mod-tracking-heading-1: -0.02em;
+  --mod-tracking-heading-2: -0.01em;
+  --mod-tracking-label: 0.08em;
+  --mod-leading-tight: 1.1;
+  --mod-leading-snug: 1.25;
+  --mod-leading-small: 1.45;
+  --mod-leading-body: 1.5;
+
+  /* Space: an 8px module, 4px only inside a control */
+  --mod-space-1: 4px;
+  --mod-space-2: 8px;
+  --mod-space-3: 16px;
+  --mod-space-4: 24px;
+  --mod-space-5: 32px;
+  --mod-space-6: 48px;
+  --mod-space-7: 64px;
+  --mod-space-8: 96px;
+
+  /* Shape and strokes: square, rules instead of shadows */
+  --mod-radius-none: 0px;
+  --mod-radius-hair: 2px;
+  --mod-radius-circle: 50%;
+  --mod-stroke-hair: 1px;
+  --mod-stroke-rule: 2px;
+  --mod-stroke-alert: 4px;
+  --mod-stroke-bar: 8px;
+
+  /* Layout */
+  --mod-grid-max: 1280px;
+  --mod-grid-gutter: 24px;
+  --mod-control-height: 44px;
+}
+
+/* --------------------------------------------------------------------------
+   1. Aliases this app needs that the system names by job
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  accent-color: var(--mod-blue);
+
+  /* Statuses carry a word, never a hue alone: success and warning stay ink,
+     info is orientation blue, danger is red. */
+  --mod-status-success: var(--mod-ink);
+  --mod-status-warning: var(--mod-ink);
+  --mod-status-info: var(--mod-blue);
+  --mod-status-danger: var(--mod-red);
+
+  --mod-scrim: #11111173;
+
+  /* Motion: brief and plain. */
+  --mod-duration-fast: 100ms;
+  --mod-duration-base: 150ms;
+  --mod-duration-slow: 250ms;
+  --mod-ease-out: cubic-bezier(0.2, 0.8, 0.4, 1);
+  --mod-ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Base
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--mod-font-sans);
+  font-size: var(--mod-size-body);
+  line-height: var(--mod-leading-body);
+  color: var(--mod-ink);
+  background: var(--mod-paper);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--mod-font-sans);
+  font-weight: 700;
+  margin: 0 0 var(--mod-space-3);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--mod-size-heading-1);
+  line-height: 1;
+  letter-spacing: var(--mod-tracking-heading-1);
+}
+
+h2 {
+  font-size: var(--mod-size-heading-2);
+  line-height: var(--mod-leading-tight);
+  letter-spacing: var(--mod-tracking-heading-2);
+}
+
+h3,
+h4 {
+  font-size: var(--mod-size-heading-3);
+  line-height: var(--mod-leading-snug);
+}
+
+p {
+  margin: 0 0 var(--mod-space-3);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--mod-blue);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--mod-blue-hover);
+}
+
+code,
+pre {
+  font-family: var(--mod-font-mono);
+  font-size: var(--mod-size-mono);
+}
+
+:is(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--mod-blue);
+  outline-offset: 2px;
+  border-radius: var(--mod-radius-hair);
+}
+
+.mod-visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The uppercase label over sections, fields and columns. Write the text in
+   sentence case; CSS sets the caps. */
+.mod-label-text {
+  font-size: var(--mod-size-label);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: var(--mod-tracking-label);
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Wordmark: no logo, the product name in Archivo 800
+   -------------------------------------------------------------------------- */
+.mod-wordmark {
+  font-family: var(--mod-font-sans);
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--mod-ink);
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   4. Buttons: 44px, square, 2px ink border; hover fills ink. The one primary
+      per view fills blue.
+   -------------------------------------------------------------------------- */
+.mod-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mod-space-2);
+  min-height: var(--mod-control-height);
+  padding: 0 var(--mod-space-3);
+  border: var(--mod-stroke-rule) solid var(--mod-ink);
+  border-radius: var(--mod-radius-none);
+  font: 600 var(--mod-size-small) / 1 var(--mod-font-sans);
+  color: var(--mod-ink);
+  background: var(--mod-paper);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--mod-duration-base) var(--mod-ease-out),
+    border-color var(--mod-duration-base) var(--mod-ease-out),
+    color var(--mod-duration-base) var(--mod-ease-out);
+}
+
+.mod-btn:hover,
+.mod-btn--secondary:hover {
+  background: var(--mod-ink);
+  color: var(--mod-paper);
+}
+
+.mod-btn--primary {
+  background: var(--mod-blue);
+  border-color: var(--mod-blue);
+  color: var(--mod-on-blue);
+}
+
+.mod-btn--primary:hover,
+.mod-btn--primary:active {
+  background: var(--mod-blue-hover);
+  border-color: var(--mod-blue-hover);
+  color: var(--mod-on-blue);
+}
+
+/* Ghost: no border until hover, for tertiary actions inside a row. */
+.mod-btn--ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.mod-btn--ghost:hover {
+  border-color: var(--mod-ink);
+}
+
+/* Destructive: red outline with a word; fills red on hover. */
+.mod-btn--danger {
+  border-color: var(--mod-red);
+  color: var(--mod-red);
+}
+
+.mod-btn--danger:hover {
+  background: var(--mod-red);
+  border-color: var(--mod-red);
+  color: var(--mod-paper);
+}
+
+/* Small buttons keep the 44px target; only the type and padding shrink. */
+.mod-btn--sm {
+  padding: 0 var(--mod-space-2);
+  font-size: var(--mod-size-label);
+}
+
+.mod-btn--lg {
+  padding: 0 var(--mod-space-4);
+  font-size: var(--mod-size-body);
+}
+
+.mod-btn--icon {
+  inline-size: var(--mod-control-height);
+  padding: 0;
+}
+
+.mod-btn:disabled,
+.mod-btn:disabled:hover,
+.mod-btn:disabled:active {
+  background: var(--mod-paper-2);
+  border-color: var(--mod-rule);
+  color: var(--mod-ink-3);
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   5. Fields: label above, then a 44px control with a 2px ink border
+   -------------------------------------------------------------------------- */
+.mod-field {
+  display: grid;
+  gap: var(--mod-space-2);
+}
+
+.mod-label {
+  font-size: var(--mod-size-label);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: var(--mod-tracking-label);
+  text-transform: uppercase;
+}
+
+.mod-label__optional {
+  font-weight: 400;
+  color: var(--mod-ink-3);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.mod-input {
+  min-height: var(--mod-control-height);
+  padding: 0 var(--mod-space-3);
+  border: var(--mod-stroke-rule) solid var(--mod-ink);
+  border-radius: var(--mod-radius-none);
+  font: 400 var(--mod-size-body) / var(--mod-leading-body) var(--mod-font-sans);
+  color: var(--mod-ink);
+  background: var(--mod-paper);
+}
+
+textarea.mod-input {
+  padding: var(--mod-space-2) var(--mod-space-3);
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.mod-input::placeholder {
+  color: var(--mod-ink-3);
+}
+
+.mod-input[aria-invalid='true'] {
+  border-color: var(--mod-red);
+}
+
+.mod-input:disabled {
+  background: var(--mod-paper-2);
+  border-color: var(--mod-rule);
+  color: var(--mod-ink-3);
+  cursor: not-allowed;
+}
+
+.mod-help {
+  margin: 0;
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
+}
+
+.mod-error {
+  margin: 0;
+  font-size: var(--mod-size-small);
+  font-weight: 600;
+  color: var(--mod-red);
+}
+
+.mod-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mod-space-2);
+  font-size: var(--mod-size-small);
+}
+
+.mod-choice input {
+  inline-size: 1rem;
+  block-size: 1rem;
+  margin: 0.125rem 0 0;
+  flex: none;
+}
+
+/* Switch: a square track with a 2px ink edge; on, it fills blue. */
+.mod-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mod-space-2);
+  min-height: var(--mod-control-height);
+  font-size: var(--mod-size-small);
+  font-weight: 600;
+}
+
+.mod-switch input {
+  appearance: none;
+  position: relative;
+  inline-size: 2.5rem;
+  block-size: 1.5rem;
+  flex: none;
+  margin: 0;
+  border: var(--mod-stroke-rule) solid var(--mod-ink);
+  border-radius: var(--mod-radius-none);
+  background: var(--mod-paper);
+  cursor: pointer;
+  transition: background-color var(--mod-duration-base) var(--mod-ease-out);
+}
+
+.mod-switch input::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 2px;
+  inset-inline-start: 2px;
+  inline-size: 1rem;
+  block-size: 1rem;
+  background: var(--mod-ink);
+  transition: translate var(--mod-duration-base) var(--mod-ease-out);
+}
+
+.mod-switch input:checked {
+  background: var(--mod-blue);
+  border-color: var(--mod-blue);
+}
+
+.mod-switch input:checked::before {
+  background: var(--mod-paper);
+  translate: 1rem 0;
+}
+
+:dir(rtl) .mod-switch input:checked::before {
+  translate: -1rem 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Card: the system has no cards. A "card" is a section on the page,
+      opened by a 2px ink rule, with no box, shadow or fill.
+   -------------------------------------------------------------------------- */
+.mod-card {
+  display: flex;
+  flex-direction: column;
+  border-block-start: var(--mod-stroke-rule) solid var(--mod-ink);
+  background: var(--mod-paper);
+}
+
+.mod-card--interactive {
+  transition: background-color var(--mod-duration-fast) var(--mod-ease-out);
+}
+
+.mod-card--interactive:hover {
+  background: var(--mod-paper-2);
+}
+
+.mod-card__media {
+  aspect-ratio: 16 / 9;
+  background: var(--mod-paper-2);
+  display: grid;
+  place-items: center;
+  color: var(--mod-ink-3);
+}
+
+.mod-card__body {
+  padding: var(--mod-space-3) 0;
+  flex: 1;
+}
+
+.mod-card--interactive .mod-card__body {
+  padding-inline: var(--mod-space-2);
+}
+
+.mod-card__title {
+  font-size: var(--mod-size-heading-3);
+  font-weight: 700;
+  line-height: var(--mod-leading-snug);
+  margin-block-end: var(--mod-space-1);
+}
+
+.mod-card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--mod-space-2);
+  padding: var(--mod-space-2) 0;
+  border-block-start: var(--mod-stroke-hair) solid var(--mod-rule);
+}
+
+/* --------------------------------------------------------------------------
+   7. Badge: an uppercase label with a 1px edge. Status is in the word; the
+      colour only adds weight (ink, blue for info, red for danger).
+   -------------------------------------------------------------------------- */
+.mod-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mod-space-1);
+  padding: 2px 6px;
+  border: var(--mod-stroke-hair) solid var(--mod-ink-2);
+  border-radius: var(--mod-radius-none);
+  font: 600 var(--mod-size-label) / 1.2 var(--mod-font-sans);
+  letter-spacing: var(--mod-tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--mod-paper);
+  color: var(--mod-ink-2);
+}
+
+.mod-status-icon {
+  flex: none;
+}
+
+.mod-badge--success,
+.mod-badge--warning {
+  border-color: var(--mod-ink);
+  color: var(--mod-ink);
+}
+
+.mod-badge--info {
+  border-color: var(--mod-blue);
+  color: var(--mod-blue);
+}
+
+.mod-badge--danger {
+  border-color: var(--mod-red);
+  color: var(--mod-red);
+}
+
+/* --------------------------------------------------------------------------
+   8. Alert: a 4px rule on top (red for danger), a bold title, one or two
+      sentences. No fill, no icon box.
+   -------------------------------------------------------------------------- */
+.mod-alert {
+  display: flex;
+  gap: var(--mod-space-3);
+  padding: var(--mod-space-3) 0 0;
+  border-block-start: var(--mod-stroke-alert) solid var(--mod-ink);
+  font-size: var(--mod-size-small);
+  --mod-alert-icon: var(--mod-ink);
+}
+
+.mod-alert > svg:first-child,
+.mod-alert__icon {
+  display: flex;
+  color: var(--mod-alert-icon);
+  flex: none;
+  margin-block-start: 0.0625rem;
+}
+
+.mod-alert__title {
+  font-size: var(--mod-size-heading-3);
+  line-height: var(--mod-leading-snug);
+  font-weight: 700;
+  margin-block-end: var(--mod-space-1);
+}
+
+.mod-alert p {
+  margin: 0;
+}
+
+.mod-alert p + p {
+  margin-block-start: var(--mod-space-1);
+  font-size: var(--mod-size-body);
+  color: var(--mod-ink);
+}
+
+.mod-alert--info {
+  border-block-start-color: var(--mod-blue);
+  --mod-alert-icon: var(--mod-blue);
+}
+
+.mod-alert--danger {
+  border-block-start-color: var(--mod-red);
+  --mod-alert-icon: var(--mod-red);
+}
+
+.mod-alert--danger .mod-alert__title {
+  color: var(--mod-red);
+}
+
+/* --------------------------------------------------------------------------
+   9. Table: uppercase column labels over a 2px rule, hairline rows
+   -------------------------------------------------------------------------- */
+.mod-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--mod-size-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.mod-table th {
+  text-align: start;
+  font-size: var(--mod-size-label);
+  font-weight: 600;
+  letter-spacing: var(--mod-tracking-label);
+  text-transform: uppercase;
+  color: var(--mod-ink-2);
+  padding: var(--mod-space-2);
+  border-block-end: var(--mod-stroke-rule) solid var(--mod-ink);
+  white-space: nowrap;
+}
+
+.mod-table td {
+  padding: var(--mod-space-2);
+  border-block-end: var(--mod-stroke-hair) solid var(--mod-rule);
+}
+
+.mod-table tbody tr:hover {
+  background: var(--mod-paper-2);
+}
+
+.mod-table .mod-table__num {
+  text-align: end;
+}
+
+.mod-table th:is([aria-sort='ascending'], [aria-sort='descending']) {
+  color: var(--mod-ink);
+}
+
+.mod-table tbody tr[aria-selected='true'],
+.mod-table tbody tr[aria-selected='true']:hover {
+  background: var(--mod-blue-soft);
+}
+
+/* --------------------------------------------------------------------------
+   10. Tabs: the current tab takes blue with a 4px blue bar on the 2px rule
+   -------------------------------------------------------------------------- */
+.mod-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-block-end: var(--mod-stroke-rule) solid var(--mod-ink);
+}
+
+.mod-tab {
+  min-height: var(--mod-control-height);
+  padding: 0 var(--mod-space-3);
+  border: none;
+  background: none;
+  font: 600 var(--mod-size-small) / 1 var(--mod-font-sans);
+  color: var(--mod-ink);
+  cursor: pointer;
+}
+
+.mod-tab:hover {
+  background: var(--mod-paper-2);
+}
+
+.mod-tab[aria-selected='true'] {
+  color: var(--mod-blue);
+  box-shadow: inset 0 -4px 0 var(--mod-blue);
+}
+
+.mod-tab__count {
+  margin-inline-start: var(--mod-space-1);
+  padding: 1px 5px;
+  border: var(--mod-stroke-hair) solid currentColor;
+  font-size: var(--mod-size-label);
+}
+
+/* --------------------------------------------------------------------------
+   11. Top bar and breadcrumbs: an 8px ink bar, then the bar itself on a 2px
+       ink rule. The current page is blue with a 4px blue underline.
+   -------------------------------------------------------------------------- */
+.mod-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mod-space-2) var(--mod-space-5);
+  min-block-size: 4rem;
+  padding: 0 max(var(--mod-space-5), (100% - var(--mod-grid-max)) / 2 + var(--mod-space-5));
+  background: var(--mod-paper);
+  border-block-start: var(--mod-stroke-bar) solid var(--mod-ink);
+  border-block-end: var(--mod-stroke-rule) solid var(--mod-ink);
+  color: var(--mod-ink);
+}
+
+.mod-topbar__nav {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mod-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mod-space-2);
+  margin-inline-start: auto;
+}
+
+.mod-topbar__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mod-space-2);
+  min-height: var(--mod-control-height);
+  padding: 0 var(--mod-space-3);
+  color: var(--mod-ink);
+  font-size: var(--mod-size-small);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mod-topbar__link:hover {
+  color: var(--mod-ink);
+  background: var(--mod-paper-2);
+}
+
+.mod-topbar__link[aria-current='page'] {
+  color: var(--mod-blue);
+  box-shadow: inset 0 -4px 0 var(--mod-blue);
+}
+
+.mod-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mod-space-2);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-3);
+}
+
+.mod-breadcrumbs a {
+  color: var(--mod-blue);
+}
+
+.mod-breadcrumbs [aria-current='page'] {
+  color: var(--mod-ink);
+  font-weight: 600;
+}

@@ -120,7 +120,7 @@ function addToTrips() {
 <template>
   <main class="page booking">
     <template v-if="ready && search">
-      <nav class="acme-breadcrumbs" :aria-label="t('detail.breadcrumbs')">
+      <nav class="mod-breadcrumbs" :aria-label="t('detail.breadcrumbs')">
         <RouterLink to="/">{{ t('nav.flights') }}</RouterLink>
         <span aria-hidden="true">/</span>
         <RouterLink :to="backToResults">{{ t('booking.results') }}</RouterLink>
@@ -142,7 +142,7 @@ function addToTrips() {
         <div class="legs">
           <section>
             <h2>{{ t('booking.departing', { date: date(search.depart, 'long') }) }}</h2>
-            <ul class="acme-card flight-list">
+            <ul class="mod-card flight-list">
               <FlightRow
                 :option="outbound!"
                 :total="fareBreakdown([outbound!.fare], search).total"
@@ -154,7 +154,7 @@ function addToTrips() {
           </section>
           <section v-if="inbound">
             <h2>{{ t('booking.returning', { date: date(search.return!, 'long') }) }}</h2>
-            <ul class="acme-card flight-list">
+            <ul class="mod-card flight-list">
               <FlightRow
                 :option="inbound"
                 :total="fareBreakdown([inbound.fare], search).total"
@@ -166,37 +166,37 @@ function addToTrips() {
           </section>
         </div>
 
-        <aside class="acme-card summary">
-          <div class="acme-card__body">
+        <aside class="mod-card summary">
+          <div class="mod-card__body">
             <h2>{{ t('booking.priceTitle') }}</h2>
-            <table class="acme-table fares">
+            <table class="mod-table fares">
               <tbody>
                 <tr v-for="line in lines" :key="line.key">
                   <th scope="row">{{ plural(`booking.${line.key}`, line.count) }}</th>
-                  <td class="acme-table__num">{{ money(line.amount) }}</td>
+                  <td class="mod-table__num">{{ money(line.amount) }}</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th scope="row">{{ t('booking.total') }}</th>
-                  <td class="acme-table__num total">{{ money(breakdown.total) }}</td>
+                  <td class="mod-table__num total">{{ money(breakdown.total) }}</td>
                 </tr>
               </tfoot>
             </table>
-            <p class="acme-help">{{ t('booking.fareNote') }}</p>
+            <p class="mod-help">{{ t('booking.fareNote') }}</p>
 
             <div class="actions">
-              <button class="acme-btn acme-btn--primary" type="button" @click="addToTrips">
+              <button class="mod-btn mod-btn--primary" type="button" @click="addToTrips">
                 {{ t('booking.addToTrips') }}
               </button>
-              <label class="acme-switch">
+              <label class="mod-switch">
                 <input type="checkbox" :checked="tracked" @change="flights.toggleTracked(search)" />
                 {{ t('flights.trackPrices') }}
               </label>
             </div>
 
-            <div class="acme-alert demo" role="status">
-              <span class="acme-alert__icon"><StatusIcon variant="info" /></span>
+            <div class="mod-alert demo" role="status">
+              <span class="mod-alert__icon"><StatusIcon variant="info" /></span>
               <p>{{ t('booking.demoNote') }}</p>
             </div>
             <RouterLink v-if="guide" class="guide" :to="`/destinations/${guide.slug}`">
@@ -207,10 +207,10 @@ function addToTrips() {
       </div>
     </template>
 
-    <div v-else class="acme-card empty-state">
+    <div v-else class="mod-card empty-state">
       <h1>{{ t('booking.missingTitle') }}</h1>
       <p class="muted">{{ t('booking.missingBody') }}</p>
-      <RouterLink class="acme-btn acme-btn--primary" :to="search ? { path: '/flights', query: toQuery(search) } : '/'">
+      <RouterLink class="mod-btn mod-btn--primary" :to="search ? { path: '/flights', query: toQuery(search) } : '/'">
         {{ t('booking.searchAgain') }}
       </RouterLink>
     </div>
@@ -219,42 +219,42 @@ function addToTrips() {
 
 <style scoped>
 .booking {
-  padding-top: var(--acme-space-6);
+  padding-top: var(--mod-space-4);
 }
 
-.acme-breadcrumbs {
-  margin-bottom: var(--acme-space-5);
+.mod-breadcrumbs {
+  margin-bottom: var(--mod-space-4);
 }
 
 .head {
-  margin-bottom: var(--acme-space-6);
+  margin-bottom: var(--mod-space-4);
 }
 
 .head h1 {
-  margin: var(--acme-space-1) 0 0;
+  margin: var(--mod-space-1) 0 0;
 }
 
 .sub {
-  margin: var(--acme-space-1) 0 0;
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-1) 0 0;
+  color: var(--mod-ink-2);
 }
 
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
-  gap: var(--acme-space-8);
+  gap: var(--mod-space-5);
   align-items: start;
 }
 
 .legs {
   display: grid;
-  gap: var(--acme-space-6);
+  gap: var(--mod-space-4);
 }
 
 .legs h2,
 .summary h2 {
-  margin: 0 0 var(--acme-space-3);
-  font-size: var(--acme-text-xl);
+  margin: 0 0 var(--mod-space-3);
+  font-size: var(--mod-size-heading-3);
 }
 
 .flight-list {
@@ -268,13 +268,13 @@ function addToTrips() {
 }
 
 .fares th {
-  padding: var(--acme-space-3) 0;
-  border-block-end: 1px solid var(--acme-color-border);
+  padding: var(--mod-space-3) 0;
+  border-block-end: 1px solid var(--mod-rule);
   text-transform: none;
   letter-spacing: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 400;
-  color: var(--acme-color-text);
+  color: var(--mod-ink);
 }
 
 .fares td {
@@ -288,27 +288,27 @@ function addToTrips() {
 .fares tfoot th,
 .fares tfoot td {
   border-block-end: none;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink);
 }
 
 .total {
-  font-size: var(--acme-text-xl) !important;
+  font-size: var(--mod-size-heading-3) !important;
   font-weight: 600;
 }
 
 .actions {
   display: grid;
-  gap: var(--acme-space-3);
-  margin: var(--acme-space-4) 0;
+  gap: var(--mod-space-3);
+  margin: var(--mod-space-3) 0;
 }
 
 .demo {
-  margin: 0 0 var(--acme-space-3);
+  margin: 0 0 var(--mod-space-3);
 }
 
 .guide {
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 600;
 }
 

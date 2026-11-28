@@ -5,7 +5,7 @@ import { useI18n } from '@/i18n'
 
 /**
  * A tracked search's cheapest price over the last month. One series, so no
- * legend: a 2px Graphite line, the latest value as a Blue end dot with its
+ * legend: a 2px ink line, the latest value as a blue end dot with its
  * label, and a crosshair readout on hover or arrow keys.
  */
 const props = defineProps<{
@@ -149,15 +149,15 @@ function onKey(event: KeyboardEvent) {
         <circle v-if="last" :cx="x(last.index)" :cy="y(last.total)" r="5" class="dot end" />
       </g>
     </svg>
-    <figcaption class="acme-visually-hidden">{{ label }}</figcaption>
+    <figcaption class="mod-visually-hidden">{{ label }}</figcaption>
     <details class="table-view">
       <summary>{{ t('graph.showTable') }}</summary>
       <div class="table-wrap">
-        <table class="acme-table">
+        <table class="mod-table">
           <tbody>
             <tr v-for="point in points" :key="point.date">
               <td>{{ date(point.date, 'long') }}</td>
-              <td class="acme-table__num">
+              <td class="mod-table__num">
                 {{ point.total === null ? t('dates.noFlights') : money(point.total) }}
               </td>
             </tr>
@@ -172,13 +172,13 @@ function onKey(event: KeyboardEvent) {
 .history {
   margin: 0;
   display: grid;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
   min-width: 0;
 }
 
 .readout {
   margin: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 
 svg {
@@ -189,52 +189,52 @@ svg {
 }
 
 .grid {
-  stroke: var(--acme-color-border);
+  stroke: var(--mod-rule);
   stroke-width: 1;
 }
 
 .grid.base {
-  stroke: var(--acme-color-border-strong);
+  stroke: var(--mod-ink);
 }
 
 .tick {
-  font: 400 11px var(--acme-font-sans);
-  fill: var(--acme-color-text-muted);
+  font: 400 11px var(--mod-font-sans);
+  fill: var(--mod-ink-2);
   font-variant-numeric: tabular-nums;
 }
 
 .line {
   fill: none;
-  stroke: var(--acme-color-data);
+  stroke: var(--mod-data-line);
   stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
 
 .crosshair {
-  stroke: var(--acme-color-border-strong);
+  stroke: var(--mod-ink);
   stroke-width: 1;
 }
 
 .dot {
-  fill: var(--acme-color-data);
-  stroke: var(--acme-color-surface-raised);
+  fill: var(--mod-data-line);
+  stroke: var(--mod-paper);
   stroke-width: 2;
 }
 
 .dot.end {
-  fill: var(--acme-color-data-highlight);
+  fill: var(--mod-data-highlight);
 }
 
 .table-view summary {
   cursor: pointer;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-link);
+  font-size: var(--mod-size-small);
+  color: var(--mod-blue);
 }
 
 .table-view .table-wrap {
   max-block-size: 220px;
   overflow: auto;
-  margin-top: var(--acme-space-2);
+  margin-top: var(--mod-space-2);
 }
 </style>

@@ -140,7 +140,7 @@ async function submit() {
 
 <template>
   <form
-    class="acme-card search-form"
+    class="mod-card search-form"
     :class="{ compact }"
     role="search"
     :aria-label="t('search.label')"
@@ -149,17 +149,17 @@ async function submit() {
   >
     <div class="options">
       <fieldset class="segmented">
-        <legend class="acme-visually-hidden">{{ t('search.tripType') }}</legend>
+        <legend class="mod-visually-hidden">{{ t('search.tripType') }}</legend>
         <label v-for="type in ['round', 'oneway'] as const" :key="type">
-          <input v-model="form.trip" class="acme-visually-hidden" type="radio" :name="ids.trip" :value="type" />
+          <input v-model="form.trip" class="mod-visually-hidden" type="radio" :name="ids.trip" :value="type" />
           <span>{{ t(`search.trip_${type}`) }}</span>
         </label>
       </fieldset>
 
       <PassengerPicker v-model="passengers" @update:model-value="clear('passengers')" />
 
-      <label class="acme-visually-hidden" :for="ids.cabin">{{ t('search.cabin') }}</label>
-      <select :id="ids.cabin" v-model="form.cabin" class="acme-input cabin" name="cabin">
+      <label class="mod-visually-hidden" :for="ids.cabin">{{ t('search.cabin') }}</label>
+      <select :id="ids.cabin" v-model="form.cabin" class="mod-input cabin" name="cabin">
         <option v-for="cabin in cabins" :key="cabin" :value="cabin">
           {{ t(`search.cabin_${cabin}`) }}
         </option>
@@ -178,7 +178,7 @@ async function submit() {
           @update:model-value="clear('from')"
         />
         <button
-          class="acme-btn acme-btn--secondary swap"
+          class="mod-btn mod-btn--secondary swap"
           type="button"
           :aria-label="t('search.swap')"
           @click="swap"
@@ -204,12 +204,12 @@ async function submit() {
       </div>
 
       <div class="dates">
-        <div class="acme-field">
-          <label class="acme-label" :for="ids.depart">{{ t('search.depart') }}</label>
+        <div class="mod-field">
+          <label class="mod-label" :for="ids.depart">{{ t('search.depart') }}</label>
           <input
             :id="ids.depart"
             v-model="form.depart"
-            class="acme-input"
+            class="mod-input"
             type="date"
             name="depart"
             :min="flights.today"
@@ -219,12 +219,12 @@ async function submit() {
             @change="onDepartChange"
           />
         </div>
-        <div v-if="form.trip === 'round'" class="acme-field">
-          <label class="acme-label" :for="ids.return">{{ t('search.return') }}</label>
+        <div v-if="form.trip === 'round'" class="mod-field">
+          <label class="mod-label" :for="ids.return">{{ t('search.return') }}</label>
           <input
             :id="ids.return"
             v-model="form.return"
-            class="acme-input"
+            class="mod-input"
             type="date"
             name="return"
             :min="form.depart || flights.today"
@@ -236,13 +236,13 @@ async function submit() {
         </div>
       </div>
 
-      <button class="acme-btn acme-btn--primary submit" :class="{ 'acme-btn--lg': !compact }" type="submit">
+      <button class="mod-btn mod-btn--primary submit" :class="{ 'mod-btn--lg': !compact }" type="submit">
         {{ t('search.submit') }}
       </button>
     </div>
 
-    <div v-if="problems.length" class="acme-alert acme-alert--danger problems" role="alert">
-      <span class="acme-alert__icon"><StatusIcon variant="danger" /></span>
+    <div v-if="problems.length" class="mod-alert mod-alert--danger problems" role="alert">
+      <span class="mod-alert__icon"><StatusIcon variant="danger" /></span>
       <ul>
         <li v-for="problem in problems" :key="problem">{{ t(`search.error_${problem}`) }}</li>
       </ul>
@@ -251,40 +251,42 @@ async function submit() {
 </template>
 
 <style scoped>
+/* Opened by the 2px ink rule; no box around it. */
 .search-form {
-  padding: var(--acme-space-5);
-  gap: var(--acme-space-4);
+  padding: var(--mod-space-4) 0 0;
+  gap: var(--mod-space-4);
   overflow: visible;
 }
 
 .search-form.compact {
-  padding: var(--acme-space-4);
-  gap: var(--acme-space-3);
+  padding: var(--mod-space-3) 0 0;
+  gap: var(--mod-space-3);
 }
 
 .options {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .cabin {
   width: auto;
-  min-height: 2.25rem;
+  font-size: var(--mod-size-small);
+  font-weight: 600;
 }
 
 .fields {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   align-items: end;
 }
 
 .route {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
   align-items: end;
 }
 
@@ -295,8 +297,9 @@ async function submit() {
 
 .swap {
   align-self: start;
-  margin-top: 1.6rem;
-  inline-size: 2.5rem;
+  /* Clears the 12px label and its 8px gap, so it lines up with the inputs. */
+  margin-top: calc(var(--mod-size-label) * 1.2 + var(--mod-space-2));
+  inline-size: var(--mod-control-height);
   padding: 0;
 }
 
@@ -304,10 +307,10 @@ async function submit() {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
-.dates .acme-input {
+.dates .mod-input {
   width: 100%;
   min-width: 0;
 }
@@ -318,7 +321,7 @@ async function submit() {
 
 .problems ul {
   margin: 0;
-  padding-inline-start: var(--acme-space-5);
+  padding-inline-start: var(--mod-space-4);
 }
 
 @media (max-width: 860px) {

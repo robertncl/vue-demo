@@ -67,7 +67,7 @@ defineExpose({ open, close })
       <header class="head">
         <h2 :id="titleId">{{ title }}</h2>
         <button
-          class="acme-btn acme-btn--ghost acme-btn--sm close"
+          class="mod-btn mod-btn--ghost mod-btn--sm close"
           type="button"
           :aria-label="t('common.close')"
           @click="close"
@@ -87,11 +87,11 @@ defineExpose({ open, close })
   inline-size: min(820px, calc(100vw - 32px));
   max-block-size: calc(100vh - 32px);
   padding: 0;
-  border: 1px solid var(--acme-color-border);
-  border-radius: var(--acme-radius-xl);
-  background: var(--acme-color-surface-raised);
-  color: var(--acme-color-text);
-  box-shadow: var(--acme-shadow-lg);
+  border: 1px solid var(--mod-rule);
+  border-radius: var(--mod-radius-none);
+  background: var(--mod-paper);
+  color: var(--mod-ink);
+  box-shadow: none;
 }
 
 .modal.sm {
@@ -99,29 +99,29 @@ defineExpose({ open, close })
 }
 
 .modal.sm .head h2 {
-  font-size: var(--acme-text-lg);
+  font-size: var(--mod-size-heading-3);
 }
 
 .modal::backdrop {
-  background: var(--acme-color-scrim);
+  background: var(--mod-scrim);
 }
 
 .frame {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-4);
-  padding: var(--acme-space-6);
+  gap: var(--mod-space-3);
+  padding: var(--mod-space-4);
 }
 
 .head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
 }
 
 .head h2 {
   margin: 0;
-  font-size: var(--acme-text-2xl);
+  font-size: var(--mod-size-heading-2);
 }
 </style>

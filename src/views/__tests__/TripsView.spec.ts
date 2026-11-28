@@ -84,7 +84,7 @@ describe('TripsView', () => {
 
     // Nothing is deleted until the confirmation, which names the trip.
     expect(travel.trips).toHaveLength(1)
-    const confirm = wrapper.find('dialog .acme-btn--danger')
+    const confirm = wrapper.find('dialog .mod-btn--danger')
     expect(confirm.text()).toBe('Delete the trip to Oslo')
 
     await confirm.trigger('click')
@@ -107,11 +107,11 @@ describe('TripsView', () => {
 
     await wrapper.find('.trip-card .remove').trigger('click')
     await flushPromises()
-    await wrapper.find('dialog .acme-btn--secondary').trigger('click')
+    await wrapper.find('dialog .mod-btn--secondary').trigger('click')
     await flushPromises()
 
     expect(travel.trips).toHaveLength(1)
-    expect(wrapper.find('dialog .acme-btn--danger').exists()).toBe(false)
+    expect(wrapper.find('dialog .mod-btn--danger').exists()).toBe(false)
   })
 
   describe('over-budget warning and status badges', () => {
@@ -131,7 +131,7 @@ describe('TripsView', () => {
       await flushPromises()
 
       expect(wrapper.find('.over-alert').exists()).toBe(false)
-      expect(wrapper.find('.trip-card .acme-badge--success').text()).toBe('On budget')
+      expect(wrapper.find('.trip-card .mod-badge--success').text()).toBe('On budget')
     })
 
     it('warns about one over-budget trip with its figures and a way to open it', async () => {
@@ -143,7 +143,7 @@ describe('TripsView', () => {
       await flushPromises()
 
       const alert = wrapper.find('.over-alert')
-      expect(alert.classes()).toContain('acme-alert--warning')
+      expect(alert.classes()).toContain('mod-alert--warning')
       expect(alert.attributes('role')).toBe('status')
       expect(alert.text()).toContain('Kyoto is over budget')
       expect(alert.text()).toContain('$250')
@@ -153,9 +153,9 @@ describe('TripsView', () => {
       expect(travel.selectedTripId).toBe(kyoto.id)
       expect(wrapper.find('.over-open').exists()).toBe(false)
 
-      const badges = wrapper.findAll('.trip-card .acme-badge').map((b) => b.text())
+      const badges = wrapper.findAll('.trip-card .mod-badge').map((b) => b.text())
       expect(badges).toEqual(['Over budget', 'Planning'])
-      expect(wrapper.find('.trip-card .acme-badge--warning svg').exists()).toBe(true)
+      expect(wrapper.find('.trip-card .mod-badge--warning svg').exists()).toBe(true)
     })
 
     it('names every trip when several are over budget', async () => {

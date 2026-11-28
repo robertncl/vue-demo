@@ -165,7 +165,7 @@ const durationLabel = computed(() =>
     <PopoverPanel :label="stopsLabel" :panel-label="t('filters.stops')" :active="stopsActive(filters)">
       <fieldset class="group">
         <legend class="group-title">{{ t('filters.stops') }}</legend>
-        <label v-for="choice in stopChoices" :key="choice" class="acme-choice option">
+        <label v-for="choice in stopChoices" :key="choice" class="mod-choice option">
           <input
             type="radio"
             :name="`${uid}-stops`"
@@ -187,7 +187,7 @@ const durationLabel = computed(() =>
       :panel-label="t('filters.airlines')"
       :active="airlinesActive(filters)"
     >
-      <label class="acme-switch">
+      <label class="mod-switch">
         <input
           type="checkbox"
           :checked="!airlinesActive(filters)"
@@ -196,8 +196,8 @@ const durationLabel = computed(() =>
         {{ t('filters.allAirlines') }}
       </label>
       <fieldset class="group">
-        <legend class="acme-visually-hidden">{{ t('filters.airlines') }}</legend>
-        <label v-for="choice in airlineChoices" :key="choice.code" class="acme-choice option">
+        <legend class="mod-visually-hidden">{{ t('filters.airlines') }}</legend>
+        <label v-for="choice in airlineChoices" :key="choice.code" class="mod-choice option">
           <input
             type="checkbox"
             :checked="!filters.excludedAirlines.includes(choice.code)"
@@ -211,7 +211,7 @@ const durationLabel = computed(() =>
 
     <PopoverPanel :label="priceLabel" :panel-label="t('filters.price')" :active="priceActive(filters)">
       <template v-if="priceRange">
-        <label class="acme-label" :for="`${uid}-price`">
+        <label class="mod-label" :for="`${uid}-price`">
           {{
             filters.maxPrice === null
               ? t('filters.anyPrice')
@@ -242,7 +242,7 @@ const durationLabel = computed(() =>
             {{ hourLabel(filters[group.after]) }} – {{ hourLabel(filters[group.before]) }}
           </span>
         </legend>
-        <label class="acme-help" :for="`${uid}-${group.after}`">{{ t('filters.earliest') }}</label>
+        <label class="mod-help" :for="`${uid}-${group.after}`">{{ t('filters.earliest') }}</label>
         <input
           :id="`${uid}-${group.after}`"
           type="range"
@@ -253,7 +253,7 @@ const durationLabel = computed(() =>
           :aria-valuetext="hourLabel(filters[group.after])"
           @input="onHour(group.after, $event)"
         />
-        <label class="acme-help" :for="`${uid}-${group.before}`">{{ t('filters.latest') }}</label>
+        <label class="mod-help" :for="`${uid}-${group.before}`">{{ t('filters.latest') }}</label>
         <input
           :id="`${uid}-${group.before}`"
           type="range"
@@ -273,7 +273,7 @@ const durationLabel = computed(() =>
       :active="durationActive(filters)"
     >
       <template v-if="durationRange">
-        <label class="acme-label" :for="`${uid}-duration`">
+        <label class="mod-label" :for="`${uid}-duration`">
           {{
             filters.maxDuration === null
               ? t('filters.anyDuration')
@@ -300,7 +300,7 @@ const durationLabel = computed(() =>
 
     <button
       v-if="filtersActive(filters)"
-      class="acme-btn acme-btn--ghost acme-btn--sm clear"
+      class="mod-btn mod-btn--ghost mod-btn--sm clear"
       type="button"
       @click="filters = defaultFilters()"
     >
@@ -314,12 +314,12 @@ const durationLabel = computed(() =>
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .group {
   display: grid;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
   margin: 0;
   padding: 0;
   border: none;
@@ -327,16 +327,16 @@ const durationLabel = computed(() =>
 }
 
 .group + .group {
-  margin-top: var(--acme-space-2);
+  margin-top: var(--mod-space-2);
 }
 
 .group-title {
   display: flex;
   justify-content: space-between;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   width: 100%;
-  margin-bottom: var(--acme-space-1);
-  font-size: var(--acme-text-sm);
+  margin-bottom: var(--mod-space-1);
+  font-size: var(--mod-size-small);
   font-weight: 600;
 }
 
@@ -353,14 +353,14 @@ const durationLabel = computed(() =>
 }
 
 .option-price {
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .range-ends {
   display: flex;
   justify-content: space-between;
   margin: 0;
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 </style>

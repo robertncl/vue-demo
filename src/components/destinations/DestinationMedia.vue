@@ -3,7 +3,7 @@
  * Stands in for the design's <image-slot>: the place a destination photograph
  * goes. The app ships no photography, so the slot renders as the design system
  * specifies an unfilled one — a flat `surface` panel naming its subject. No
- * gradient, texture or emoji, per the ACME imagery rules.
+ * gradient, texture or emoji, per the Modernist imagery rules.
  */
 defineProps<{
   /** What the photograph would show, e.g. "Photo of Kyoto". */
@@ -14,19 +14,19 @@ defineProps<{
 </script>
 
 <template>
-  <div class="acme-card__media media" :style="ratio ? { aspectRatio: ratio } : undefined">
+  <div class="mod-card__media media" :style="ratio ? { aspectRatio: ratio } : undefined">
     <span class="hint">{{ label }}</span>
   </div>
 </template>
 
 <style scoped>
 .media {
-  padding: var(--acme-space-4);
+  padding: var(--mod-space-3);
   text-align: center;
 }
 
 .hint {
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-subtle);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-3);
 }
 </style>

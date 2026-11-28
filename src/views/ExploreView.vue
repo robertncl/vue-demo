@@ -49,35 +49,35 @@ const fromCity = computed(() => findAirport(from.value)?.city ?? from.value)
       <p class="sub">{{ t('explore.subtitle') }}</p>
     </header>
 
-    <form class="acme-card controls" :aria-label="t('explore.controlsLabel')" @submit.prevent>
+    <form class="mod-card controls" :aria-label="t('explore.controlsLabel')" @submit.prevent>
       <AirportInput :id="`${uid}-from`" v-model="origin" name="from" :label="t('search.from')" />
 
-      <div class="acme-field">
-        <label class="acme-label" :for="`${uid}-month`">{{ t('explore.when') }}</label>
-        <select :id="`${uid}-month`" v-model="month" class="acme-input" name="month">
+      <div class="mod-field">
+        <label class="mod-label" :for="`${uid}-month`">{{ t('explore.when') }}</label>
+        <select :id="`${uid}-month`" v-model="month" class="mod-input" name="month">
           <option v-for="option in months" :key="option" :value="option">{{ date(option, 'month') }}</option>
         </select>
       </div>
 
-      <fieldset class="acme-field length">
-        <legend class="acme-label">{{ t('explore.length') }}</legend>
+      <fieldset class="mod-field length">
+        <legend class="mod-label">{{ t('explore.length') }}</legend>
         <div class="segmented">
           <label v-for="option in tripLengths" :key="option">
-            <input v-model="length" class="acme-visually-hidden" type="radio" :name="`${uid}-length`" :value="option" />
+            <input v-model="length" class="mod-visually-hidden" type="radio" :name="`${uid}-length`" :value="option" />
             <span>{{ t(`explore.length_${option}`) }}</span>
           </label>
         </div>
       </fieldset>
 
-      <div class="acme-field">
-        <label class="acme-label" :for="`${uid}-region`">{{ t('destinations.region') }}</label>
-        <select :id="`${uid}-region`" v-model="region" class="acme-input" name="region">
+      <div class="mod-field">
+        <label class="mod-label" :for="`${uid}-region`">{{ t('destinations.region') }}</label>
+        <select :id="`${uid}-region`" v-model="region" class="mod-input" name="region">
           <option value="all">{{ t('destinations.allRegions') }}</option>
           <option v-for="option in regions" :key="option" :value="option">{{ regionName(option) }}</option>
         </select>
       </div>
 
-      <label class="acme-switch nonstop">
+      <label class="mod-switch nonstop">
         <input v-model="nonstopOnly" type="checkbox" name="nonstop" />
         {{ t('explore.nonstopOnly') }}
       </label>
@@ -90,7 +90,7 @@ const fromCity = computed(() => findAirport(from.value)?.city ?? from.value)
     <div v-if="shown.length" class="card-grid">
       <DealCard v-for="deal in shown" :key="deal.destination.slug" :deal="deal" />
     </div>
-    <div v-else class="acme-card empty-state">
+    <div v-else class="mod-card empty-state">
       <h2>{{ t('explore.emptyTitle') }}</h2>
       <p class="muted">{{ t('explore.emptyBody') }}</p>
     </div>
@@ -99,16 +99,16 @@ const fromCity = computed(() => findAirport(from.value)?.city ?? from.value)
 
 <style scoped>
 .head {
-  margin-bottom: var(--acme-space-6);
+  margin-bottom: var(--mod-space-4);
 }
 
 .head h1 {
-  margin: var(--acme-space-2) 0 0;
+  margin: var(--mod-space-2) 0 0;
 }
 
 .sub {
-  margin: var(--acme-space-2) 0 0;
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-2) 0 0;
+  color: var(--mod-ink-2);
   max-width: 60ch;
 }
 
@@ -116,8 +116,8 @@ const fromCity = computed(() => findAirport(from.value)?.city ?? from.value)
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: var(--acme-space-4);
-  padding: var(--acme-space-4) var(--acme-space-5);
+  gap: var(--mod-space-3);
+  padding: var(--mod-space-3) var(--mod-space-4);
   overflow: visible;
 }
 
@@ -136,8 +136,8 @@ const fromCity = computed(() => findAirport(from.value)?.city ?? from.value)
 }
 
 .count {
-  margin: var(--acme-space-5) 0 var(--acme-space-4);
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-4) 0 var(--mod-space-3);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 </style>

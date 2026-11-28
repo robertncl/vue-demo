@@ -9,7 +9,7 @@ import type { FlightSearch } from '@/types/flights'
 
 /**
  * Cheapest total by departure date over a 60-day window, trip length held
- * fixed. One series, so no legend: Graphite bars carry the data and only the
+ * fixed. One series, so no legend: Ink bars carry the data and only the
  * searched date takes Blue. The cheapest bar is the one direct label.
  */
 const props = defineProps<{
@@ -88,7 +88,7 @@ function labelAlign(index: number) {
     <!-- Time runs left to right in every language, so the plot and its paging stay LTR. -->
     <div class="toolbar" dir="ltr">
       <button
-        class="acme-btn acme-btn--secondary acme-btn--sm"
+        class="mod-btn mod-btn--secondary mod-btn--sm"
         type="button"
         :disabled="start <= firstDay"
         @click="page(-1)"
@@ -103,7 +103,7 @@ function labelAlign(index: number) {
         <span v-else class="muted">{{ t('graph.hint') }}</span>
       </p>
       <button
-        class="acme-btn acme-btn--secondary acme-btn--sm"
+        class="mod-btn mod-btn--secondary mod-btn--sm"
         type="button"
         :disabled="start >= lastStart"
         @click="page(1)"
@@ -164,17 +164,17 @@ function labelAlign(index: number) {
     <details class="table-view">
       <summary>{{ t('graph.showTable') }}</summary>
       <div class="table-wrap">
-        <table class="acme-table">
+        <table class="mod-table">
           <thead>
             <tr>
               <th scope="col">{{ t('graph.departure') }}</th>
-              <th scope="col" class="acme-table__num">{{ t('graph.cheapest') }}</th>
+              <th scope="col" class="mod-table__num">{{ t('graph.cheapest') }}</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="day in days" :key="day.date">
               <td>{{ date(day.date, 'long') }}</td>
-              <td class="acme-table__num">
+              <td class="mod-table__num">
                 {{ day.total === null ? t('dates.noFlights') : money(day.total) }}
               </td>
             </tr>
@@ -188,28 +188,28 @@ function labelAlign(index: number) {
 <style scoped>
 .price-graph {
   display: grid;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
 }
 
 .toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
 }
 
 .readout {
   margin: 0;
   text-align: center;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 
 .plot {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
   /* The lane the direct label sits in, clear of every bar. */
-  padding-top: var(--acme-space-6);
+  padding-top: var(--mod-space-4);
 }
 
 .y-axis {
@@ -217,8 +217,8 @@ function labelAlign(index: number) {
   flex-direction: column;
   justify-content: space-between;
   block-size: 200px;
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
   text-align: end;
   /* Centre each tick label on its gridline. */
   margin-block: -0.5em;
@@ -241,12 +241,12 @@ function labelAlign(index: number) {
 
 .gridlines span {
   block-size: 1px;
-  background: var(--acme-color-border);
+  background: var(--mod-rule);
 }
 
 /* The baseline is the one rule that reads as an axis. */
 .gridlines span:last-child {
-  background: var(--acme-color-border-strong);
+  background: var(--mod-ink);
 }
 
 .bars {
@@ -281,9 +281,9 @@ function labelAlign(index: number) {
   inline-size: 100%;
   max-inline-size: 24px;
   min-block-size: 2px;
-  border-radius: var(--acme-radius-sm) var(--acme-radius-sm) 0 0;
-  background: var(--acme-color-data);
-  transition: filter var(--acme-duration-fast) var(--acme-ease-out);
+  border-radius: var(--mod-radius-none) var(--mod-radius-none) 0 0;
+  background: var(--mod-data-line);
+  transition: filter var(--mod-duration-fast) var(--mod-ease-out);
 }
 
 .slot:hover .bar,
@@ -292,7 +292,7 @@ function labelAlign(index: number) {
 }
 
 .bar.selected {
-  background: var(--acme-color-data-highlight);
+  background: var(--mod-data-highlight);
 }
 
 .leader {
@@ -300,16 +300,16 @@ function labelAlign(index: number) {
   inset-block-start: 0;
   inset-inline-start: 50%;
   inline-size: 1px;
-  background: var(--acme-color-border-strong);
+  background: var(--mod-ink);
   pointer-events: none;
 }
 
 .direct-label {
   position: absolute;
   inset-block-end: calc(100% + 4px);
-  font-size: var(--acme-text-xs);
+  font-size: var(--mod-size-label);
   font-weight: 600;
-  color: var(--acme-color-text);
+  color: var(--mod-ink);
   white-space: nowrap;
   pointer-events: none;
 }
@@ -330,9 +330,9 @@ function labelAlign(index: number) {
 .x-axis {
   display: grid;
   grid-template-columns: repeat(60, minmax(0, 1fr));
-  padding-top: var(--acme-space-1);
+  padding-top: var(--mod-space-1);
   font-size: 0.625rem;
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
   white-space: nowrap;
 }
 
@@ -344,13 +344,13 @@ function labelAlign(index: number) {
 
 .table-view summary {
   cursor: pointer;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-link);
+  font-size: var(--mod-size-small);
+  color: var(--mod-blue);
 }
 
 .table-view .table-wrap {
   max-block-size: 260px;
   overflow: auto;
-  margin-top: var(--acme-space-2);
+  margin-top: var(--mod-space-2);
 }
 </style>

@@ -176,7 +176,7 @@ const summaryLabel = computed(() =>
                 code: option.layovers[index]!.airport,
               })
             }}
-            <span v-if="option.layovers[index]!.overnight" class="acme-badge">
+            <span v-if="option.layovers[index]!.overnight" class="mod-badge">
               {{ t('flights.overnight') }}
             </span>
           </li>
@@ -184,7 +184,7 @@ const summaryLabel = computed(() =>
       </ol>
 
       <div v-if="actionLabel" class="actions">
-        <button class="acme-btn acme-btn--secondary select" type="button" @click="emit('select', option)">
+        <button class="mod-btn mod-btn--secondary select" type="button" @click="emit('select', option)">
           {{ actionLabel }}
         </button>
       </div>
@@ -195,7 +195,7 @@ const summaryLabel = computed(() =>
 <style scoped>
 .flight-row {
   list-style: none;
-  border-block-end: 1px solid var(--acme-color-border);
+  border-block-end: 1px solid var(--mod-rule);
   /* The row lays itself out by its own width, so it fits a narrow column on a
      wide screen (the booking summary) as well as a phone. */
   container: flight-row / inline-size;
@@ -209,20 +209,20 @@ const summaryLabel = computed(() =>
   display: grid;
   grid-template-columns: auto minmax(0, 2.2fr) minmax(0, 1.3fr) minmax(0, 1.4fr) minmax(0, 1.3fr) minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
   inline-size: 100%;
-  padding: var(--acme-space-4) var(--acme-space-5);
+  padding: var(--mod-space-3) var(--mod-space-4);
   border: none;
   background: none;
   font: inherit;
   color: inherit;
   text-align: start;
   cursor: pointer;
-  transition: background-color var(--acme-duration-base) var(--acme-ease-out);
+  transition: background-color var(--mod-duration-base) var(--mod-ease-out);
 }
 
 .summary:hover {
-  background: var(--acme-color-surface);
+  background: var(--mod-paper-2);
 }
 
 .summary:focus-visible {
@@ -237,13 +237,13 @@ const summaryLabel = computed(() =>
 }
 
 .lead {
-  font-size: var(--acme-text-md);
+  font-size: var(--mod-size-body);
   font-weight: 600;
 }
 
 .sub {
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -253,7 +253,7 @@ const summaryLabel = computed(() =>
   margin-inline-start: 0.125rem;
   font-size: 0.7em;
   font-weight: 600;
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .price {
@@ -262,13 +262,13 @@ const summaryLabel = computed(() =>
 }
 
 .emissions .lead {
-  font-size: var(--acme-text-sm);
-  font-weight: 500;
+  font-size: var(--mod-size-small);
+  font-weight: 600;
 }
 
 .chevron {
-  color: var(--acme-color-text-muted);
-  transition: rotate var(--acme-duration-base) var(--acme-ease-out);
+  color: var(--mod-ink-2);
+  transition: rotate var(--mod-duration-base) var(--mod-ease-out);
 }
 
 .expanded .chevron {
@@ -277,53 +277,53 @@ const summaryLabel = computed(() =>
 
 .details {
   display: grid;
-  gap: var(--acme-space-4);
-  padding: 0 var(--acme-space-5) var(--acme-space-5);
+  gap: var(--mod-space-3);
+  padding: 0 var(--mod-space-4) var(--mod-space-4);
   /* Line the timeline up under the times, past the airline mark. */
-  padding-inline-start: calc(var(--acme-space-5) + 2.25rem + var(--acme-space-4));
+  padding-inline-start: calc(var(--mod-space-4) + 2.25rem + var(--mod-space-3));
 }
 
 .timeline {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
 }
 
 .segment {
   list-style: none;
-  padding-inline-start: var(--acme-space-4);
-  border-inline-start: 2px solid var(--acme-color-border);
+  padding-inline-start: var(--mod-space-3);
+  border-inline-start: 2px solid var(--mod-rule);
 }
 
 .segment p {
   margin: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 
 .travel,
 .meta {
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .travel {
-  padding-block: var(--acme-space-1);
+  padding-block: var(--mod-space-1);
 }
 
 .meta {
-  margin-top: var(--acme-space-2) !important;
-  font-size: var(--acme-text-xs) !important;
+  margin-top: var(--mod-space-2) !important;
+  font-size: var(--mod-size-label) !important;
 }
 
 .layover {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: var(--acme-space-2);
-  padding: var(--acme-space-2) var(--acme-space-3);
-  border-block: 1px solid var(--acme-color-border);
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  gap: var(--mod-space-2);
+  padding: var(--mod-space-2) var(--mod-space-3);
+  border-block: 1px solid var(--mod-rule);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .actions {
@@ -338,7 +338,7 @@ const summaryLabel = computed(() =>
       'mark when price'
       'mark length price'
       'mark stops chevron';
-    row-gap: var(--acme-space-1);
+    row-gap: var(--mod-space-1);
   }
 
   .summary > :first-child {
@@ -353,13 +353,13 @@ const summaryLabel = computed(() =>
   .length {
     grid-area: length;
     flex-direction: row;
-    gap: var(--acme-space-2);
+    gap: var(--mod-space-2);
   }
 
   .stops {
     grid-area: stops;
     flex-direction: row;
-    gap: var(--acme-space-2);
+    gap: var(--mod-space-2);
   }
 
   .price {
@@ -378,12 +378,12 @@ const summaryLabel = computed(() =>
 
   .length .lead,
   .stops .lead {
-    font-size: var(--acme-text-sm);
-    font-weight: 500;
+    font-size: var(--mod-size-small);
+    font-weight: 600;
   }
 
   .details {
-    padding-inline-start: var(--acme-space-5);
+    padding-inline-start: var(--mod-space-4);
   }
 }
 </style>

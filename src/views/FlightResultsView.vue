@@ -186,7 +186,7 @@ const listHeading = (kind: 'top' | 'other') =>
           <p class="sub num">{{ summary }}</p>
         </div>
         <div class="track">
-          <label class="acme-switch">
+          <label class="mod-switch">
             <input
               type="checkbox"
               :checked="tracked"
@@ -195,7 +195,7 @@ const listHeading = (kind: 'top' | 'other') =>
             />
             {{ t('flights.trackPrices') }}
           </label>
-          <p class="acme-help">
+          <p class="mod-help">
             <template v-if="tracked">
               {{ t('flights.trackingOn') }}
               <RouterLink to="/tracked">{{ t('flights.seeTracked') }}</RouterLink>
@@ -220,11 +220,11 @@ const listHeading = (kind: 'top' | 'other') =>
       <section v-if="step === 'return' && selectedOutbound" class="chosen">
         <div class="section-head">
           <h2>{{ t('flights.chosenDeparting', { date: date(search.depart) }) }}</h2>
-          <button class="acme-btn acme-btn--ghost acme-btn--sm" type="button" @click="changeOutbound">
+          <button class="mod-btn mod-btn--ghost mod-btn--sm" type="button" @click="changeOutbound">
             {{ t('flights.changeFlight') }}
           </button>
         </div>
-        <ul class="acme-card flight-list">
+        <ul class="mod-card flight-list">
           <FlightRow
             :option="selectedOutbound"
             :total="tripTotal([selectedOutbound.fare], search)"
@@ -240,13 +240,13 @@ const listHeading = (kind: 'top' | 'other') =>
         <div class="tool-buttons">
           <button
             v-if="search.trip === 'round'"
-            class="acme-btn acme-btn--secondary acme-btn--sm"
+            class="mod-btn mod-btn--secondary mod-btn--sm"
             type="button"
             @click="gridDialog?.open()"
           >
             {{ t('dates.gridTitle') }}
           </button>
-          <button class="acme-btn acme-btn--secondary acme-btn--sm" type="button" @click="graphDialog?.open()">
+          <button class="mod-btn mod-btn--secondary mod-btn--sm" type="button" @click="graphDialog?.open()">
             {{ t('graph.title') }}
           </button>
         </div>
@@ -255,33 +255,33 @@ const listHeading = (kind: 'top' | 'other') =>
       <div class="controls">
         <FilterBar v-model="filters" :options="options" :price-of="priceOf" />
         <fieldset class="segmented sort">
-          <legend class="acme-visually-hidden">{{ t('flights.sortLabel') }}</legend>
+          <legend class="mod-visually-hidden">{{ t('flights.sortLabel') }}</legend>
           <label v-for="mode in sortModes" :key="mode">
-            <input v-model="sort" class="acme-visually-hidden" type="radio" name="sort" :value="mode" />
+            <input v-model="sort" class="mod-visually-hidden" type="radio" name="sort" :value="mode" />
             <span>{{ t(`flights.sort_${mode}`) }}</span>
           </label>
         </fieldset>
       </div>
 
       <p class="price-note">
-        <span class="acme-visually-hidden" aria-live="polite">{{ plural('flights.resultCount', filtered.length) }}. </span>
+        <span class="mod-visually-hidden" aria-live="polite">{{ plural('flights.resultCount', filtered.length) }}. </span>
         {{ plural('flights.priceNote', travellerCount(search)) }}
       </p>
 
-      <div v-if="noReturn" class="acme-card empty-state">
+      <div v-if="noReturn" class="mod-card empty-state">
         <h2>{{ t('flights.noReturnTitle') }}</h2>
         <p class="muted">{{ t('flights.noReturnBody', { date: date(search.return!) }) }}</p>
       </div>
 
-      <div v-else-if="options.length === 0" class="acme-card empty-state">
+      <div v-else-if="options.length === 0" class="mod-card empty-state">
         <h2>{{ t('flights.noFlightsTitle') }}</h2>
         <p class="muted">{{ t('flights.noFlightsBody') }}</p>
       </div>
 
-      <div v-else-if="filtered.length === 0" class="acme-card empty-state">
+      <div v-else-if="filtered.length === 0" class="mod-card empty-state">
         <h2>{{ t('flights.noMatchTitle') }}</h2>
         <p class="muted">{{ plural('flights.noMatchBody', options.length) }}</p>
-        <button class="acme-btn acme-btn--secondary" type="button" @click="filters = defaultFilters()">
+        <button class="mod-btn mod-btn--secondary" type="button" @click="filters = defaultFilters()">
           {{ t('flights.clearFilters') }}
         </button>
       </div>
@@ -289,8 +289,8 @@ const listHeading = (kind: 'top' | 'other') =>
       <template v-else>
         <section v-if="top.length" class="list-section">
           <h2>{{ listHeading('top') }}</h2>
-          <p class="acme-help">{{ t('flights.bestNote') }}</p>
-          <ul class="acme-card flight-list">
+          <p class="mod-help">{{ t('flights.bestNote') }}</p>
+          <ul class="mod-card flight-list">
             <FlightRow
               v-for="option in top"
               :key="option.id"
@@ -309,7 +309,7 @@ const listHeading = (kind: 'top' | 'other') =>
 
         <section v-if="others.length" class="list-section">
           <h2>{{ sort === 'best' ? listHeading('other') : t(`flights.sortedBy_${sort}`) }}</h2>
-          <ul class="acme-card flight-list">
+          <ul class="mod-card flight-list">
             <FlightRow
               v-for="option in visibleOthers"
               :key="option.id"
@@ -324,7 +324,7 @@ const listHeading = (kind: 'top' | 'other') =>
           </ul>
           <button
             v-if="!showAll && others.length > PAGE"
-            class="acme-btn acme-btn--secondary show-more"
+            class="mod-btn mod-btn--secondary show-more"
             type="button"
             @click="showAll = true"
           >
@@ -341,7 +341,7 @@ const listHeading = (kind: 'top' | 'other') =>
       </ModalDialog>
     </template>
 
-    <div v-else-if="!hasQuery" class="acme-card empty-state start">
+    <div v-else-if="!hasQuery" class="mod-card empty-state start">
       <h1>{{ t('flights.startTitle') }}</h1>
       <p class="muted">{{ t('flights.startBody') }}</p>
     </div>
@@ -352,54 +352,54 @@ const listHeading = (kind: 'top' | 'other') =>
 .results {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-5);
-  padding-top: var(--acme-space-6);
+  gap: var(--mod-space-4);
+  padding-top: var(--mod-space-4);
 }
 
 .results-head {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--acme-space-6);
+  gap: var(--mod-space-4);
   flex-wrap: wrap;
-  margin-top: var(--acme-space-3);
+  margin-top: var(--mod-space-3);
 }
 
 .results-head h1 {
-  margin: var(--acme-space-1) 0 0;
-  font-size: var(--acme-text-4xl);
+  margin: var(--mod-space-1) 0 0;
+  font-size: var(--mod-size-heading-1);
 }
 
 .sub {
-  margin: var(--acme-space-1) 0 0;
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-1) 0 0;
+  color: var(--mod-ink-2);
 }
 
 .track {
   display: grid;
-  gap: var(--acme-space-1);
+  gap: var(--mod-space-1);
   justify-items: end;
   text-align: end;
 }
 
-.track .acme-help {
+.track .mod-help {
   margin: 0;
 }
 
 .steps ol {
   display: flex;
-  gap: var(--acme-space-6);
+  gap: var(--mod-space-4);
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .steps li {
   display: inline-flex;
   align-items: center;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .step-n {
@@ -407,67 +407,67 @@ const listHeading = (kind: 'top' | 'other') =>
   place-items: center;
   inline-size: 1.5rem;
   block-size: 1.5rem;
-  border: 1px solid var(--acme-color-border-strong);
-  border-radius: var(--acme-radius-full);
-  font-size: var(--acme-text-xs);
+  border: 1px solid var(--mod-ink);
+  border-radius: var(--mod-radius-circle);
+  font-size: var(--mod-size-label);
   font-weight: 600;
 }
 
 .steps [aria-current='step'] {
-  color: var(--acme-color-selected);
+  color: var(--mod-blue);
   font-weight: 600;
 }
 
 .steps [aria-current='step'] .step-n {
-  border-color: var(--acme-color-selected);
-  background: var(--acme-color-selected-soft);
+  border-color: var(--mod-blue);
+  background: var(--mod-blue-soft);
 }
 
 .section-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--acme-space-4);
-  margin-bottom: var(--acme-space-3);
+  gap: var(--mod-space-3);
+  margin-bottom: var(--mod-space-3);
 }
 
 .section-head h2,
 .list-section h2 {
   margin: 0;
-  font-size: var(--acme-text-xl);
+  font-size: var(--mod-size-heading-3);
 }
 
 .date-tools {
   display: grid;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .tool-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   flex-wrap: wrap;
 }
 
 .price-note {
   margin: 0;
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 
 .list-section {
   display: grid;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
-.list-section .acme-help {
+.list-section .mod-help {
   margin: 0;
 }
 
@@ -478,11 +478,11 @@ const listHeading = (kind: 'top' | 'other') =>
 
 .show-more {
   justify-self: center;
-  margin-top: var(--acme-space-2);
+  margin-top: var(--mod-space-2);
 }
 
 .start h1 {
-  font-size: var(--acme-text-3xl);
+  font-size: var(--mod-size-heading-2);
 }
 
 @media (max-width: 640px) {
@@ -492,7 +492,7 @@ const listHeading = (kind: 'top' | 'other') =>
   }
 
   .steps ol {
-    gap: var(--acme-space-3);
+    gap: var(--mod-space-3);
   }
 }
 </style>

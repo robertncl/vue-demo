@@ -40,8 +40,8 @@ const verdict = computed(() => {
 </script>
 
 <template>
-  <section class="acme-card price-insights" :aria-labelledby="titleId">
-    <div class="acme-card__body body">
+  <section class="mod-card price-insights" :aria-labelledby="titleId">
+    <div class="mod-card__body body">
       <p class="kicker">{{ t('insights.eyebrow') }}</p>
       <h2 :id="titleId">{{ t(`insights.title_${insight.level}`) }}</h2>
       <p class="muted">
@@ -81,12 +81,12 @@ const verdict = computed(() => {
 <style scoped>
 .body {
   display: grid;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .body h2 {
   margin: 0;
-  font-size: var(--acme-text-xl);
+  font-size: var(--mod-size-heading-3);
 }
 
 .body p {
@@ -95,7 +95,7 @@ const verdict = computed(() => {
 
 .meter {
   position: relative;
-  margin-top: var(--acme-space-8);
+  margin-top: var(--mod-space-5);
 }
 
 .track {
@@ -105,12 +105,12 @@ const verdict = computed(() => {
 }
 
 .zone {
-  border-radius: var(--acme-radius-sm);
-  background: var(--acme-color-surface);
+  border-radius: var(--mod-radius-none);
+  background: var(--mod-paper-2);
 }
 
 .zone.typical {
-  background: var(--acme-color-border);
+  background: var(--mod-rule);
 }
 
 /* 12px dot with a 2px surface ring so it stays legible over the track. */
@@ -120,9 +120,9 @@ const verdict = computed(() => {
   translate: -50% 0;
   inline-size: 12px;
   block-size: 12px;
-  border-radius: var(--acme-radius-full);
-  background: var(--acme-color-data-highlight);
-  box-shadow: 0 0 0 2px var(--acme-color-surface-raised);
+  border-radius: var(--mod-radius-circle);
+  background: var(--mod-data-highlight);
+  box-shadow: 0 0 0 2px var(--mod-paper);
 }
 
 /* Centred on its inline-start offset, which runs from the right in RTL. */
@@ -136,7 +136,7 @@ const verdict = computed(() => {
   inset-block-end: calc(100% + 6px);
   inset-inline-start: 50%;
   translate: -50% 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -144,9 +144,9 @@ const verdict = computed(() => {
 .zone-labels {
   display: flex;
   gap: 2px;
-  margin-top: var(--acme-space-2);
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  margin-top: var(--mod-space-2);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 
 .zone-labels span {

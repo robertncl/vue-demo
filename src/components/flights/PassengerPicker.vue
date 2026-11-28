@@ -35,7 +35,7 @@ function change(kind: Kind, delta: number) {
         </div>
         <div class="stepper">
           <button
-            class="acme-btn acme-btn--secondary acme-btn--sm step"
+            class="mod-btn mod-btn--secondary mod-btn--sm step"
             type="button"
             :disabled="!canChange(kind, -1)"
             :aria-label="t(`search.remove_${kind}`)"
@@ -45,7 +45,7 @@ function change(kind: Kind, delta: number) {
           </button>
           <output class="count num" aria-live="polite">{{ model[kind] }}</output>
           <button
-            class="acme-btn acme-btn--secondary acme-btn--sm step"
+            class="mod-btn mod-btn--secondary mod-btn--sm step"
             type="button"
             :disabled="!canChange(kind, 1)"
             :aria-label="t(`search.add_${kind}`)"
@@ -56,8 +56,8 @@ function change(kind: Kind, delta: number) {
         </div>
       </li>
     </ul>
-    <p class="acme-help limit">{{ t('search.passengerLimit') }}</p>
-    <button class="acme-btn acme-btn--secondary acme-btn--sm done" type="button" @click="popover?.close()">
+    <p class="mod-help limit">{{ t('search.passengerLimit') }}</p>
+    <button class="mod-btn mod-btn--secondary mod-btn--sm done" type="button" @click="popover?.close()">
       {{ t('search.done') }}
     </button>
   </PopoverPanel>
@@ -69,7 +69,7 @@ function change(kind: Kind, delta: number) {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   min-width: 260px;
 }
 
@@ -77,31 +77,31 @@ function change(kind: Kind, delta: number) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
 }
 
 .name {
   margin: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 600;
 }
 
 .hint {
   margin: 0;
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 
 .stepper {
   display: flex;
   align-items: center;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
 }
 
 .step {
   inline-size: 2rem;
   padding: 0;
-  font-size: var(--acme-text-md);
+  font-size: var(--mod-size-body);
 }
 
 .count {

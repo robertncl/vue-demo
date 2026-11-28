@@ -77,56 +77,69 @@ const tools = ['grid', 'graph', 'track'] as const
 }
 
 .intro {
-  max-width: 60ch;
-  margin-bottom: var(--acme-space-6);
+  max-width: 880px;
+  margin-bottom: var(--mod-space-7);
 }
 
 .intro h1 {
-  margin: var(--acme-space-2) 0 0;
-  font-size: var(--acme-text-5xl);
+  margin: var(--mod-space-4) 0 0;
+  font-size: var(--mod-size-display);
+  line-height: 0.95;
+  font-weight: 800;
+  letter-spacing: var(--mod-tracking-display);
+}
+
+@media (max-width: 600px) {
+  .intro h1 {
+    font-size: var(--mod-size-heading-1);
+  }
 }
 
 .lede {
-  margin: var(--acme-space-3) 0 0;
-  font-size: var(--acme-text-lg);
-  color: var(--acme-color-text-muted);
+  max-width: 60ch;
+  margin: var(--mod-space-4) 0 0;
+  font-size: var(--mod-size-heading-3);
+  color: var(--mod-ink-2);
   text-wrap: pretty;
 }
 
 .block {
-  margin-top: var(--acme-space-16);
+  margin-top: var(--mod-space-7);
 }
 
 .block--ruled {
-  border-top: 1px solid var(--acme-color-border);
-  padding-top: var(--acme-space-8);
+  border-top: var(--mod-stroke-rule) solid var(--mod-ink);
+  padding-top: var(--mod-space-3);
 }
 
 .section-head {
+  border-top: var(--mod-stroke-rule) solid var(--mod-ink);
+  padding-top: var(--mod-space-3);
+  flex-wrap: wrap;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
 }
 
 .section-head h2,
 .block--ruled h2 {
   margin: 0;
-  font-size: var(--acme-text-2xl);
+  font-size: var(--mod-size-heading-2);
 }
 
 .block--ruled h2 {
-  margin-bottom: var(--acme-space-5);
+  margin-bottom: var(--mod-space-4);
 }
 
 .section-head a {
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 600;
 }
 
 .note {
-  margin: var(--acme-space-2) 0 var(--acme-space-5);
-  font-size: var(--acme-text-sm);
+  margin: var(--mod-space-2) 0 var(--mod-space-4);
+  font-size: var(--mod-size-small);
 }
 
 .steps {
@@ -134,25 +147,26 @@ const tools = ['grid', 'graph', 'track'] as const
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--acme-space-6);
+  gap: var(--mod-space-4);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.steps li {
+  border-top: var(--mod-stroke-hair) solid var(--mod-rule);
+  padding-top: var(--mod-space-3);
 }
 
 .steps .numeral {
   margin: 0;
-  font-family: var(--acme-font-mono);
-  font-size: var(--acme-text-sm);
-  font-weight: 600;
-  color: var(--acme-color-text-subtle);
 }
 
 .steps h3 {
-  margin: var(--acme-space-2) 0 var(--acme-space-1);
-  font-size: var(--acme-text-lg);
+  margin: var(--mod-space-2) 0 var(--mod-space-1);
+  font-size: var(--mod-size-heading-3);
 }
 
 .steps p:last-of-type {
   margin: 0;
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 </style>

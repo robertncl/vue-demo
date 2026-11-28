@@ -59,12 +59,12 @@ const errorId = computed(() => `${props.id}-error`)
 </script>
 
 <template>
-  <div class="acme-field airport-field">
-    <label class="acme-label" :for="id">{{ label }}</label>
+  <div class="mod-field airport-field">
+    <label class="mod-label" :for="id">{{ label }}</label>
     <input
       :id="id"
       v-model="text"
-      class="acme-input"
+      class="mod-input"
       type="text"
       :name="name"
       :list="listId"
@@ -83,7 +83,7 @@ const errorId = computed(() => `${props.id}-error`)
         {{ airport.name }}, {{ airport.country }}
       </option>
     </datalist>
-    <p v-if="showError" :id="errorId" class="acme-error">
+    <p v-if="showError" :id="errorId" class="mod-error">
       {{ unknown ? t('search.unknownAirport') : t('search.pickAirport') }}
     </p>
   </div>
@@ -94,12 +94,12 @@ const errorId = computed(() => `${props.id}-error`)
   min-width: 0;
 }
 
-.airport-field .acme-input {
+.airport-field .mod-input {
   width: 100%;
   min-width: 0;
 }
 
-.acme-error {
+.mod-error {
   margin: 0;
 }
 </style>

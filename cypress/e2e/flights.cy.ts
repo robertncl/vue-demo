@@ -99,7 +99,7 @@ describe('Flights', () => {
   it('tracks a search and follows it on the tracked page', () => {
     cy.get('input[name="to"]').type('KEF')
     cy.contains('button', 'Search flights').click()
-    cy.contains('.acme-switch', 'Track prices').find('input').check()
+    cy.contains('.mod-switch', 'Track prices').find('input').check()
     cy.contains('You’re tracking this search.')
     cy.contains('.nav a', 'Tracked').should('contain', '1').click()
 

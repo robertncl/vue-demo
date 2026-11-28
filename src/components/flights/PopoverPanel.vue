@@ -99,36 +99,36 @@ defineExpose({ close })
 .popover-trigger {
   display: inline-flex;
   align-items: center;
-  gap: var(--acme-space-2);
+  gap: var(--mod-space-2);
   min-height: 2.25rem;
-  padding: 0 var(--acme-space-3);
-  border: 1px solid var(--acme-color-border-strong);
-  border-radius: var(--acme-radius-md);
-  background: var(--acme-color-surface-raised);
-  font: 500 var(--acme-text-sm) / 1 var(--acme-font-sans);
-  color: var(--acme-color-text);
+  padding: 0 var(--mod-space-3);
+  border: 1px solid var(--mod-ink);
+  border-radius: var(--mod-radius-none);
+  background: var(--mod-paper);
+  font: 500 var(--mod-size-small) / 1 var(--mod-font-sans);
+  color: var(--mod-ink);
   white-space: nowrap;
   cursor: pointer;
   transition:
-    background-color var(--acme-duration-base) var(--acme-ease-out),
-    border-color var(--acme-duration-base) var(--acme-ease-out);
+    background-color var(--mod-duration-base) var(--mod-ease-out),
+    border-color var(--mod-duration-base) var(--mod-ease-out);
 }
 
 .popover-trigger:hover {
-  background: var(--acme-color-surface);
+  background: var(--mod-paper-2);
 }
 
 /* An active filter is orientation, so it takes the selection treatment. */
 .popover-trigger.active {
-  border-color: var(--acme-color-selected);
-  background: var(--acme-color-selected-soft);
-  color: var(--acme-color-selected);
+  border-color: var(--mod-blue);
+  background: var(--mod-blue-soft);
+  color: var(--mod-blue);
   font-weight: 600;
 }
 
 .chevron {
   flex: none;
-  color: var(--acme-color-text-muted);
+  color: var(--mod-ink-2);
 }
 
 .popover-panel {
@@ -140,18 +140,18 @@ defineExpose({ close })
   max-width: min(360px, calc(100vw - 16px));
   max-height: min(480px, calc(100vh - 32px));
   overflow: auto;
-  padding: var(--acme-space-4);
-  border: 1px solid var(--acme-color-border);
-  border-radius: var(--acme-radius-lg);
-  background: var(--acme-color-surface-raised);
-  color: var(--acme-color-text);
-  box-shadow: var(--acme-shadow-lg);
+  padding: var(--mod-space-3);
+  border: 1px solid var(--mod-rule);
+  border-radius: var(--mod-radius-none);
+  background: var(--mod-paper);
+  color: var(--mod-ink);
+  box-shadow: none;
 }
 
 /* Display is only set on the open state so the closed popover stays hidden. */
 .popover-panel:is(:popover-open, .\:popover-open) {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
 }
 </style>

@@ -11,8 +11,8 @@ const { t } = useI18n()
     <h1>{{ t('notFound.title') }}</h1>
     <p class="muted">{{ t('notFound.body') }}</p>
     <div class="actions">
-      <RouterLink class="acme-btn acme-btn--primary" to="/">{{ t('notFound.home') }}</RouterLink>
-      <RouterLink class="acme-btn acme-btn--secondary" to="/destinations">
+      <RouterLink class="mod-btn mod-btn--primary" to="/">{{ t('notFound.home') }}</RouterLink>
+      <RouterLink class="mod-btn mod-btn--secondary" to="/destinations">
         {{ t('notFound.browse') }}
       </RouterLink>
     </div>
@@ -21,16 +21,16 @@ const { t } = useI18n()
 
 <style scoped>
 h1 {
-  margin: var(--acme-space-3) 0 0;
+  margin: var(--mod-space-3) 0 0;
 }
 
 .muted {
-  margin: var(--acme-space-3) 0 var(--acme-space-6);
+  margin: var(--mod-space-3) 0 var(--mod-space-4);
 }
 
 .actions {
   display: flex;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   justify-content: center;
   flex-wrap: wrap;
 }

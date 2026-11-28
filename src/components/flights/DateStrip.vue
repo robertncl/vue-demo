@@ -59,14 +59,14 @@ const lowest = computed(() => {
   margin: 0;
   padding: 0;
   list-style: none;
-  border: 1px solid var(--acme-color-border);
-  border-radius: var(--acme-radius-lg);
-  background: var(--acme-color-surface-raised);
+  border: 1px solid var(--mod-rule);
+  border-radius: var(--mod-radius-none);
+  background: var(--mod-paper);
   overflow: hidden;
 }
 
 .date-strip li + li {
-  border-inline-start: 1px solid var(--acme-color-border);
+  border-inline-start: 1px solid var(--mod-rule);
 }
 
 .day {
@@ -76,7 +76,7 @@ const lowest = computed(() => {
   gap: 0.125rem;
   inline-size: 100%;
   block-size: 100%;
-  padding: var(--acme-space-2) var(--acme-space-1);
+  padding: var(--mod-space-2) var(--mod-space-1);
   border: none;
   border-block-end: 2px solid transparent;
   background: none;
@@ -86,12 +86,12 @@ const lowest = computed(() => {
 }
 
 .day:hover:not(:disabled) {
-  background: var(--acme-color-surface);
+  background: var(--mod-paper-2);
 }
 
 .day:disabled {
   cursor: default;
-  color: var(--acme-color-text-subtle);
+  color: var(--mod-ink-3);
 }
 
 .day:focus-visible {
@@ -100,22 +100,22 @@ const lowest = computed(() => {
 
 /* The searched date is a selection: the Blue underline and wash. */
 .day.current {
-  background: var(--acme-color-selected-soft);
-  border-block-end-color: var(--acme-color-selected);
+  background: var(--mod-blue-soft);
+  border-block-end-color: var(--mod-blue);
 }
 
 .weekday {
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
 }
 
 .when {
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
   font-weight: 600;
 }
 
 .amount {
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 
 .amount.lowest {
@@ -123,9 +123,9 @@ const lowest = computed(() => {
 }
 
 .tag {
-  font-size: var(--acme-text-xs);
-  font-weight: 500;
-  color: var(--acme-color-text-muted);
+  font-size: var(--mod-size-label);
+  font-weight: 600;
+  color: var(--mod-ink-2);
 }
 
 @media (max-width: 560px) {

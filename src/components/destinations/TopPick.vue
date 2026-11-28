@@ -27,17 +27,17 @@ const planRoute = computed(() => ({
 
 <template>
   <div v-if="pick" class="top-pick">
-    <article class="acme-card hero">
+    <article class="mod-card hero">
       <DestinationMedia :label="t('media.photoOf', { name: pick.name })" ratio="21 / 9" />
 
-      <div class="acme-card__body detail">
+      <div class="mod-card__body detail">
         <div class="detail-head">
           <div>
             <p class="kicker">{{ t('topPick.eyebrow', { month: monthName }) }}</p>
             <h2>{{ pick.name }}</h2>
             <p class="where">{{ pick.country }} · {{ region(pick.region) }}</p>
           </div>
-          <span v-if="store.inSeason(pick)" class="acme-badge acme-badge--success season-flag">
+          <span v-if="store.inSeason(pick)" class="mod-badge mod-badge--success season-flag">
             <StatusIcon variant="success" :size="12" />
             {{ t('common.inSeasonNow') }}
           </span>
@@ -57,19 +57,19 @@ const planRoute = computed(() => ({
         </dl>
       </div>
 
-      <div class="acme-card__footer actions">
-        <RouterLink class="acme-btn acme-btn--secondary" :to="`/destinations/${pick.slug}`">
+      <div class="mod-card__footer actions">
+        <RouterLink class="mod-btn mod-btn--secondary" :to="`/destinations/${pick.slug}`">
           {{ t('topPick.readGuideNamed', { name: pick.name }) }}
         </RouterLink>
-        <RouterLink class="acme-btn acme-btn--ghost" :to="planRoute">
+        <RouterLink class="mod-btn mod-btn--ghost" :to="planRoute">
           {{ t('topPick.startTrip') }}
         </RouterLink>
       </div>
     </article>
 
     <div class="side">
-      <div v-if="store.topPickRunnersUp.length" class="acme-card">
-        <div class="acme-card__body side-body">
+      <div v-if="store.topPickRunnersUp.length" class="mod-card">
+        <div class="mod-card__body side-body">
           <h3>{{ t('topPick.runnersUp', { month: monthName }) }}</h3>
           <ul class="runners">
             <li v-for="item in store.topPickRunnersUp" :key="item.slug" class="runner">
@@ -85,8 +85,8 @@ const planRoute = computed(() => ({
         </div>
       </div>
 
-      <div v-if="travel.nextTrip" class="acme-card next-trip">
-        <div class="acme-card__body side-body">
+      <div v-if="travel.nextTrip" class="mod-card next-trip">
+        <div class="mod-card__body side-body">
           <p class="kicker">{{ t('home.nextDeparture') }}</p>
           <h3>{{ travel.nextTrip.destination }}</h3>
           <p class="next-meta num">
@@ -94,7 +94,7 @@ const planRoute = computed(() => ({
             {{ t('common.dayCount', { count: travel.durationOf(travel.nextTrip) }) }} ·
             {{ money(travel.nextTrip.budget) }}
           </p>
-          <RouterLink class="acme-btn acme-btn--secondary acme-btn--sm open-planner" to="/trips">
+          <RouterLink class="mod-btn mod-btn--secondary mod-btn--sm open-planner" to="/trips">
             {{ t('home.openPlanner') }}
           </RouterLink>
         </div>
@@ -107,33 +107,33 @@ const planRoute = computed(() => ({
 .top-pick {
   display: grid;
   grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
-  gap: var(--acme-space-6);
+  gap: var(--mod-space-4);
   align-items: start;
 }
 
 .detail {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
 }
 
 .detail-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
   flex-wrap: wrap;
 }
 
 .detail-head h2 {
-  margin: var(--acme-space-1) 0 0;
-  font-size: var(--acme-text-3xl);
+  margin: var(--mod-space-1) 0 0;
+  font-size: var(--mod-size-heading-2);
 }
 
 .where {
   margin: 0;
-  color: var(--acme-color-text-muted);
-  font-size: var(--acme-text-sm);
+  color: var(--mod-ink-2);
+  font-size: var(--mod-size-small);
 }
 
 .why {
@@ -144,41 +144,41 @@ const planRoute = computed(() => ({
 
 .figures {
   display: flex;
-  gap: var(--acme-space-8);
+  gap: var(--mod-space-5);
   flex-wrap: wrap;
-  padding-top: var(--acme-space-2);
+  padding-top: var(--mod-space-2);
 }
 
 .figures dt {
-  font-size: var(--acme-text-xs);
-  color: var(--acme-color-text-muted);
-  font-weight: 500;
+  font-size: var(--mod-size-label);
+  color: var(--mod-ink-2);
+  font-weight: 600;
 }
 
 .figures dd {
   margin: 0;
-  font-size: var(--acme-text-2xl);
+  font-size: var(--mod-size-heading-2);
   font-weight: 600;
 }
 
 .actions {
-  gap: var(--acme-space-3);
+  gap: var(--mod-space-3);
   flex-wrap: wrap;
 }
 
 .side {
   display: flex;
   flex-direction: column;
-  gap: var(--acme-space-4);
+  gap: var(--mod-space-3);
 }
 
 .side-body {
-  padding: var(--acme-space-5);
+  padding: var(--mod-space-4);
 }
 
 .side-body h3 {
-  margin: 0 0 var(--acme-space-3);
-  font-size: var(--acme-text-lg);
+  margin: 0 0 var(--mod-space-3);
+  font-size: var(--mod-size-heading-3);
 }
 
 .runners {
@@ -190,16 +190,16 @@ const planRoute = computed(() => ({
 }
 
 .runner {
-  border-top: 1px solid var(--acme-color-border);
+  border-top: 1px solid var(--mod-rule);
 }
 
 .runner a {
   display: flex;
   justify-content: space-between;
-  gap: var(--acme-space-3);
-  padding: var(--acme-space-3) 0;
+  gap: var(--mod-space-3);
+  padding: var(--mod-space-3) 0;
   text-decoration: none;
-  color: var(--acme-color-text);
+  color: var(--mod-ink);
 }
 
 .runner-text strong {
@@ -208,7 +208,7 @@ const planRoute = computed(() => ({
 }
 
 .runner-text .muted {
-  font-size: var(--acme-text-sm);
+  font-size: var(--mod-size-small);
 }
 
 .runner-price {
@@ -217,19 +217,19 @@ const planRoute = computed(() => ({
 }
 
 .next-trip .kicker + h3 {
-  margin: var(--acme-space-2) 0 0;
-  font-size: var(--acme-text-xl);
+  margin: var(--mod-space-2) 0 0;
+  font-size: var(--mod-size-heading-3);
 }
 
 .next-meta {
-  margin: var(--acme-space-2) 0 0;
-  font-size: var(--acme-text-sm);
-  color: var(--acme-color-text-muted);
+  margin: var(--mod-space-2) 0 0;
+  font-size: var(--mod-size-small);
+  color: var(--mod-ink-2);
 }
 
 .open-planner {
   align-self: flex-start;
-  margin-top: var(--acme-space-3);
+  margin-top: var(--mod-space-3);
 }
 
 .next-trip .side-body {
