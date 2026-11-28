@@ -504,7 +504,7 @@ export const ja: Messages = {
     built2: 'カタログ、フライト、旅程、設定のための Pinia ストア。',
     built3: '遅延読み込みルートの Vue Router。フライト検索は URL に保存されるので共有できます。',
     built4: '依存関係のない小さな i18n レイヤーと、Intl による数値・日付・所要時間・複数形の書式。',
-    built5: 'ACME デザインシステムのトークンとコンポーネントクラス。',
+    built5: 'Modernist デザインシステムのトークンとコンポーネントクラス。',
     built6: '選択パネル、フィルタ、日付ツールにはネイティブのポップオーバーとダイアログを使用。',
     dataTitle: 'データについて',
     dataBody:
@@ -579,7 +579,7 @@ export const ja: Messages = {
 
   footer: {
     label: 'その他',
-    blurb: 'Wanderlog — ACMEデザインシステムで作ったフライト検索と旅行プランナー。',
+    blurb: 'Wanderlog — Modernistデザインシステムで作ったフライト検索と旅行プランナー。',
     demoNote: 'フライトと運賃はシミュレーションです。',
   },
 }

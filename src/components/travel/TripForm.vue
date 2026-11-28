@@ -114,7 +114,7 @@ function submit() {
       <p class="mod-help">{{ t('settings.rateNote') }}</p>
     </div>
 
-    <button class="mod-btn mod-btn--primary submit" type="submit">
+    <button class="mod-btn submit" type="submit">
       {{ t('trips.addTrip') }}
     </button>
   </form>
@@ -125,17 +125,18 @@ function submit() {
   display: flex;
   flex-direction: column;
   gap: var(--mod-space-3);
-  padding: var(--mod-space-4);
+  padding: var(--mod-space-3) 0 0;
 }
 
 .trip-form h2 {
   margin: 0;
-  font-size: var(--mod-size-heading-3);
 }
 
+/* Two dates side by side when there is room for a whole date in each;
+   stacked when the column is narrower. */
 .field-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
   gap: var(--mod-space-3);
 }
 
@@ -144,7 +145,12 @@ function submit() {
   width: 100%;
 }
 
+/* One blue button per view belongs to the itinerary; this one is secondary. */
 .submit {
   align-self: flex-start;
+}
+
+.field-row .mod-input {
+  padding-inline: var(--mod-space-2);
 }
 </style>

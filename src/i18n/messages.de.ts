@@ -528,7 +528,7 @@ export const de: Messages = {
       'Vue Router mit nachgeladenen Routen; eine Flugsuche steht in der URL und lässt sich teilen.',
     built4:
       'Eine kleine i18n-Schicht ohne Abhängigkeiten mit Intl-Formatierung für Zahlen, Daten, Dauern und Pluralformen.',
-    built5: 'Die Tokens und Komponentenklassen des ACME-Designsystems.',
+    built5: 'Die Tokens und Komponentenklassen des Modernist-Designsystems.',
     built6: 'Native Popover und Dialoge für Auswahlfelder, Filter und Datumswerkzeuge.',
     dataTitle: 'Deine Daten',
     dataBody:
@@ -603,7 +603,7 @@ export const de: Messages = {
 
   footer: {
     label: 'Mehr',
-    blurb: 'Wanderlog — Flugsuche und Reiseplanung mit dem ACME-Designsystem.',
+    blurb: 'Wanderlog — Flugsuche und Reiseplanung mit dem Modernist-Designsystem.',
     demoNote: 'Flüge und Preise sind simuliert.',
   },
 }

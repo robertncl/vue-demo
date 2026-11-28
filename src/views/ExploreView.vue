@@ -132,7 +132,7 @@ const fromCity = computed(() => findAirport(from.value)?.city ?? from.value)
 }
 
 .nonstop {
-  min-height: 2.5rem;
+  min-height: var(--mod-control-height);
 }
 
 .count {

@@ -197,12 +197,16 @@ function submit() {
 .itinerary {
   display: flex;
   flex-direction: column;
-  gap: var(--mod-space-4);
+  gap: var(--mod-space-5);
+  border-top: var(--mod-stroke-rule) solid var(--mod-ink);
+  padding-top: var(--mod-space-3);
 }
 
 .head h2 {
-  margin: var(--mod-space-1) 0 0;
-  font-size: var(--mod-size-heading-2);
+  margin: var(--mod-space-2) 0 var(--mod-space-1);
+  font-size: var(--mod-size-heading-1);
+  line-height: 1;
+  letter-spacing: var(--mod-tracking-heading-1);
 }
 
 .dates {
@@ -210,28 +214,43 @@ function submit() {
   color: var(--mod-ink-2);
 }
 
+/* Budget figures sit in paper-2 wells, side by side, no box around them. */
 .budget {
-  padding: var(--mod-space-4);
+  border-top: 0;
+  padding: 0;
   gap: var(--mod-space-3);
 }
 
 .figures {
   display: flex;
-  gap: var(--mod-space-5);
+  gap: 2px;
   flex-wrap: wrap;
+}
+
+.figures > * {
+  flex: 1 1 160px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mod-space-2);
+  padding: var(--mod-space-3);
+  background: var(--mod-paper-2);
 }
 
 .figure-label {
   margin: 0;
   font-size: var(--mod-size-label);
   font-weight: 600;
+  letter-spacing: var(--mod-tracking-label);
+  text-transform: uppercase;
   color: var(--mod-ink-2);
 }
 
 .figure {
   margin: 0;
-  font-size: var(--mod-size-heading-3);
-  font-weight: 600;
+  font-size: var(--mod-size-heading-1);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: var(--mod-tracking-heading-1);
 }
 
 .figure.danger {
@@ -257,7 +276,8 @@ function submit() {
 }
 
 .activity-form {
-  padding: var(--mod-space-3);
+  border-top: 0;
+  padding: 0;
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--mod-space-3);

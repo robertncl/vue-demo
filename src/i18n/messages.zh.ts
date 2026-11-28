@@ -467,7 +467,7 @@ export const zh: Messages = {
     built2: 'Pinia setup store，用于目录、航班、行程和你的偏好设置。',
     built3: 'Vue Router 懒加载路由；航班搜索保存在网址中，可以分享。',
     built4: '小巧、无依赖的国际化层，用 Intl 格式化数字、日期、时长和复数。',
-    built5: 'ACME 设计系统的设计令牌和组件类。',
+    built5: 'Modernist 设计系统的设计令牌和组件类。',
     built6: '选择器、筛选和日期工具使用原生 popover 和 dialog。',
     dataTitle: '你的数据',
     dataBody:
@@ -541,7 +541,7 @@ export const zh: Messages = {
 
   footer: {
     label: '更多',
-    blurb: 'Wanderlog — 基于 ACME 设计系统的机票搜索与行程规划。',
+    blurb: 'Wanderlog — 基于 Modernist 设计系统的机票搜索与行程规划。',
     demoNote: '航班和票价均为模拟数据。',
   },
 }

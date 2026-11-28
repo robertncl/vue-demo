@@ -523,7 +523,7 @@ export const es: Messages = {
       'Vue Router con rutas de carga diferida; la búsqueda de vuelos vive en la URL y se puede compartir.',
     built4:
       'Una capa i18n propia sin dependencias con formato de números, fechas, duraciones y plurales de Intl.',
-    built5: 'Los tokens y las clases de componente del sistema de diseño ACME.',
+    built5: 'Los tokens y las clases de componente del sistema de diseño Modernist.',
     built6:
       'Popovers y diálogos nativos para los selectores, los filtros y las herramientas de fechas.',
     dataTitle: 'Tus datos',
@@ -600,7 +600,7 @@ export const es: Messages = {
   footer: {
     label: 'Más',
     blurb:
-      'Wanderlog — búsqueda de vuelos y planificación de viajes con el sistema de diseño ACME.',
+      'Wanderlog — búsqueda de vuelos y planificación de viajes con el sistema de diseño Modernist.',
     demoNote: 'Los vuelos y las tarifas son simulados.',
   },
 }

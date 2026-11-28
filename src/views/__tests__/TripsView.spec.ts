@@ -143,7 +143,7 @@ describe('TripsView', () => {
       await flushPromises()
 
       const alert = wrapper.find('.over-alert')
-      expect(alert.classes()).toContain('mod-alert--warning')
+      expect(alert.classes()).toContain('mod-alert--danger')
       expect(alert.attributes('role')).toBe('status')
       expect(alert.text()).toContain('Kyoto is over budget')
       expect(alert.text()).toContain('$250')

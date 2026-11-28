@@ -488,7 +488,7 @@ export const bn: Messages = {
     built3: 'লেজি-লোড রুটসহ Vue Router; ফ্লাইট সার্চ URL-এ থাকে, তাই শেয়ার করা যায়।',
     built4:
       'Intl দিয়ে সংখ্যা, তারিখ, সময়কাল ও বহুবচন ফরম্যাট করা ছোট, নির্ভরতাহীন একটি i18n স্তর।',
-    built5: 'ACME ডিজাইন সিস্টেমের টোকেন ও কম্পোনেন্ট ক্লাস।',
+    built5: 'Modernist ডিজাইন সিস্টেমের টোকেন ও কম্পোনেন্ট ক্লাস।',
     built6: 'পিকার, ফিল্টার ও তারিখের টুলের জন্য নেটিভ popover ও dialog।',
     dataTitle: 'আপনার ডেটা',
     dataBody:
@@ -563,7 +563,7 @@ export const bn: Messages = {
 
   footer: {
     label: 'আরও',
-    blurb: 'Wanderlog — ACME ডিজাইন সিস্টেমে ফ্লাইট সার্চ ও ভ্রমণ পরিকল্পনা।',
+    blurb: 'Wanderlog — Modernist ডিজাইন সিস্টেমে ফ্লাইট সার্চ ও ভ্রমণ পরিকল্পনা।',
     demoNote: 'ফ্লাইট ও ভাড়া কৃত্রিম।',
   },
 }

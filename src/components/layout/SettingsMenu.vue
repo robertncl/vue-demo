@@ -54,8 +54,8 @@ function onCurrency(event: Event) {
 }
 
 .picker {
-  min-height: 2rem;
   width: auto;
   font-size: var(--mod-size-small);
+  font-weight: 600;
 }
 </style>

@@ -128,7 +128,8 @@ function spend(trip: Trip) {
 <style scoped>
 h2 {
   margin: 0 0 var(--mod-space-3);
-  font-size: var(--mod-size-heading-3);
+  padding-top: var(--mod-space-3);
+  border-top: var(--mod-stroke-rule) solid var(--mod-ink);
 }
 
 .empty {
@@ -142,23 +143,29 @@ h2 {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--mod-space-2);
+  border-top: var(--mod-stroke-hair) solid var(--mod-rule);
 }
 
 .trip-card {
   display: flex;
   align-items: center;
   gap: var(--mod-space-3);
-  padding: var(--mod-space-3) var(--mod-space-3);
-  border: 1px solid var(--mod-rule);
-  border-radius: var(--mod-radius-none);
+  padding: var(--mod-space-3) var(--mod-space-2);
+  border-bottom: var(--mod-stroke-hair) solid var(--mod-rule);
   background: var(--mod-paper);
 }
 
-/* Selection takes the interaction Blue rather than a second fill. */
+.trip-card:hover {
+  background: var(--mod-paper-2);
+}
+
+/* Selected: the blue-soft row, its name in blue. */
 .trip-card.active {
-  border-color: var(--mod-blue);
   background: var(--mod-blue-soft);
+}
+
+.trip-card.active strong {
+  color: var(--mod-blue);
 }
 
 .info {
@@ -182,13 +189,15 @@ h2 {
 }
 
 .info strong {
-  font-weight: 600;
+  font-size: var(--mod-size-heading-3);
+  line-height: var(--mod-leading-snug);
+  font-weight: 700;
 }
 
 .dates,
 .meta {
   display: block;
-  font-size: var(--mod-size-label);
+  font-size: var(--mod-size-small);
   color: var(--mod-ink-2);
 }
 

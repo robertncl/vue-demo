@@ -100,12 +100,12 @@ defineExpose({ close })
   display: inline-flex;
   align-items: center;
   gap: var(--mod-space-2);
-  min-height: 2.25rem;
+  min-height: var(--mod-control-height);
   padding: 0 var(--mod-space-3);
-  border: 1px solid var(--mod-ink);
+  border: var(--mod-stroke-rule) solid var(--mod-ink);
   border-radius: var(--mod-radius-none);
   background: var(--mod-paper);
-  font: 500 var(--mod-size-small) / 1 var(--mod-font-sans);
+  font: 600 var(--mod-size-small) / 1 var(--mod-font-sans);
   color: var(--mod-ink);
   white-space: nowrap;
   cursor: pointer;

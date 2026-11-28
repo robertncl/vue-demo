@@ -500,7 +500,7 @@ export const en = {
       'Vue Router with lazy-loaded routes; a flight search lives in the URL, so it can be shared.',
     built4:
       'A small dependency-free i18n layer with Intl number, date, duration and plural formatting.',
-    built5: "The ACME design system's tokens and component classes.",
+    built5: "The Modernist design system's tokens and component classes.",
     built6: 'Native popovers and dialogs for the pickers, filters and date tools.',
     dataTitle: 'Your data',
     dataBody:
@@ -575,7 +575,7 @@ export const en = {
 
   footer: {
     label: 'More',
-    blurb: 'Wanderlog — flight search and trip planning on the ACME design system.',
+    blurb: 'Wanderlog — flight search and trip planning on the Modernist design system.',
     demoNote: 'Flights and fares are simulated.',
   },
 }

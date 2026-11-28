@@ -57,8 +57,8 @@ const overBudget = computed(() => {
       <p class="sub">{{ t('trips.subtitle') }}</p>
     </header>
 
-    <div v-if="overBudget" class="mod-alert mod-alert--warning over-alert" role="status">
-      <span class="mod-alert__icon"><StatusIcon variant="warning" /></span>
+    <div v-if="overBudget" class="mod-alert mod-alert--danger over-alert" role="status">
+      <span class="mod-alert__icon"><StatusIcon variant="danger" /></span>
       <div class="over-text">
         <p class="mod-alert__title">{{ overBudget.title }}</p>
         <p>{{ overBudget.body }}</p>
@@ -75,13 +75,13 @@ const overBudget = computed(() => {
 
     <div class="layout">
       <aside>
-        <TripForm :prefill="prefill" @create="travel.addTrip" />
         <TripList
           :trips="travel.trips"
           :selected-trip-id="travel.selectedTripId"
           @select="travel.selectTrip"
           @remove="travel.removeTrip"
         />
+        <TripForm :prefill="prefill" @create="travel.addTrip" />
       </aside>
 
       <ItineraryPlanner
@@ -108,22 +108,28 @@ const overBudget = computed(() => {
 
 <style scoped>
 .head {
-  margin-bottom: var(--mod-space-4);
+  margin-bottom: var(--mod-space-6);
 }
 
 .head h1 {
-  margin: var(--mod-space-2) 0 0;
+  margin: var(--mod-space-3) 0 0;
+  font-size: var(--mod-size-display);
+  line-height: 0.95;
+  font-weight: 800;
+  letter-spacing: var(--mod-tracking-display);
 }
 
 .sub {
-  margin: var(--mod-space-2) 0 0;
+  margin: var(--mod-space-3) 0 0;
+  font-size: var(--mod-size-heading-3);
   color: var(--mod-ink-2);
   max-width: 60ch;
 }
 
 .over-alert {
   align-items: flex-start;
-  margin-bottom: var(--mod-space-4);
+  max-width: 65ch;
+  margin-bottom: var(--mod-space-6);
 }
 
 .over-text {
@@ -138,24 +144,33 @@ const overBudget = computed(() => {
 
 .layout {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
-  gap: var(--mod-space-5);
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  gap: var(--mod-space-6);
   align-items: start;
 }
 
 aside {
   display: flex;
   flex-direction: column;
-  gap: var(--mod-space-4);
+  gap: var(--mod-space-6);
+}
+
+.empty-state {
+  padding: var(--mod-space-3) 0 0;
 }
 
 .empty-state h2 {
   margin: 0 0 var(--mod-space-2);
-  font-size: var(--mod-size-heading-3);
 }
 
 .empty-state p {
   margin: 0 0 var(--mod-space-4);
+}
+
+@media (max-width: 600px) {
+  .head h1 {
+    font-size: var(--mod-size-heading-1);
+  }
 }
 
 @media (max-width: 900px) {
